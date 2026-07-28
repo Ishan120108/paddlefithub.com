@@ -8,32 +8,44 @@ interface Props {
   description: string;
   href: string;
   icon: string;
+  tag?: string;
 }
 
-const { title, description, href, icon } = Astro.props;
+const { title, description, href, icon, tag } = Astro.props;
 ---
 
 <a
   href={href}
-  class="card-marketing group block no-underline"
+  aria-label={`${title} — ${description}`}
+  class="card-marketing group block no-underline border border-hairline hover:border-hairline-strong transition-all duration-200"
   id={`tool-card-${href.split('/').filter(Boolean).pop()}`}
 >
-  <div class="flex flex-col gap-3">
-    <!-- Icon -->
-    <div class="w-10 h-10 rounded-md bg-canvas-soft-2 flex items-center justify-center text-ink group-hover:bg-ink group-hover:text-on-primary transition-colors duration-200">
-      <Fragment set:html={icon} />
+  <div class="flex flex-col gap-3 h-full justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <!-- Icon -->
+        <div class="w-10 h-10 rounded-md bg-canvas-soft-2 flex items-center justify-center text-ink group-hover:bg-ink group-hover:text-on-primary transition-colors duration-200">
+          <Fragment set:html={icon} />
+        </div>
+
+        {tag && (
+          <span class="text-caption-mono px-2 py-0.5 rounded-full bg-canvas-soft-2 text-mute border border-hairline uppercase tracking-wide">
+            {tag}
+          </span>
+        )}
+      </div>
+
+      <!-- Title -->
+      <h3 class="text-display-sm text-ink m-0 mb-1">{title}</h3>
+
+      <!-- Description -->
+      <p class="text-body-sm text-body m-0">{description}</p>
     </div>
 
-    <!-- Title -->
-    <h3 class="text-display-sm text-ink m-0">{title}</h3>
-
-    <!-- Description -->
-    <p class="text-body-sm text-body m-0">{description}</p>
-
     <!-- Arrow link hint -->
-    <div class="flex items-center gap-1 text-body-sm text-link mt-1 group-hover:gap-2 transition-all duration-200">
-      <span>Try now</span>
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <div class="flex items-center gap-1 text-body-sm text-link mt-2 group-hover:gap-2 transition-all duration-200 font-medium">
+      <span>Open Calculator</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
         <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>

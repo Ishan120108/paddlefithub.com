@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logoImg from '../assets/logo.png';
+
 const currentPath = Astro.url.pathname;
 
 const tools = [
@@ -21,15 +24,9 @@ const navLinks = [
 <header class="sticky top-0 z-50 bg-canvas border-b border-hairline" id="site-navbar">
   <nav class="container-page flex items-center justify-between h-16" aria-label="Main navigation">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 no-underline group" aria-label="PaddleFitHub Home">
-      <span class="flex items-center justify-center w-8 h-8 bg-ink rounded-sm">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="9" r="6" stroke="white" stroke-width="2" fill="none"/>
-          <line x1="12" y1="15" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="12" cy="9" r="2" fill="white"/>
-        </svg>
-      </span>
-      <span class="text-body-sm-strong text-ink">PaddleFitHub</span>
+    <a href="/" class="flex items-center gap-2.5 no-underline group" aria-label="PaddleFitHub Home">
+      <Image src={logoImg} alt="PaddleFitHub Logo" width={32} height={32} loading="eager" class="w-8 h-8 rounded-md group-hover:scale-105 transition-transform duration-200" />
+      <span class="text-body-sm-strong text-ink tracking-tight font-semibold">PaddleFitHub</span>
     </a>
 
     <!-- Desktop Nav Links -->
@@ -37,6 +34,7 @@ const navLinks = [
       {navLinks.map((link) => (
         <a
           href={link.href}
+          aria-label={link.label}
           class:list={[
             'text-body-sm px-3 py-1.5 rounded-full transition-colors no-underline',
             currentPath === link.href
@@ -56,6 +54,7 @@ const navLinks = [
           id="tools-dropdown-btn"
           aria-expanded="false"
           aria-haspopup="true"
+          aria-label="Open tools dropdown menu"
         >
           Tools
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform duration-200" id="tools-dropdown-chevron">
@@ -71,6 +70,7 @@ const navLinks = [
           {tools.map((tool) => (
             <a
               href={tool.href}
+              aria-label={tool.label}
               class:list={[
                 'block px-4 py-2 text-body-sm no-underline transition-colors',
                 currentPath === tool.href
@@ -101,7 +101,7 @@ const navLinks = [
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       </button>
-      <a href="/tools/grip-size-calculator/" class="btn-primary-sm">
+      <a href="/tools/grip-size-calculator/" aria-label="Get Started with Grip Size Calculator" class="btn-primary-sm">
         Get Started
       </a>
     </div>
@@ -125,7 +125,7 @@ const navLinks = [
         type="button"
         class="flex items-center justify-center w-10 h-10 rounded-sm border border-hairline bg-canvas text-ink"
         id="mobile-menu-btn"
-        aria-label="Open menu"
+        aria-label="Open main navigation menu"
         aria-expanded="false"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" id="hamburger-icon">
@@ -147,6 +147,7 @@ const navLinks = [
       {navLinks.map((link) => (
         <a
           href={link.href}
+          aria-label={link.label}
           class:list={[
             'text-body-sm px-4 py-3 rounded-md no-underline transition-colors',
             currentPath === link.href
@@ -162,6 +163,7 @@ const navLinks = [
       {tools.map((tool) => (
         <a
           href={tool.href}
+          aria-label={tool.label}
           class:list={[
             'text-body-sm px-4 py-3 rounded-md no-underline transition-colors',
             currentPath === tool.href
@@ -173,7 +175,7 @@ const navLinks = [
         </a>
       ))}
       <div class="border-t border-hairline my-2"></div>
-      <a href="/tools/grip-size-calculator/" class="btn-primary-sm text-center mx-4 mt-2">
+      <a href="/tools/grip-size-calculator/" aria-label="Get Started with Grip Size Calculator" class="btn-primary-sm text-center mx-4 mt-2">
         Get Started
       </a>
     </div>

@@ -1,12 +1,4 @@
 ---
-/**
- * Core Thickness Advisor — explains and recommends among:
- *   14 mm — thinnest, most pop, loudest, least control
- *   16 mm — balanced, most popular, good all-around
- *   20 mm — thickest, softest, quietest, most control, least power
- *
- * Uses weighted scoring based on user priorities.
- */
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 
 const relatedTools = [
@@ -21,7 +13,7 @@ const relatedTools = [
     href: '/tools/paddle-shape-fit/',
   },
   {
-    title: 'Arm-Friendly Paddle Finder',
+    title: 'Arm Comfort Recommendation Tool',
     description: 'Prioritize comfort and low vibration.',
     href: '/tools/arm-friendly-paddle-finder/',
   },
@@ -30,130 +22,162 @@ const relatedTools = [
 
 <CalculatorLayout
   title="Core Thickness Advisor — 14 mm vs 16 mm vs 20 mm | PaddleFitHub"
-  description="Understand the tradeoffs between 14 mm, 16 mm, and 20 mm pickleball paddle cores. Get a recommendation based on your play style and priorities."
+  description="Understand the physics and feel tradeoffs between 14 mm, 16 mm, and 20 mm core thicknesses. Get a weighted recommendation tailored to touch, power, and comfort."
   heading="Core thickness advisor."
-  intro="The core thickness of your paddle changes how it feels, sounds, and performs. Thinner cores deliver more pop; thicker cores offer more control and a softer feel."
+  intro="Paddle core thickness changes energy absorption, dwell time, and pop. Thinner cores (14mm) deliver pop and speed; thicker cores (16-20mm) provide soft resets and shock absorption."
   canonicalPath="/tools/core-thickness-advisor/"
   relatedTools={relatedTools}
 >
+  <!-- 1. TOP SECTION: INTERACTIVE CALCULATOR TOOL -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="core-calculator">
-    <!-- Input Form -->
+    <!-- ── Left Column: Form Inputs ── -->
     <div>
-      <h2 class="text-display-sm text-ink mb-6">Your priorities</h2>
+      <h2 class="text-display-sm text-ink mb-6">1. Primary playing style</h2>
 
       <div class="mb-6">
-        <label for="play-style-core" class="text-body-sm-strong text-ink block mb-1">Playing style</label>
+        <label for="play-style-core" class="text-body-sm-strong text-ink block mb-1">Playing style priority</label>
         <select id="play-style-core" class="form-select">
-          <option value="aggressive">Aggressive — drives and put-aways</option>
-          <option value="balanced">Balanced — mix of power and finesse</option>
-          <option value="finesse">Finesse — dinks, drops, and resets</option>
+          <option value="finesse" selected>Finesse &amp; Control (Dinks, resets, third shot drops)</option>
+          <option value="balanced">Balanced All-Court (Mix of soft game and put-aways)</option>
+          <option value="aggressive">Aggressive Power (Drives, smashes, speedup battles)</option>
         </select>
       </div>
 
-      <p class="text-body-sm-strong text-ink mb-3">Rate each factor (1 = not important, 5 = very important). All sliders must be at least 1.</p>
+      <h2 class="text-display-sm text-ink mb-4 pt-4 border-t border-hairline">2. Attribute weighting (1 to 5)</h2>
+      <p class="text-caption text-mute mb-4">Rate how much you value each physical property:</p>
 
       <div class="space-y-4 mb-6">
         <div>
           <div class="flex justify-between text-body-sm mb-1">
-            <span class="text-ink">Touch &amp; feel</span>
-            <span class="text-mute" id="touch-val">3</span>
+            <span class="text-ink font-medium">Soft Touch &amp; Reset Feel</span>
+            <span class="text-mute font-mono" id="touch-val">4</span>
           </div>
-          <input type="range" id="touch-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="touch-priority" min="1" max="5" value="4" class="w-full accent-ink cursor-pointer" />
         </div>
         <div>
           <div class="flex justify-between text-body-sm mb-1">
-            <span class="text-ink">Power &amp; pop</span>
-            <span class="text-mute" id="pop-val">3</span>
+            <span class="text-ink font-medium">Raw Power &amp; Pop Speed</span>
+            <span class="text-mute font-mono" id="pop-val">3</span>
           </div>
-          <input type="range" id="pop-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="pop-priority" min="1" max="5" value="3" class="w-full accent-ink cursor-pointer" />
         </div>
         <div>
           <div class="flex justify-between text-body-sm mb-1">
-            <span class="text-ink">Noise concern</span>
-            <span class="text-mute" id="noise-val">2</span>
+            <span class="text-ink font-medium">Arm Comfort &amp; Vibration Absorbency</span>
+            <span class="text-mute font-mono" id="comfort-core-val">4</span>
           </div>
-          <input type="range" id="noise-priority" min="1" max="5" value="2" class="w-full accent-ink" />
-          <p class="text-caption text-mute mt-1">Higher = prefer quieter paddle (some venues have noise restrictions)</p>
+          <input type="range" id="comfort-core-priority" min="1" max="5" value="4" class="w-full accent-ink cursor-pointer" />
         </div>
         <div>
           <div class="flex justify-between text-body-sm mb-1">
-            <span class="text-ink">Arm comfort</span>
-            <span class="text-mute" id="comfort-core-val">3</span>
+            <span class="text-ink font-medium">Contact Sound Dampening</span>
+            <span class="text-mute font-mono" id="noise-val">2</span>
           </div>
-          <input type="range" id="comfort-core-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="noise-priority" min="1" max="5" value="2" class="w-full accent-ink cursor-pointer" />
         </div>
       </div>
 
-      <div id="core-validation-msg" class="text-caption text-red-500 mb-4 hidden">All priority sliders must be set to at least 1.</div>
-
       <button type="button" id="calc-core-btn" class="btn-primary w-full sm:w-auto">
-        Get Recommendation
+        Calculate Core Thickness Match
       </button>
     </div>
 
-    <!-- Results -->
+    <!-- ── Right Column: Results Panel ── -->
     <div>
-      <div id="core-placeholder" class="flex flex-col items-center justify-center h-full min-h-64 text-center p-6">
-        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v4"/><path d="M21 3v4"/></svg>
+      <div id="core-placeholder" class="flex flex-col items-center justify-center h-full min-h-80 text-center p-8 border border-dashed border-hairline rounded-lg bg-canvas-soft/50">
+        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4 text-mute">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v4"/><path d="M21 3v4"/>
+          </svg>
         </div>
-        <p class="text-body-md text-mute">Set your priorities to see which core thickness suits you.</p>
+        <h3 class="text-body-md-strong text-ink mb-1">Compare core thicknesses</h3>
+        <p class="text-body-sm text-mute max-w-xs">Select your priorities to see physics-based recommendations for 14mm, 16mm, and 20mm cores.</p>
       </div>
 
       <div id="core-results" class="hidden space-y-6">
-        <div id="core-breakdown" class="bg-canvas-soft rounded-lg p-5 space-y-3"></div>
-        <div id="core-recommendation" class="bg-ink text-on-primary rounded-lg p-6"></div>
-        <div id="core-comparison-table" class="overflow-x-auto"></div>
-        <p class="text-caption text-mute"><strong>Caution:</strong> This is a general recommendation tool. Core material (polymer, kevlar, carbon fiber) and face layup also significantly affect feel.</p>
+        <div id="core-recommendation" class="bg-ink text-on-primary rounded-lg p-6 relative overflow-hidden">
+        </div>
+
+        <div id="core-breakdown" class="bg-canvas-soft rounded-lg p-5 border border-hairline space-y-2">
+        </div>
+
+        <div id="core-comparison-table" class="overflow-x-auto">
+        </div>
+
+        <div class="bg-canvas-soft rounded-lg p-4 border border-hairline">
+          <p class="text-caption text-body">
+            <strong>⚠ General Physics Recommendation:</strong> Core thickness is the primary factor in dwell time, but core construction (thermoformed unibody vs traditional 2-piece, perimeter foam injection, and carbon fiber face stiffness) also impacts feel. Always test paddles on-court when possible.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-hairline">
+          <h3 class="text-body-sm-strong text-ink mb-3">Recommended next steps</h3>
+          <div class="space-y-2">
+            <a href="/tools/paddle-weight-advisor/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Find the right paddle weight range
+            </a>
+            <a href="/tools/arm-friendly-paddle-finder/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Explore arm comfort recommendations
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-8 pt-6 border-t border-hairline">
-    <p class="text-caption text-mute">
-      <strong>Note:</strong> Core thickness is one factor among many. The core material (polymer honeycomb is standard), face material (carbon fiber, fiberglass), and edge construction all affect feel. These recommendations assume a standard polymer honeycomb core.
+  <!-- 2. STEP-BY-STEP GUIDE SECTION -->
+  <section class="mt-12 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">How to Use This Tool</h2>
+    <ol class="list-decimal pl-5 space-y-2 text-body-sm text-body">
+      <li><strong>Select your playing style:</strong> Choose <em>Finesse &amp; Control</em> (reset focus), <em>Balanced All-Court</em>, or <em>Aggressive Power</em>.</li>
+      <li><strong>Rate Soft Touch &amp; Reset Feel (1–5):</strong> Higher values favor thicker 16mm/20mm cores with longer dwell time.</li>
+      <li><strong>Rate Raw Power &amp; Pop Speed (1–5):</strong> Higher values favor thinner 14mm cores with firm energy return.</li>
+      <li><strong>Rate Arm Comfort &amp; Vibration Absorbency (1–5):</strong> Higher values reward shock-dampening thick cores.</li>
+      <li><strong>Rate Contact Sound Concern (1–5):</strong> Higher values favor quiet 20mm cores for noise-restricted courts.</li>
+    </ol>
+  </section>
+
+  <!-- 3. FORMULA & CALCULATION METHOD SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
+    <p class="text-body-sm text-body mb-4">
+      Core thickness dictates dwell time — how long the ball stays compressed against the paddle face during impact. Thinner 14mm cores deform less, acting like a firm trampoline that returns energy instantly as "pop". Thicker 16mm and 20mm cores compress more, absorbing impact energy for softer resets and greater vibration damping. We score your priorities against these physical traits.
     </p>
-  </div>
+
+    <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">
+      <div>14mm Score = 2×Pop + 0.5×Touch + 0.5×Comfort + StyleBonus(Aggressive=3.5)</div>
+      <div>16mm Score = 2×Touch + 2×Pop + 2×Comfort + StyleBonus(Balanced=3.0)</div>
+      <div>20mm Score = 2×Touch + 2×Comfort + 1.5×Quiet + StyleBonus(Finesse=3.0)</div>
+    </div>
+  </section>
+
+  <!-- 4. REAL-WORLD EXAMPLES SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">Real-World Examples</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example A: Reset Control &amp; Arm Protection</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Finesse style, rates Touch 5/5 &amp; Comfort 5/5</p>
+        <p class="text-caption text-body">
+          <strong>16 mm or 20 mm Core</strong> wins with 95%+ match. Extra core depth dampens frame vibration and cushions third-shot drops.
+        </p>
+      </div>
+
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example B: Fast Net Counter Attacker</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Aggressive style, rates Pop Speed 5/5</p>
+        <p class="text-caption text-body">
+          <strong>14 mm Core</strong> wins with 98% match due to its firm trampoline energy return for fast volley speedups.
+        </p>
+      </div>
+    </div>
+  </section>
 </CalculatorLayout>
 
 <script>
-  const STORAGE_KEY = 'paddlefit-core-inputs';
-
-  function loadInputs() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const data = JSON.parse(saved);
-        const fields = ['play-style-core', 'touch-priority', 'pop-priority', 'noise-priority', 'comfort-core-priority'];
-        fields.forEach(id => {
-          const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
-          if (el && data[id] !== undefined) el.value = data[id];
-        });
-        ['touch', 'pop', 'noise', 'comfort-core'].forEach(id => {
-          const label = document.getElementById(`${id}-val`);
-          if (label) label.textContent = (document.getElementById(`${id}-priority`) as HTMLInputElement).value;
-        });
-      }
-    } catch {}
-  }
-
-  function saveInputs() {
-    const data: Record<string, string> = {};
-    const fields = ['play-style-core', 'touch-priority', 'pop-priority', 'noise-priority', 'comfort-core-priority'];
-    fields.forEach(id => {
-      const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
-      if (el) data[id] = el.value;
-    });
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
-  }
-
-  loadInputs();
-
-  ['touch', 'pop', 'noise', 'comfort-core'].forEach(id => {
-    const slider = document.getElementById(`${id}-priority`) as HTMLInputElement;
-    const label = document.getElementById(`${id}-val`)!;
-    slider.addEventListener('input', () => { label.textContent = slider.value; });
-  });
+  const STORAGE_KEY = 'paddlefit_core_thickness_state';
 
   interface CoreProfile {
     thickness: string;
@@ -166,218 +190,219 @@ const relatedTools = [
 
   const cores: CoreProfile[] = [
     {
-      thickness: '14 mm',
+      thickness: '14 mm Core',
       mm: 14,
       scores: { touch: 2, power: 5, quiet: 1, comfort: 2 },
-      traits: ['Maximum pop — ball leaves the face fastest', 'Best for quick put-away power at the net', 'Smallest sweet spot — less forgiving', 'Loudest contact sound', 'Most vibration transmitted to arm'],
-      bestFor: 'Aggressive players who prioritize raw power and put-aways. Singles players who want extra pace on drives.',
-      notIdealFor: 'Players with arm or elbow sensitivity. Noise-restricted venues. Players who rely on soft touch and finesse.',
+      traits: [
+        'Maximum pop speed — ball rebounds quickly off the face',
+        'Crisp, responsive feedback on drives and put-aways',
+        'Slightly smaller sweet spot — less energy absorbency',
+        'Loud contact sound',
+      ],
+      bestFor: 'Aggressive players prioritizing raw pop speed and quick put-away power. Singles players wanting extra pace.',
+      notIdealFor: 'Players with arm/elbow sensitivity or those playing at noise-restricted venues.',
     },
     {
-      thickness: '16 mm',
+      thickness: '16 mm Core',
       mm: 16,
-      scores: { touch: 4, power: 3, quiet: 3, comfort: 4 },
-      traits: ['Best balance of power and control', 'Generous sweet spot', 'Moderate noise — neither loud nor quiet', 'Manageable vibration — generally arm-friendly', 'Most popular thickness for good reason'],
-      bestFor: 'All-around players who want one paddle for all situations. The safest choice if you are unsure.',
-      notIdealFor: 'Players seeking maximum pop (14 mm is better) or maximum softness (20 mm is better).',
+      scores: { touch: 4, power: 3.5, quiet: 3.5, comfort: 4 },
+      traits: [
+        'Industry benchmark for balanced power and plush control',
+        'Generous sweet spot with consistent forgiveness',
+        'Excellent reset absorption for soft dinks',
+        'Moderate contact sound and solid shock dampening',
+      ],
+      bestFor: 'All-around players looking for a versatile balance of reset control and put-away power. The safest starting choice.',
+      notIdealFor: 'Players seeking extreme power pop (14mm) or maximum ultra-plush dampening (20mm).',
     },
     {
-      thickness: '20 mm',
+      thickness: '20 mm Core',
       mm: 20,
-      scores: { touch: 5, power: 1, quiet: 5, comfort: 5 },
-      traits: ['Maximum control and touch — best for soft game', 'Largest sweet spot of any thickness', 'Quietest on contact — venue-friendly', 'Softest, most arm-friendly feel', 'Absorbs energy — reduces power on drives'],
-      bestFor: 'Finesse players who prioritize dinks, drops, and resets. Players with arm sensitivity. Noise-restricted venues.',
-      notIdealFor: 'Players who want easy power on drives or put-aways. Players who prefer a crisp, responsive feel.',
+      scores: { touch: 5, power: 1.5, quiet: 5, comfort: 5 },
+      traits: [
+        'Maximum dwell time and plush control for third shot drops',
+        'Largest sweet spot with ultra-soft feedback',
+        'Quietest contact sound (great for noise-restricted communities)',
+        'Maximum vibration absorption for arm comfort',
+      ],
+      bestFor: 'Finesse players specializing in soft resets and dinking battles. Players prioritizing joint comfort or quiet sound.',
+      notIdealFor: 'Attacking players who rely on effortless baseline drive pop.',
     },
   ];
 
-  function getBreakdown(core: CoreProfile, touchPri: number, popPri: number, noisePri: number, comfortPri: number): string[] {
-    const lines: string[] = [];
-    if (touchPri >= 4) {
-      if (core.scores.touch >= 4) lines.push('You rated touch as very important — this thickness generally offers good feel for soft shots.');
-      else lines.push('You rated touch as very important — this thickness may feel less refined for finesse play.');
-    }
-    if (popPri >= 4) {
-      if (core.scores.power >= 4) lines.push('You rated power as very important — this thickness generally delivers strong pop.');
-      else lines.push('You rated power as very important — this thickness prioritizes control over pop.');
-    }
-    if (noisePri >= 4) {
-      if (core.scores.quiet >= 4) lines.push('You are concerned about noise — this thickness is generally quieter on contact.');
-      else lines.push('You are concerned about noise — this thickness may be louder than preferred.');
-    }
-    if (comfortPri >= 4) {
-      if (core.scores.comfort >= 4) lines.push('Arm comfort matters to you — this thickness generally transmits less vibration.');
-      else lines.push('Arm comfort matters to you — this thickness may transmit more vibration to the arm.');
-    }
-    return lines;
+  const styleSelect = document.getElementById('play-style-core') as HTMLSelectElement;
+  const touchInput = document.getElementById('touch-priority') as HTMLInputElement;
+  const popInput = document.getElementById('pop-priority') as HTMLInputElement;
+  const comfortInput = document.getElementById('comfort-core-priority') as HTMLInputElement;
+  const noiseInput = document.getElementById('noise-priority') as HTMLInputElement;
+
+  const touchLabel = document.getElementById('touch-val') as HTMLSpanElement;
+  const popLabel = document.getElementById('pop-val') as HTMLSpanElement;
+  const comfortLabel = document.getElementById('comfort-core-val') as HTMLSpanElement;
+  const noiseLabel = document.getElementById('noise-val') as HTMLSpanElement;
+
+  const calcBtn = document.getElementById('calc-core-btn') as HTMLButtonElement;
+  const placeholder = document.getElementById('core-placeholder') as HTMLDivElement;
+  const results = document.getElementById('core-results') as HTMLDivElement;
+
+  const recommendationEl = document.getElementById('core-recommendation') as HTMLDivElement;
+  const breakdownEl = document.getElementById('core-breakdown') as HTMLDivElement;
+  const comparisonEl = document.getElementById('core-comparison-table') as HTMLDivElement;
+
+  function updateLabels() {
+    touchLabel.textContent = touchInput.value;
+    popLabel.textContent = popInput.value;
+    comfortLabel.textContent = comfortInput.value;
+    noiseLabel.textContent = noiseInput.value;
   }
 
-  function getConfidenceLabel(scored: Array<CoreProfile & { totalScore: number }>): { label: string; level: string } {
-    if (scored.length < 2) return { label: 'Low', level: 'low' };
-    const gap = scored[0].totalScore - scored[1].totalScore;
-    const maxPossible = 60;
-    const ratio = gap / maxPossible;
-    if (ratio > 0.18) return { label: 'High', level: 'high' };
-    if (ratio > 0.08) return { label: 'Moderate', level: 'moderate' };
-    return { label: 'Low — alternatives are close', level: 'low' };
-  }
+  [touchInput, popInput, comfortInput, noiseInput].forEach(inp => inp.addEventListener('input', updateLabels));
 
-  document.getElementById('calc-core-btn')!.addEventListener('click', () => {
-    const playStyle = (document.getElementById('play-style-core') as HTMLSelectElement).value;
-    const touchPri = parseInt((document.getElementById('touch-priority') as HTMLInputElement).value);
-    const popPri = parseInt((document.getElementById('pop-priority') as HTMLInputElement).value);
-    const noisePri = parseInt((document.getElementById('noise-priority') as HTMLInputElement).value);
-    const comfortPri = parseInt((document.getElementById('comfort-core-priority') as HTMLInputElement).value);
+  function calculate() {
+    const playStyle = styleSelect.value;
+    const touchPri = parseInt(touchInput.value);
+    const popPri = parseInt(popInput.value);
+    const comfortPri = parseInt(comfortInput.value);
+    const noisePri = parseInt(noiseInput.value);
 
-    const validationMsg = document.getElementById('core-validation-msg')!;
-    const allPris = [touchPri, popPri, noisePri, comfortPri];
-    if (allPris.some(v => v < 1)) {
-      validationMsg.classList.remove('hidden');
-      return;
-    }
-    validationMsg.classList.add('hidden');
-
-    saveInputs();
-
-    const scored = cores.map(core => {
+    const scored = cores.map(c => {
       let score = 0;
+      score += touchPri * c.scores.touch * 2.0;
+      score += popPri * c.scores.power * 2.0;
+      score += comfortPri * c.scores.comfort * 2.0;
+      score += noisePri * c.scores.quiet * 1.5;
 
-      score += touchPri * core.scores.touch;
-      score += popPri * core.scores.power;
-      score += noisePri * core.scores.quiet;
-      score += comfortPri * core.scores.comfort;
-
-      if (playStyle === 'aggressive') {
-        score += core.scores.power * 3;
-        score += core.scores.touch * 0.5;
-      } else if (playStyle === 'finesse') {
-        score += core.scores.touch * 3;
-        score += core.scores.quiet * 1.5;
-        score += core.scores.comfort * 1;
+      if (playStyle === 'finesse') {
+        score += c.scores.touch * 3.0;
+        score += c.scores.comfort * 2.0;
+      } else if (playStyle === 'aggressive') {
+        score += c.scores.power * 3.5;
       } else {
-        score += core.scores.touch * 1.5;
-        score += core.scores.power * 1.5;
+        score += c.scores.touch * 1.5;
+        score += c.scores.power * 1.5;
       }
 
-      return { ...core, totalScore: score };
+      return { ...c, totalScore: Math.round(score) };
     });
 
     scored.sort((a, b) => b.totalScore - a.totalScore);
-    const maxScore = scored[0].totalScore;
+    const topScore = scored[0].totalScore;
+    const winner = scored[0];
 
-    document.getElementById('core-placeholder')!.classList.add('hidden');
-    const resultsEl = document.getElementById('core-results')!;
-    resultsEl.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+    results.classList.remove('hidden');
 
-    const breakdownEl = document.getElementById('core-breakdown')!;
-    const recommendationEl = document.getElementById('core-recommendation')!;
-    const comparisonEl = document.getElementById('core-comparison-table')!;
-
-    const top = scored[0];
-
-    const conf = getConfidenceLabel(scored);
-
-    const breakdownLines = getBreakdown(top, touchPri, popPri, noisePri, comfortPri);
-
-    breakdownEl.innerHTML = `
-      <h4 class="text-body-sm-strong text-ink">How we arrived at ${top.thickness}</h4>
-      <p class="text-body-sm text-body">These observations are based on how your priorities line up with the general traits of a ${top.thickness} core:</p>
-      <ul class="list-disc list-inside space-y-1 text-body-sm text-body">
-        ${breakdownLines.map(l => `<li>${l}</li>`).join('')}
-        ${playStyle === 'aggressive' ? '<li>Your aggressive playing style favors quicker response and more pop.</li>' : ''}
-        ${playStyle === 'finesse' ? '<li>Your finesse playing style benefits from softer feel and more control.</li>' : ''}
-        ${playStyle === 'balanced' ? '<li>Your balanced style is versatile — the recommendation weighs both power and touch.</li>' : ''}
-      </ul>
-      ${conf.level === 'low' ? '<p class="text-body-sm text-mute mt-2">The scores are close — if possible, demo both top options before purchasing.</p>' : ''}
-    `;
-
-    const pct = Math.round((top.totalScore / maxScore) * 100);
+    const matchPct = Math.round((winner.totalScore / topScore) * 100);
 
     recommendationEl.innerHTML = `
       <div class="flex items-center justify-between mb-3">
         <div>
-          <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Generally recommended</span>
-          <h3 class="text-display-lg text-on-primary">${top.thickness}</h3>
+          <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Physics Match #1</span>
+          <h3 class="text-display-lg text-on-primary font-semibold">${winner.thickness}</h3>
         </div>
         <div class="text-right">
-          <span class="text-display-sm text-on-primary">${pct}%</span>
+          <span class="text-display-sm text-on-primary font-bold">${matchPct}%</span>
           <span class="text-caption text-hairline-strong block">match</span>
         </div>
       </div>
 
-      <span class="inline-block text-caption-mono ${conf.level === 'high' ? 'text-green-300' : conf.level === 'moderate' ? 'text-yellow-300' : 'text-hairline-strong'} uppercase tracking-wide mb-3">Confidence: ${conf.label}</span>
+      <p class="text-body-sm text-hairline mb-4 font-medium">${winner.bestFor}</p>
 
-      <ul class="list-none p-0 m-0 space-y-1 mb-4">
-        ${top.traits.map(t => `<li class="text-body-sm text-hairline flex items-start gap-2"><span class="mt-1 w-1 h-1 rounded-full bg-hairline-strong flex-shrink-0"></span>${t}</li>`).join('')}
-      </ul>
-
-      <div class="space-y-2">
-        <div>
-          <p class="text-caption-mono text-hairline-strong uppercase tracking-wide mb-0.5">Generally best for</p>
-          <p class="text-body-sm text-hairline">${top.bestFor}</p>
-        </div>
-        <div>
-          <p class="text-caption-mono text-hairline-strong uppercase tracking-wide mb-0.5">Generally not ideal for</p>
-          <p class="text-body-sm text-hairline">${top.notIdealFor}</p>
-        </div>
+      <div class="pt-4 border-t border-white/10 space-y-2">
+        <span class="text-caption-mono text-hairline-strong uppercase block">Key Traits</span>
+        <ul class="list-none p-0 m-0 space-y-1 text-caption text-hairline">
+          ${winner.traits.map(t => `<li>✓ ${t}</li>`).join('')}
+        </ul>
       </div>
     `;
 
+    breakdownEl.innerHTML = `
+      <h4 class="text-body-sm-strong text-ink mb-1">Why ${winner.thickness} won</h4>
+      <p class="text-body-sm text-body">Based on your priorities:</p>
+      <ul class="list-disc pl-5 space-y-1 text-body-sm text-body">
+        ${touchPri >= 4 ? `<li>High Touch priority (${touchPri}/5) favors the dwell-time absorbency of a ${winner.mm}mm core.</li>` : ''}
+        ${popPri >= 4 ? `<li>High Pop priority (${popPri}/5) favors firmer trampoline rebound.</li>` : ''}
+        ${comfortPri >= 4 ? `<li>Arm Comfort priority (${comfortPri}/5) rewards shock dampening.</li>` : ''}
+        ${noisePri >= 4 ? `<li>Noise concern (${noisePri}/5) rewards quiet contact.</li>` : ''}
+      </ul>
+      <p class="text-caption text-mute mt-2">Selected style: <strong>${playStyle.toUpperCase()}</strong>.</p>
+    `;
+
     comparisonEl.innerHTML = `
-      <table class="w-full text-left text-body-sm">
+      <table class="w-full text-left text-body-sm border-collapse">
         <thead>
           <tr class="border-b border-hairline">
-            <th class="py-2 pr-4 text-caption-mono text-mute uppercase tracking-wide">Feature</th>
-            <th class="py-2 px-2 text-caption-mono text-mute uppercase tracking-wide">14 mm</th>
-            <th class="py-2 px-2 text-caption-mono text-mute uppercase tracking-wide">16 mm</th>
-            <th class="py-2 px-2 text-caption-mono text-mute uppercase tracking-wide">20 mm</th>
+            <th class="py-2 pr-4 text-caption-mono text-mute uppercase">Feature</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">14 mm</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">16 mm</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">20 mm</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-body">
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Pop / power</td>
-            <td class="py-2 px-2 text-body">Maximum</td>
-            <td class="py-2 px-2 text-body">Moderate</td>
-            <td class="py-2 px-2 text-body">Minimal</td>
+            <td class="py-2 pr-4 font-medium text-ink">Pop &amp; Ball Speed</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">Maximum</td>
+            <td class="py-2 px-2">Balanced</td>
+            <td class="py-2 px-2 text-amber-600">Soft</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Control / touch</td>
-            <td class="py-2 px-2 text-body">Low</td>
-            <td class="py-2 px-2 text-body">Good</td>
-            <td class="py-2 px-2 text-body">Maximum</td>
+            <td class="py-2 pr-4 font-medium text-ink">Reset Dwell Time</td>
+            <td class="py-2 px-2">Shortest</td>
+            <td class="py-2 px-2">Optimal</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">Longest</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Sweet spot</td>
-            <td class="py-2 px-2 text-body">Smallest</td>
-            <td class="py-2 px-2 text-body">Large</td>
-            <td class="py-2 px-2 text-body">Largest</td>
+            <td class="py-2 pr-4 font-medium text-ink">Vibration Absorbency</td>
+            <td class="py-2 px-2 text-amber-600">Firm / Vibrate</td>
+            <td class="py-2 px-2 font-medium text-emerald-600">High Absorbency</td>
+            <td class="py-2 px-2 font-medium text-emerald-600">Maximum Absorbency</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Noise</td>
-            <td class="py-2 px-2 text-body">Loudest</td>
-            <td class="py-2 px-2 text-body">Moderate</td>
-            <td class="py-2 px-2 text-body">Quietest</td>
-          </tr>
-          <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Vibration to arm</td>
-            <td class="py-2 px-2 text-body">Highest</td>
-            <td class="py-2 px-2 text-body">Low</td>
-            <td class="py-2 px-2 text-body">Lowest</td>
-          </tr>
-          <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Best for</td>
-            <td class="py-2 px-2 text-body">Power hitters, singles</td>
-            <td class="py-2 px-2 text-body">All-around, versatility</td>
-            <td class="py-2 px-2 text-body">Finesse, comfort, quiet venues</td>
+            <td class="py-2 pr-4 font-medium text-ink">Contact Sound</td>
+            <td class="py-2 px-2">Loudest</td>
+            <td class="py-2 px-2">Moderate</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">Quietest</td>
           </tr>
           <tr>
-            <td class="py-2 pr-4 text-ink">Not ideal for</td>
-            <td class="py-2 px-2 text-body">Arm issues, quiet venues</td>
-            <td class="py-2 px-2 text-body">Extreme power or extreme softness</td>
-            <td class="py-2 px-2 text-body">Easy power, crisp feel</td>
+            <td class="py-2 pr-4 font-medium text-ink">Best For</td>
+            <td class="py-2 px-2">Power Attacker</td>
+            <td class="py-2 px-2">All-Around Player</td>
+            <td class="py-2 px-2">Finesse / Reset Specialist</td>
           </tr>
         </tbody>
       </table>
     `;
-  });
+
+    saveState();
+  }
+
+  function saveState() {
+    try {
+      const data = {
+        style: styleSelect.value,
+        touch: touchInput.value,
+        pop: popInput.value,
+        comfort: comfortInput.value,
+        noise: noiseInput.value,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data.style) styleSelect.value = data.style;
+      if (data.touch) touchInput.value = data.touch;
+      if (data.pop) popInput.value = data.pop;
+      if (data.comfort) comfortInput.value = data.comfort;
+      if (data.noise) noiseInput.value = data.noise;
+      updateLabels();
+    } catch {}
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  loadState();
 </script>

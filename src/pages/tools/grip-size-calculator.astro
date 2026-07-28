@@ -13,7 +13,7 @@ const relatedTools = [
     href: '/tools/overgrip-weight-adjustment/',
   },
   {
-    title: 'Arm-Friendly Paddle Finder',
+    title: 'Arm Comfort Recommendation Tool',
     description: 'Prioritize low vibration and strain reduction for arm comfort.',
     href: '/tools/arm-friendly-paddle-finder/',
   },
@@ -22,206 +22,251 @@ const relatedTools = [
 
 <CalculatorLayout
   title="Grip Size Calculator — Find Your Ideal Pickleball Grip | PaddleFitHub"
-  description="Measure your hand and find your ideal pickleball paddle grip size using the Vernier method. Accounts for comfort preference and overgrip adjustments."
+  description="Measure your hand or use height-based estimation to find your exact pickleball paddle grip size. Features step-by-step 1/8 inch rounding, overgrip adjustment, and visual grip charts."
   heading="Grip size calculator."
-  intro="Find your ideal grip size using a simple hand measurement. This calculator uses the Vernier method — the standard approach used by paddle fitters and tennis pros."
+  intro="Find your ideal grip size using exact hand measurement or height-based estimation. Proper grip size prevents slipping, reduces wrist fatigue, and improves shot control."
   canonicalPath="/tools/grip-size-calculator/"
   relatedTools={relatedTools}
 >
+  <!-- 1. TOP SECTION: INTERACTIVE CALCULATOR TOOL -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="grip-calculator">
-    <!-- ── Left: Input Form ── -->
+    <!-- ── Left Column: Form Inputs ── -->
     <div>
-      <h2 class="text-display-sm text-ink mb-6">Your measurements</h2>
+      <h2 class="text-display-sm text-ink mb-6">1. Choose measurement method</h2>
 
-      <!-- Unit toggle -->
-      <div class="mb-6">
-        <label class="text-body-sm-strong text-ink block mb-2">Measurement unit</label>
-        <div class="flex rounded-sm overflow-hidden border border-hairline inline-flex">
-          <button
-            type="button"
-            class="px-4 py-2 text-body-sm cursor-pointer transition-colors bg-ink text-on-primary"
-            id="unit-inches"
-          >
-            Inches
-          </button>
-          <button
-            type="button"
-            class="px-4 py-2 text-body-sm cursor-pointer transition-colors bg-canvas text-body border-l border-hairline"
-            id="unit-cm"
-          >
-            Centimeters
-          </button>
-        </div>
+      <!-- Method Selector Tabs -->
+      <div class="flex rounded-md overflow-hidden border border-hairline mb-6">
+        <button
+          type="button"
+          class="flex-1 py-3 px-4 text-body-sm-strong cursor-pointer transition-colors bg-ink text-on-primary text-center"
+          id="method-direct-btn"
+        >
+          Direct Measurement
+        </button>
+        <button
+          type="button"
+          class="flex-1 py-3 px-4 text-body-sm-strong cursor-pointer transition-colors bg-canvas-soft text-body text-center border-l border-hairline"
+          id="method-height-btn"
+        >
+          Height &amp; Glove Fallback
+        </button>
       </div>
 
-      <!-- Hand measurement input -->
-      <div class="mb-6">
-        <label for="hand-measurement" class="text-body-sm-strong text-ink block mb-1">
-          Hand measurement <span class="text-body-sm text-mute" id="unit-label">(inches)</span>
-        </label>
-        <p class="text-caption text-mute mb-2">
-          Measure from the middle crease of your palm to the tip of your ring finger.
-        </p>
-        <input
-          type="number"
-          id="hand-measurement"
-          class="form-input"
-          placeholder="e.g. 4.25"
-          step="0.0625"
-          min="3"
-          max="6"
-          autocomplete="off"
-        />
-        <p class="text-caption text-error mt-1 hidden" id="hand-error"></p>
-      </div>
-
-      <!-- Index finger length (optional refinement) -->
-      <div class="mb-6">
-        <label for="index-finger" class="text-body-sm-strong text-ink block mb-1">
-          Index finger length <span class="text-body-sm text-mute">(optional, for higher confidence)</span>
-          <span class="text-body-sm text-mute" id="index-unit-label">(inches)</span>
-        </label>
-        <p class="text-caption text-mute mb-2">
-          From the base knuckle to the tip. Helps refine the recommendation.
-        </p>
-        <input
-          type="number"
-          id="index-finger"
-          class="form-input"
-          placeholder="e.g. 3.0"
-          step="0.0625"
-          min="2"
-          max="5"
-          autocomplete="off"
-        />
-        <p class="text-caption text-error mt-1 hidden" id="index-error"></p>
-      </div>
-
-      <!-- ── Preference Adjustments ── -->
-      <div class="mb-6 pt-4 border-t border-hairline">
-        <h3 class="text-body-sm-strong text-ink mb-4">Preference adjustments</h3>
-
-        <!-- Comfort vs. control slider -->
-        <div class="mb-6">
-          <label class="text-body-sm-strong text-ink block mb-1">Comfort vs. control</label>
-          <p class="text-caption text-mute mb-3">
-            After measurement, adjust for feel: a tighter grip (~⅛") gives more control; a looser grip (~⅛") reduces fatigue.
-          </p>
-          <div class="flex items-center gap-3">
-            <span class="text-caption text-mute whitespace-nowrap">More control</span>
-            <input
-              type="range"
-              id="comfort-slider"
-              min="-1"
-              max="1"
-              step="1"
-              value="0"
-              class="flex-1 accent-ink"
-            />
-            <span class="text-caption text-mute whitespace-nowrap">More comfort</span>
+      <!-- METHOD A: DIRECT MEASUREMENT -->
+      <div id="method-direct-panel" class="space-y-6">
+        <div>
+          <label class="text-body-sm-strong text-ink block mb-2">Measurement unit</label>
+          <div class="flex rounded-sm overflow-hidden border border-hairline inline-flex">
+            <button
+              type="button"
+              class="px-4 py-2 text-body-sm cursor-pointer transition-colors bg-ink text-on-primary"
+              id="unit-inches"
+            >
+              Inches (in)
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2 text-body-sm cursor-pointer transition-colors bg-canvas text-body border-l border-hairline"
+              id="unit-cm"
+            >
+              Centimeters (cm)
+            </button>
           </div>
-          <p class="text-caption text-mute text-center mt-1" id="comfort-label">Neutral (no adjustment)</p>
         </div>
 
-        <!-- Overgrip toggle -->
-        <div class="mb-6">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="use-overgrip" class="w-4 h-4 accent-ink rounded-xs" />
-            <span class="text-body-sm text-ink">I plan to use an overgrip</span>
+        <div>
+          <label for="hand-measurement" class="text-body-sm-strong text-ink block mb-1">
+            Palm crease to ring finger tip <span class="text-body-sm text-mute" id="unit-label">(inches)</span>
           </label>
-          <p class="text-caption text-mute mt-1 ml-6">
-            An overgrip adds ~⅛" to circumference. The calculator will recommend a grip ⅛" smaller so the final fit is correct.
+          <p class="text-caption text-mute mb-2">
+            Measure from the middle lateral crease of your palm along the ring finger to its tip.
           </p>
+          <input
+            type="number"
+            id="hand-measurement"
+            class="form-input"
+            placeholder="e.g. 4.25"
+            step="0.0625"
+            min="3.0"
+            max="6.0"
+            autocomplete="off"
+          />
+          <p class="text-caption text-error mt-1 hidden" id="hand-error"></p>
         </div>
 
-        <!-- Two-handed backhand -->
-        <div class="mb-6">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="two-handed" class="w-4 h-4 accent-ink rounded-xs" />
-            <span class="text-body-sm text-ink">I use a two-handed backhand</span>
+        <div>
+          <label for="index-finger" class="text-body-sm-strong text-ink block mb-1">
+            Index finger length <span class="text-body-sm text-mute">(optional refinement)</span>
           </label>
-          <p class="text-caption text-mute mt-1 ml-6">
-            Two-handed backhand players sometimes prefer a grip ~¼" smaller for better hand stacking.
+          <p class="text-caption text-mute mb-2">
+            From base knuckle to tip. Used for refining edge cases.
           </p>
+          <input
+            type="number"
+            id="index-finger"
+            class="form-input"
+            placeholder="e.g. 3.0"
+            step="0.0625"
+            min="1.5"
+            max="5.0"
+            autocomplete="off"
+          />
+          <p class="text-caption text-error mt-1 hidden" id="index-error"></p>
         </div>
       </div>
 
-      <!-- Current grip issues -->
-      <div class="mb-6">
-        <label for="current-issues" class="text-body-sm-strong text-ink block mb-1">
-          Current grip issues <span class="text-body-sm text-mute">(optional)</span>
-        </label>
-        <select id="current-issues" class="form-select">
-          <option value="none">No issues</option>
-          <option value="slipping">Paddle slips during play</option>
-          <option value="fatigue">Hand fatigue or cramping</option>
-          <option value="blisters">Blisters or hot spots</option>
-          <option value="wrist-pain">Wrist or elbow pain</option>
-        </select>
+      <!-- METHOD B: HEIGHT & GLOVE FALLBACK -->
+      <div id="method-height-panel" class="space-y-6 hidden">
+        <div class="bg-canvas-soft rounded-md p-4 text-caption text-body">
+          <strong>No ruler handy?</strong> Height and glove size correlate strongly with hand length and provide a solid starting point recommendation.
+        </div>
+
+        <div>
+          <label for="player-height" class="text-body-sm-strong text-ink block mb-1">Your height</label>
+          <select id="player-height" class="form-select">
+            <option value="under-54">Under 5'4" (Under 163 cm)</option>
+            <option value="54-58">5'4" – 5'8" (163 – 173 cm)</option>
+            <option value="59-60" selected>5'9" – 6'0" (175 – 183 cm)</option>
+            <option value="61-63">6'1" – 6'3" (185 – 191 cm)</option>
+            <option value="over-63">Over 6'3" (Over 191 cm)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="glove-size" class="text-body-sm-strong text-ink block mb-1">Standard glove size</label>
+          <select id="glove-size" class="form-select">
+            <option value="small">Small (S)</option>
+            <option value="medium" selected>Medium (M)</option>
+            <option value="large">Large (L)</option>
+            <option value="xlarge">Extra Large (XL)</option>
+          </select>
+        </div>
       </div>
 
-      <!-- Calculate button -->
-      <button type="button" id="calculate-btn" class="btn-primary w-full sm:w-auto">
+      <!-- STEP 2: COMFORT & SETUP PREFERENCES -->
+      <div class="mt-8 pt-6 border-t border-hairline">
+        <h2 class="text-display-sm text-ink mb-4">2. Comfort &amp; setup options</h2>
+
+        <div class="mb-6">
+          <label class="text-body-sm-strong text-ink block mb-1">Grip feel preference</label>
+          <div class="grid grid-cols-3 gap-2 mt-2">
+            <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
+              <input type="radio" name="comfort-pref" value="-0.125" class="sr-only" />
+              <span class="text-body-sm-strong text-ink block">Tighter</span>
+              <span class="text-caption text-mute block mt-0.5">−⅛" (More control)</span>
+            </label>
+            <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
+              <input type="radio" name="comfort-pref" value="0" checked class="sr-only" />
+              <span class="text-body-sm-strong text-ink block">Standard</span>
+              <span class="text-caption text-mute block mt-0.5">Exact fit</span>
+            </label>
+            <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
+              <input type="radio" name="comfort-pref" value="0.125" class="sr-only" />
+              <span class="text-body-sm-strong text-ink block">Cushioned</span>
+              <span class="text-caption text-mute block mt-0.5">+⅛" (More comfort)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" id="use-overgrip" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
+            <div>
+              <span class="text-body-sm-strong text-ink block">I plan to use an overgrip (+1/16" build-up)</span>
+              <span class="text-caption text-mute block mt-0.5">
+                Overgrips add ~1/16" to 1/8" of thickness. We will recommend buying a paddle ⅛" smaller so the final wrapped grip matches your exact target.
+              </span>
+            </div>
+          </label>
+        </div>
+
+        <div class="mb-6">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" id="two-handed" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
+            <div>
+              <span class="text-body-sm-strong text-ink block">Two-handed backhand player</span>
+              <span class="text-caption text-mute block mt-0.5">
+                Reduces target size by ¼" for easier hand-stacking on the handle.
+              </span>
+            </div>
+          </label>
+        </div>
+
+        <div class="mb-6">
+          <label for="current-issues" class="text-body-sm-strong text-ink block mb-1">
+            Current grip issues <span class="text-body-sm text-mute">(optional)</span>
+          </label>
+          <select id="current-issues" class="form-select">
+            <option value="none">No issues — feeling good</option>
+            <option value="slipping">Paddle slips or twists during play</option>
+            <option value="fatigue">Hand fatigue, cramping, or tight forearm</option>
+            <option value="blisters">Blisters or hot spots on palm/fingers</option>
+            <option value="wrist-pain">Wrist or elbow discomfort</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" id="calculate-btn" class="btn-primary w-full sm:w-auto mt-2">
         Calculate Grip Size
       </button>
     </div>
 
-    <!-- ── Right: Results ── -->
+    <!-- ── Right Column: Results Panel ── -->
     <div>
-      <!-- Placeholder state -->
-      <div id="results-placeholder" class="flex flex-col items-center justify-center h-full min-h-64 text-center p-6">
-        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute">
+      <div id="results-placeholder" class="flex flex-col items-center justify-center h-full min-h-80 text-center p-8 border border-dashed border-hairline rounded-lg bg-canvas-soft/50">
+        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4 text-mute">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/>
             <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/>
             <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/>
             <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 13"/>
           </svg>
         </div>
-        <p class="text-body-md text-mute">Enter your hand measurement to see your recommended grip size.</p>
+        <h3 class="text-body-md-strong text-ink mb-1">Awaiting your measurement</h3>
+        <p class="text-body-sm text-mute max-w-xs">Enter your palm measurement or select your height to see your recommended grip size and rounding breakdown.</p>
       </div>
 
-      <!-- Results (hidden until calculation) -->
-      <div id="results-panel" class="hidden">
-        <!-- Confidence badge -->
-        <div class="flex items-center gap-2 mb-4">
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-caption-mono" id="confidence-badge">
-          </span>
-        </div>
+      <div id="results-panel" class="hidden space-y-6">
+        <div class="bg-ink text-on-primary rounded-lg p-6 relative overflow-hidden">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Recommended Grip Size</span>
+            <span id="confidence-badge" class="px-2.5 py-1 rounded-full text-caption-mono bg-canvas/10 text-on-primary">
+              High Confidence
+            </span>
+          </div>
 
-        <!-- Primary result -->
-        <div class="bg-canvas-soft rounded-md p-6 mb-6">
-          <p class="text-caption-mono text-mute uppercase tracking-wide mb-1">Recommended Grip Size</p>
-          <p class="text-display-xl text-ink mb-1" id="result-size">—</p>
-          <p class="text-body-sm text-body" id="result-metric">—</p>
-          <div class="mt-3 pt-3 border-t border-hairline text-caption text-mute space-y-0.5" id="result-breakdown">
+          <div class="flex items-baseline gap-3 mb-2">
+            <p class="text-display-xl text-on-primary font-semibold" id="result-size">4 ¼"</p>
+            <span class="text-body-md text-hairline" id="result-fraction-label">(4.250 in)</span>
+          </div>
+          <p class="text-body-sm text-hairline-strong mb-4" id="result-metric">108.0 mm circumference</p>
+
+          <div class="pt-4 border-t border-white/10 text-caption text-hairline space-y-1" id="result-breakdown">
           </div>
         </div>
 
-        <!-- Visual grip-size chart (all standard sizes) -->
-        <div class="mb-6">
-          <h3 class="text-body-sm-strong text-ink mb-3">All standard grip sizes</h3>
-          <div class="space-y-1" id="size-chart">
+        <div class="bg-canvas-soft rounded-lg p-5 border border-hairline">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-body-sm-strong text-ink">Standard Grip Spectrum</h3>
+            <span class="text-caption-mono text-mute">Highlighting your fit</span>
+          </div>
+          <div class="space-y-2" id="size-chart">
           </div>
         </div>
 
-        <!-- Explanation -->
-        <div class="mb-6">
-          <h3 class="text-body-sm-strong text-ink mb-2">Why this size</h3>
+        <div class="bg-canvas-soft rounded-lg p-5 border border-hairline space-y-3">
+          <h3 class="text-body-sm-strong text-ink">Why this grip size was chosen</h3>
           <div class="text-body-sm text-body space-y-2" id="result-explanation">
           </div>
         </div>
 
-        <!-- Overgrip note -->
-        <div class="bg-canvas-soft rounded-md p-4 mb-6" id="overgrip-note">
+        <div class="rounded-lg p-4 border" id="overgrip-note">
         </div>
 
-        <!-- Issue-specific advice -->
-        <div class="bg-warning-soft/30 rounded-md p-4 mb-6 hidden" id="issue-advice">
+        <div class="rounded-lg p-4 bg-warning-soft/40 border border-warning/30 hidden" id="issue-advice">
         </div>
 
-        <!-- Next steps -->
-        <div>
+        <div class="pt-4 border-t border-hairline">
           <h3 class="text-body-sm-strong text-ink mb-3">Recommended next steps</h3>
           <ul class="list-none p-0 m-0 space-y-2" id="next-steps">
           </ul>
@@ -230,196 +275,191 @@ const relatedTools = [
     </div>
   </div>
 
-  <!-- Assumptions note -->
-  <div class="mt-8 pt-6 border-t border-hairline">
-    <p class="text-caption text-mute">
-      <strong>Note:</strong> This calculator uses the Vernier hand-measurement method, which is the industry standard for paddle and racquet sizing.
-      Grip sizes are approximate and may vary by ⅛" depending on the paddle manufacturer.
-      Individual comfort may differ — when in doubt, size down and add an overgrip for the best fit.
+  <!-- 2. STEP-BY-STEP GUIDE SECTION -->
+  <section class="mt-12 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">How to Use This Tool</h2>
+    <ol class="list-decimal pl-5 space-y-2 text-body-sm text-body">
+      <li><strong>Select your measurement method:</strong> Choose <em>Direct Measurement</em> if you have a ruler or tape measure, or <em>Height &amp; Glove Fallback</em> if you don't.</li>
+      <li><strong>Enter your hand length:</strong> Measure from the middle crease of your palm along your ring finger to its tip.</li>
+      <li><strong>Optionally add index finger length:</strong> Providing your index finger length refines edge cases for high confidence.</li>
+      <li><strong>Choose your grip feel preference:</strong> Select <em>Tighter (−⅛")</em> for control or <em>Cushioned (+⅛")</em> for extra padding.</li>
+      <li><strong>Check setup modifiers:</strong> Check the overgrip box if you plan to wrap an overgrip, or two-handed backhand if applicable.</li>
+      <li><strong>View your result:</strong> Click <em>Calculate Grip Size</em> to see your exact 1/8" fraction recommendation, visual spectrum placement, and overgrip guidance.</li>
+    </ol>
+  </section>
+
+  <!-- 3. FORMULA & CALCULATION METHOD SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
+    <p class="text-body-sm text-body mb-4">
+      Your hand measurement maps directly to required grip circumference. We apply any comfort preferences, subtract ⅛" if you plan to use an overgrip build-up, adjust for two-handed backhands, and mathematically round the result to the nearest standard commercial size (4", 4 ⅛", 4 ¼", 4 ⅜", 4 ½").
     </p>
-  </div>
+
+    <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">
+      <div>Base Inches = Direct Palm-to-Finger Length (or Height Baseline + Glove Offset)</div>
+      <div>Adjusted Target = Base + Comfort Preference (−0.125 to +0.125) − Overgrip Adj (0.125) − Backhand Adj (0.250)</div>
+      <div>Final Recommendation = RoundToNearest0.125(Adjusted Target)</div>
+    </div>
+  </section>
+
+  <!-- 4. REAL-WORLD EXAMPLES SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">Real-World Examples</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example A: Standard Hand + Overgrip</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Palm measurement: 4.20 inches, plans overgrip</p>
+        <p class="text-caption text-body">
+          4.20" base − 0.125" (overgrip adjustment) = 4.075" → Rounds to <strong>4 ⅛" (4.125")</strong>. Buying a 4 ⅛" paddle and wrapping 1 overgrip (+1/16") brings the total wrapped grip to exactly 4 ¼".
+        </p>
+      </div>
+
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example B: Cushioned Comfort Preference</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Palm measurement: 4.40 inches, prefers cushioned feel</p>
+        <p class="text-caption text-body">
+          4.40" base + 0.125" (cushioned preference) = 4.525" → Rounds to <strong>4 ½" (4.500")</strong>. Sizing up ⅛" provides extra palm padding and reduces forearm tension.
+        </p>
+      </div>
+    </div>
+  </section>
 </CalculatorLayout>
 
 <script>
+  // Safe client-side logic
   const GRIP_SIZES = [
     { size: '4"', decimal: 4.0, mm: 101.6, fraction: '4' },
-    { size: '4⅛"', decimal: 4.125, mm: 104.8, fraction: '4⅛' },
-    { size: '4¼"', decimal: 4.25, mm: 108.0, fraction: '4¼' },
-    { size: '4⅜"', decimal: 4.375, mm: 111.1, fraction: '4⅜' },
-    { size: '4½"', decimal: 4.5, mm: 114.3, fraction: '4½' },
-    { size: '4⅝"', decimal: 4.625, mm: 117.5, fraction: '4⅝' },
+    { size: '4 ⅛"', decimal: 4.125, mm: 104.8, fraction: '4 ⅛' },
+    { size: '4 ¼"', decimal: 4.25, mm: 108.0, fraction: '4 ¼' },
+    { size: '4 ⅜"', decimal: 4.375, mm: 111.1, fraction: '4 ⅜' },
+    { size: '4 ½"', decimal: 4.5, mm: 114.3, fraction: '4 ½' },
+    { size: '4 ⅝"', decimal: 4.625, mm: 117.5, fraction: '4 ⅝' },
   ];
 
-  const ADJ_1_8 = 0.125;
+  const STORAGE_KEY = 'paddlefit_grip_calculator_state';
 
-  const unitInches = document.getElementById('unit-inches');
-  const unitCm = document.getElementById('unit-cm');
-  const unitLabel = document.getElementById('unit-label');
-  const indexUnitLabel = document.getElementById('index-unit-label');
-  const handInput = document.getElementById('hand-measurement');
-  const handError = document.getElementById('hand-error');
-  const indexInput = document.getElementById('index-finger');
-  const indexError = document.getElementById('index-error');
-  const comfortSlider = document.getElementById('comfort-slider');
-  const comfortLabel = document.getElementById('comfort-label');
-  const useOvergrip = document.getElementById('use-overgrip');
-  const twoHanded = document.getElementById('two-handed');
-  const issueSelect = document.getElementById('current-issues');
-  const calculateBtn = document.getElementById('calculate-btn');
-  const resultsPlaceholder = document.getElementById('results-placeholder');
-  const resultsPanel = document.getElementById('results-panel');
-  const confidenceBadge = document.getElementById('confidence-badge');
-  const resultSize = document.getElementById('result-size');
-  const resultMetric = document.getElementById('result-metric');
-  const resultBreakdown = document.getElementById('result-breakdown');
-  const sizeChart = document.getElementById('size-chart');
-  const resultExplanation = document.getElementById('result-explanation');
-  const overgripNote = document.getElementById('overgrip-note');
-  const issueAdvice = document.getElementById('issue-advice');
-  const nextSteps = document.getElementById('next-steps');
+  // DOM Elements
+  const methodDirectBtn = document.getElementById('method-direct-btn') as HTMLButtonElement;
+  const methodHeightBtn = document.getElementById('method-height-btn') as HTMLButtonElement;
+  const methodDirectPanel = document.getElementById('method-direct-panel') as HTMLDivElement;
+  const methodHeightPanel = document.getElementById('method-height-panel') as HTMLDivElement;
 
+  const unitInches = document.getElementById('unit-inches') as HTMLButtonElement;
+  const unitCm = document.getElementById('unit-cm') as HTMLButtonElement;
+  const unitLabel = document.getElementById('unit-label') as HTMLSpanElement;
+
+  const handInput = document.getElementById('hand-measurement') as HTMLInputElement;
+  const handError = document.getElementById('hand-error') as HTMLParagraphElement;
+  const indexInput = document.getElementById('index-finger') as HTMLInputElement;
+  const indexError = document.getElementById('index-error') as HTMLParagraphElement;
+
+  const playerHeightSelect = document.getElementById('player-height') as HTMLSelectElement;
+  const gloveSizeSelect = document.getElementById('glove-size') as HTMLSelectElement;
+
+  const useOvergrip = document.getElementById('use-overgrip') as HTMLInputElement;
+  const twoHanded = document.getElementById('two-handed') as HTMLInputElement;
+  const issueSelect = document.getElementById('current-issues') as HTMLSelectElement;
+  const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+
+  const resultsPlaceholder = document.getElementById('results-placeholder') as HTMLDivElement;
+  const resultsPanel = document.getElementById('results-panel') as HTMLDivElement;
+  const confidenceBadge = document.getElementById('confidence-badge') as HTMLSpanElement;
+
+  const resultSize = document.getElementById('result-size') as HTMLParagraphElement;
+  const resultFractionLabel = document.getElementById('result-fraction-label') as HTMLSpanElement;
+  const resultMetric = document.getElementById('result-metric') as HTMLParagraphElement;
+  const resultBreakdown = document.getElementById('result-breakdown') as HTMLDivElement;
+  const sizeChart = document.getElementById('size-chart') as HTMLDivElement;
+  const resultExplanation = document.getElementById('result-explanation') as HTMLDivElement;
+  const overgripNote = document.getElementById('overgrip-note') as HTMLDivElement;
+  const issueAdvice = document.getElementById('issue-advice') as HTMLDivElement;
+  const nextSteps = document.getElementById('next-steps') as HTMLUListElement;
+
+  let currentMethod: 'direct' | 'height' = 'direct';
   let isMetric = false;
 
-  function roundToNearest8th(value) {
-    return Math.round(value * 8) / 8;
-  }
-
-  function formatFraction(decimal) {
-    const whole = Math.floor(decimal);
-    const frac = Math.round((decimal - whole) * 8);
-    if (frac === 0) return `${whole}"`;
-    const fracSymbols = { 1: '⅛', 2: '¼', 3: '⅜', 4: '½', 5: '⅝', 6: '¾', 7: '⅞' };
-    return `${whole}${fracSymbols[frac]}"`;
-  }
-
-  function loadSaved() {
-    const saved = localStorage.getItem('grip-calculator');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        if (data.handMeasurement) handInput.value = data.handMeasurement;
-        if (data.comfort !== undefined) {
-          comfortSlider.value = data.comfort;
-          updateComfortLabel();
-        }
-        if (data.isMetric) {
-          isMetric = true;
-          switchUnit(true);
-        }
-        if (data.useOvergrip) useOvergrip.checked = true;
-      } catch {
-        // ignore
-      }
+  function setMethod(method: 'direct' | 'height') {
+    currentMethod = method;
+    if (method === 'direct') {
+      methodDirectBtn.classList.add('bg-ink', 'text-on-primary');
+      methodDirectBtn.classList.remove('bg-canvas-soft', 'text-body');
+      methodHeightBtn.classList.remove('bg-ink', 'text-on-primary');
+      methodHeightBtn.classList.add('bg-canvas-soft', 'text-body');
+      methodDirectPanel.classList.remove('hidden');
+      methodHeightPanel.classList.add('hidden');
+    } else {
+      methodHeightBtn.classList.add('bg-ink', 'text-on-primary');
+      methodHeightBtn.classList.remove('bg-canvas-soft', 'text-body');
+      methodDirectBtn.classList.remove('bg-ink', 'text-on-primary');
+      methodDirectBtn.classList.add('bg-canvas-soft', 'text-body');
+      methodHeightPanel.classList.remove('hidden');
+      methodDirectPanel.classList.add('hidden');
     }
   }
 
-  function savePreferences() {
-    const data = {
-      handMeasurement: handInput.value,
-      comfort: comfortSlider.value,
-      isMetric,
-      useOvergrip: useOvergrip.checked,
-    };
-    localStorage.setItem('grip-calculator', JSON.stringify(data));
-  }
-
-  function switchUnit(toMetric) {
-    isMetric = toMetric;
-    if (toMetric) {
+  function setUnit(metric: boolean) {
+    isMetric = metric;
+    if (metric) {
       unitCm.classList.add('bg-ink', 'text-on-primary');
       unitCm.classList.remove('bg-canvas', 'text-body');
       unitInches.classList.remove('bg-ink', 'text-on-primary');
       unitInches.classList.add('bg-canvas', 'text-body');
       unitLabel.textContent = '(cm)';
-      indexUnitLabel.textContent = '(cm)';
       handInput.placeholder = 'e.g. 10.8';
       indexInput.placeholder = 'e.g. 7.6';
       handInput.step = '0.1';
       indexInput.step = '0.1';
-      if (handInput.value) {
-        handInput.value = (parseFloat(handInput.value) * 2.54).toFixed(1);
-      }
-      if (indexInput.value) {
-        indexInput.value = (parseFloat(indexInput.value) * 2.54).toFixed(1);
-      }
     } else {
       unitInches.classList.add('bg-ink', 'text-on-primary');
       unitInches.classList.remove('bg-canvas', 'text-body');
       unitCm.classList.remove('bg-ink', 'text-on-primary');
       unitCm.classList.add('bg-canvas', 'text-body');
       unitLabel.textContent = '(inches)';
-      indexUnitLabel.textContent = '(inches)';
       handInput.placeholder = 'e.g. 4.25';
       indexInput.placeholder = 'e.g. 3.0';
       handInput.step = '0.0625';
       indexInput.step = '0.0625';
-      if (handInput.value) {
-        handInput.value = (parseFloat(handInput.value) / 2.54).toFixed(3);
-      }
-      if (indexInput.value) {
-        indexInput.value = (parseFloat(indexInput.value) / 2.54).toFixed(3);
-      }
     }
   }
 
-  unitInches.addEventListener('click', () => switchUnit(false));
-  unitCm.addEventListener('click', () => switchUnit(true));
-
-  function updateComfortLabel() {
-    const val = parseInt(comfortSlider.value);
-    if (val === -1) comfortLabel.textContent = 'Tighter (more control, −⅛")';
-    else if (val === 0) comfortLabel.textContent = 'Neutral (no adjustment)';
-    else comfortLabel.textContent = 'Looser (more comfort, +⅛")';
-  }
-  comfortSlider.addEventListener('input', updateComfortLabel);
-
-  function showError(el, msg) {
-    el.textContent = msg;
-    el.classList.remove('hidden');
+  function roundTo8th(val: number): number {
+    return Math.round(val * 8) / 8;
   }
 
-  function clearError(el) {
-    el.textContent = '';
-    el.classList.add('hidden');
+  function formatFractionStr(num: number): string {
+    const whole = Math.floor(num);
+    const frac = Math.round((num - whole) * 8);
+    if (frac === 0) return `${whole}"`;
+    const fracMap: Record<number, string> = { 1: '⅛', 2: '¼', 3: '⅜', 4: '½', 5: '⅝', 6: '¾', 7: '⅞' };
+    return `${whole} ${fracMap[frac] || ''}"`;
   }
 
-  function validate() {
+  function validateDirect(): boolean {
     let valid = true;
-    clearError(handError);
-    clearError(indexError);
+    handError.classList.add('hidden');
+    indexError.classList.add('hidden');
 
     const rawHand = parseFloat(handInput.value);
     if (isNaN(rawHand) || handInput.value.trim() === '') {
-      showError(handError, 'Please enter a hand measurement.');
-      valid = false;
-    } else if (rawHand <= 0) {
-      showError(handError, 'Measurement must be a positive number.');
+      handError.textContent = 'Please enter your palm-to-finger measurement.';
+      handError.classList.remove('hidden');
       valid = false;
     } else {
       const inches = isMetric ? rawHand / 2.54 : rawHand;
-      if (inches < 3) {
-        showError(handError, 'Hand measurement seems too small (minimum ~3" or 7.6 cm). Please re-measure.');
-        valid = false;
-      } else if (inches > 6) {
-        showError(handError, 'Hand measurement seems too large (maximum ~6" or 15.2 cm). Please re-measure.');
+      if (inches < 3.0 || inches > 6.0) {
+        handError.textContent = `Measurement (${rawHand}${isMetric ? 'cm' : '"'}) seems out of range (typical: 3.5" to 5.0"). Please re-check.`;
+        handError.classList.remove('hidden');
         valid = false;
       }
     }
 
     const rawIndex = parseFloat(indexInput.value);
     if (!isNaN(rawIndex) && indexInput.value.trim() !== '') {
-      if (rawIndex <= 0) {
-        showError(indexError, 'Index finger length must be a positive number.');
+      const idxInches = isMetric ? rawIndex / 2.54 : rawIndex;
+      if (idxInches < 1.5 || idxInches > 5.0) {
+        indexError.textContent = 'Index finger length seems out of expected range.';
+        indexError.classList.remove('hidden');
         valid = false;
-      } else {
-        const idxInches = isMetric ? rawIndex / 2.54 : rawIndex;
-        if (idxInches < 1.5) {
-          showError(indexError, 'Index finger seems too short (minimum ~1.5" or 3.8 cm).');
-          valid = false;
-        } else if (idxInches > 5) {
-          showError(indexError, 'Index finger seems too long (maximum ~5" or 12.7 cm).');
-          valid = false;
-        }
       }
     }
 
@@ -427,235 +467,241 @@ const relatedTools = [
   }
 
   function calculate() {
-    if (!validate()) return;
+    let baseInches = 4.25;
+    let confidenceText = 'High Confidence';
+    let confidenceClass = 'bg-emerald-500/20 text-emerald-300';
+    let isFallback = false;
 
-    const rawHand = parseFloat(handInput.value);
-    const handInches = isMetric ? rawHand / 2.54 : rawHand;
+    if (currentMethod === 'direct') {
+      if (!validateDirect()) return;
+      const rawHand = parseFloat(handInput.value);
+      baseInches = isMetric ? rawHand / 2.54 : rawHand;
 
-    // Baseline from hand measurement (maps directly to grip circumference)
-    let adjusted = handInches;
-
-    // Comfort preference adjustment (±⅛")
-    const comfortAdj = parseInt(comfortSlider.value) * ADJ_1_8;
-    adjusted += comfortAdj;
-
-    // Overgrip adjustment: if using overgrip, size down by ⅛"
-    if (useOvergrip.checked) {
-      adjusted -= ADJ_1_8;
-    }
-
-    // Two-handed backhand: reduce by ¼"
-    if (twoHanded.checked) {
-      adjusted -= 0.25;
-    }
-
-    // Index finger refinement
-    const hasIndex = indexInput.value.trim() !== '' && !isNaN(parseFloat(indexInput.value));
-    let indexNote = '';
-    if (hasIndex) {
       const rawIndex = parseFloat(indexInput.value);
-      const idxInches = isMetric ? rawIndex / 2.54 : rawIndex;
-      if (idxInches > 3.25) {
-        adjusted += ADJ_1_8;
-        indexNote = `longer index finger (${rawIndex}${isMetric ? ' cm' : '"'}) added ⅛"`;
+      if (!isNaN(rawIndex) && indexInput.value.trim() !== '') {
+        confidenceText = 'High Confidence (Direct + Index Refined)';
       } else {
-        indexNote = `index finger within typical range, no adjustment`;
+        confidenceText = 'High Confidence (Direct Measurement)';
       }
-    }
-
-    // Round to nearest ⅛"
-    const rawRounded = roundToNearest8th(handInches);
-    const finalRounded = roundToNearest8th(adjusted);
-
-    // Clamp to standard grip size range
-    const clamped = Math.min(Math.max(finalRounded, GRIP_SIZES[0].decimal), GRIP_SIZES[GRIP_SIZES.length - 1].decimal);
-
-    // Find closest standard grip size
-    let bestIndex = 0;
-    let bestDiff = Infinity;
-    for (let i = 0; i < GRIP_SIZES.length; i++) {
-      const diff = Math.abs(GRIP_SIZES[i].decimal - clamped);
-      if (diff < bestDiff) {
-        bestDiff = diff;
-        bestIndex = i;
-      }
-    }
-
-    const recommended = GRIP_SIZES[bestIndex];
-
-    // Determine confidence level
-    const comfortChanged = parseInt(comfortSlider.value) !== 0;
-    let confidenceLevel, confidenceClass;
-    if (hasIndex) {
-      confidenceLevel = 'High confidence';
-      confidenceClass = 'bg-emerald-100 text-emerald-800';
-    } else if (comfortChanged || useOvergrip.checked || twoHanded.checked) {
-      confidenceLevel = 'Good estimate';
-      confidenceClass = 'bg-amber-100 text-amber-800';
     } else {
-      confidenceLevel = 'Starting point';
-      confidenceClass = 'bg-sky-100 text-sky-800';
+      isFallback = true;
+      const heightVal = playerHeightSelect.value;
+      const gloveVal = gloveSizeSelect.value;
+
+      const heightMap: Record<string, number> = {
+        'under-54': 4.0,
+        '54-58': 4.125,
+        '59-60': 4.25,
+        '61-63': 4.375,
+        'over-63': 4.5,
+      };
+      const gloveMap: Record<string, number> = {
+        small: -0.125,
+        medium: 0,
+        large: 0.125,
+        xlarge: 0.25,
+      };
+
+      baseInches = (heightMap[heightVal] || 4.25) + (gloveMap[gloveVal] || 0);
+      confidenceText = 'Best Starting Point (Height Fallback)';
+      confidenceClass = 'bg-amber-500/20 text-amber-300';
     }
 
-    // Show results
+    const checkedComfort = document.querySelector('input[name="comfort-pref"]:checked') as HTMLInputElement;
+    const comfortVal = checkedComfort ? parseFloat(checkedComfort.value) : 0;
+
+    let adjustedInches = baseInches + comfortVal;
+
+    if (useOvergrip.checked) {
+      adjustedInches -= 0.125;
+    }
+
+    if (twoHanded.checked) {
+      adjustedInches -= 0.25;
+    }
+
+    const roundedTarget = roundTo8th(adjustedInches);
+    const clampedTarget = Math.min(Math.max(roundedTarget, GRIP_SIZES[0].decimal), GRIP_SIZES[GRIP_SIZES.length - 1].decimal);
+
+    let bestIdx = 0;
+    let minDiff = Infinity;
+    GRIP_SIZES.forEach((gs, idx) => {
+      const diff = Math.abs(gs.decimal - clampedTarget);
+      if (diff < minDiff) {
+        minDiff = diff;
+        bestIdx = idx;
+      }
+    });
+
+    const rec = GRIP_SIZES[bestIdx];
+
     resultsPlaceholder.classList.add('hidden');
     resultsPanel.classList.remove('hidden');
 
-    confidenceBadge.innerHTML = `
-      <span class="${confidenceClass} px-2 py-0.5 rounded-full text-caption-mono">${confidenceLevel}</span>
-    `;
+    confidenceBadge.textContent = confidenceText;
+    confidenceBadge.className = `px-2.5 py-1 rounded-full text-caption-mono ${confidenceClass}`;
 
-    resultSize.textContent = recommended.size;
-    resultMetric.textContent = `${recommended.mm.toFixed(1)} mm circumference (${recommended.decimal.toFixed(3)}")`;
+    resultSize.textContent = rec.size;
+    resultFractionLabel.textContent = `(${rec.decimal.toFixed(3)} in)`;
+    resultMetric.textContent = `${rec.mm.toFixed(1)} mm grip circumference`;
 
-    // Breakdown: raw measurement vs adjustments vs rounded
-    const breakdownLines = [];
-    breakdownLines.push(`Raw hand measurement: ${handInches.toFixed(3)}" → rounded to nearest ⅛": ${formatFraction(rawRounded)} (${rawRounded.toFixed(3)}")`);
-    if (comfortAdj !== 0) {
-      const dir = comfortAdj > 0 ? '+' : '';
-      breakdownLines.push(`Comfort preference: ${dir}${comfortAdj.toFixed(3)}"`);
+    const breakdownItems: string[] = [];
+    if (!isFallback) {
+      const rawHandVal = parseFloat(handInput.value);
+      breakdownItems.push(`• Base measurement: ${rawHandVal}${isMetric ? ' cm' : '"'} (${baseInches.toFixed(3)}")`);
+    } else {
+      breakdownItems.push(`• Estimated baseline from height/glove: ${baseInches.toFixed(3)}"`);
     }
+
+    if (comfortVal !== 0) {
+      const label = comfortVal > 0 ? '+0.125" (Cushioned comfort)' : '-0.125" (Tighter control)';
+      breakdownItems.push(`• Preference adjustment: ${label}`);
+    }
+
     if (useOvergrip.checked) {
-      breakdownLines.push(`Overgrip adjustment: −0.125"`);
+      breakdownItems.push(`• Overgrip adjustment: −0.125" (Sized down for overgrip build-up)`);
     }
-    if (twoHanded.checked) {
-      breakdownLines.push(`Two-handed backhand: −0.250"`);
-    }
-    if (indexNote) {
-      breakdownLines.push(`Index finger refinement: ${indexNote}`);
-    }
-    breakdownLines.push(`Final recommendation (rounded to ⅛"): ${formatFraction(finalRounded)} (${finalRounded.toFixed(3)}") → ${recommended.size}`);
-    resultBreakdown.innerHTML = breakdownLines.map(l => `<div>${l}</div>`).join('');
 
-    // Visual grip-size chart — all standard sizes as horizontal bars
-    const minSize = GRIP_SIZES[0].decimal;
-    const maxSize = GRIP_SIZES[GRIP_SIZES.length - 1].decimal;
-    const range = maxSize - minSize;
+    if (twoHanded.checked) {
+      breakdownItems.push(`• Two-handed backhand adjustment: −0.250"`);
+    }
+
+    breakdownItems.push(`• Final target (rounded to nearest ⅛"): ${formatFractionStr(clampedTarget)} (${clampedTarget.toFixed(3)}") → ${rec.size}`);
+
+    resultBreakdown.innerHTML = breakdownItems.map(item => `<div>${item}</div>`).join('');
+
     sizeChart.innerHTML = GRIP_SIZES.map((gs, i) => {
-      const isSelected = i === bestIndex;
-      const pct = ((gs.decimal - minSize) / range) * 100;
+      const isSelected = i === bestIdx;
+      const barPct = ((gs.decimal - 4.0) / 0.625) * 100;
       return `
-        <div class="flex items-center gap-2 text-caption">
-          <span class="w-14 text-right ${isSelected ? 'text-ink font-medium' : 'text-mute'}">${gs.size}</span>
-          <div class="flex-1 h-7 bg-canvas-soft-2 rounded-xs overflow-hidden relative">
+        <div class="flex items-center gap-3 text-caption">
+          <span class="w-12 text-right ${isSelected ? 'font-semibold text-ink' : 'text-mute'}">${gs.size}</span>
+          <div class="flex-1 h-6 bg-canvas-soft-2 rounded-xs overflow-hidden relative">
             <div
-              class="h-full rounded-xs transition-all duration-500 ${isSelected ? 'bg-ink' : 'bg-hairline'}"
-              style="width: ${Math.max(pct, 8)}%"
+              class="h-full rounded-xs transition-all duration-300 ${isSelected ? 'bg-ink' : 'bg-hairline'}"
+              style="width: ${Math.max(barPct, 12)}%"
             ></div>
-            ${isSelected ? '<div class="absolute inset-y-0 right-1 flex items-center"><span class="text-caption-mono text-on-primary font-medium">← Recommended</span></div>' : ''}
+            ${isSelected ? '<span class="absolute inset-y-0 right-2 flex items-center text-caption-mono text-on-primary font-medium">← Recommended</span>' : ''}
           </div>
-          <span class="w-20 text-right text-mute">${gs.mm.toFixed(1)} mm</span>
+          <span class="w-16 text-right text-mute">${gs.mm.toFixed(1)} mm</span>
         </div>
       `;
     }).join('');
 
-    // Explanation
-    const parts = [];
-    parts.push(`Your hand measurement of <strong>${rawHand}${isMetric ? ' cm' : '"'}</strong> (${handInches.toFixed(3)}") maps to a baseline of <strong>${formatFraction(rawRounded)}</strong>.`);
-
-    if (comfortAdj !== 0) {
-      const dir = comfortAdj > 0 ? 'looser (more comfort)' : 'tighter (more control)';
-      parts.push(`Your ${dir} preference adjusted by ${Math.abs(comfortAdj).toFixed(3)}".`);
+    const explanationText: string[] = [];
+    if (!isFallback) {
+      explanationText.push(`Your measured hand length maps directly to a <strong>${formatFractionStr(roundTo8th(baseInches))}</strong> baseline circumference.`);
+    } else {
+      explanationText.push(`Based on your height and glove size, a baseline of <strong>${formatFractionStr(roundTo8th(baseInches))}</strong> provides an ergonomic starting fit.`);
     }
 
     if (useOvergrip.checked) {
-      parts.push(`Since you plan to use an overgrip (adds ~⅛"), we reduced the recommendation by ⅛" so the final fit is correct.`);
+      explanationText.push(`Because you plan to wrap an overgrip (+1/16" build-up), we recommended buying a <strong>${rec.size}</strong> paddle. Once wrapped, the total grip will expand to your target size.`);
     }
 
     if (twoHanded.checked) {
-      parts.push(`Your two-handed backhand preference reduced the grip by ¼" for better hand stacking.`);
+      explanationText.push(`The ¼" reduction for two-handed backhands provides extra room on the handle for your non-dominant hand.`);
     }
 
-    if (indexNote) {
-      parts.push(indexNote.charAt(0).toUpperCase() + indexNote.slice(1) + '.');
-    }
+    explanationText.push(`Matching your grip size prevents over-squeezing, which reduces forearm strain and improves wrist mobility during dinks and resets.`);
 
-    if (!hasIndex) {
-      parts.push(`For a more precise recommendation, add your index finger length and recalculate.`);
-    }
+    resultExplanation.innerHTML = explanationText.map(t => `<p>${t}</p>`).join('');
 
-    parts.push(`The final value <strong>${formatFraction(finalRounded)}</strong> matches <strong>${recommended.size}</strong> — the standard pickleball grip size for your hand.`);
-    resultExplanation.innerHTML = parts.map(p => `<p>${p}</p>`).join('');
-
-    // Overgrip note
-    const isBetween = bestDiff > 0.03 && bestIndex < GRIP_SIZES.length - 1;
-    if (isBetween && !useOvergrip.checked) {
+    if (useOvergrip.checked) {
+      overgripNote.className = 'rounded-lg p-4 bg-cyan-soft/30 border border-cyan-deep/20';
       overgripNote.innerHTML = `
-        <div class="flex items-start gap-3">
-          <div class="w-5 h-5 mt-0.5 rounded-full bg-link/10 flex items-center justify-center flex-shrink-0">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-link"><path d="M6 4v3M6 8.5h.005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <p class="text-body-sm-strong text-ink mb-1">Between sizes? Try an overgrip</p>
-            <p class="text-caption text-body">Your measurement is between ${recommended.size} and ${GRIP_SIZES[bestIndex + 1]?.size || '—'}. Sizing down to <strong>${recommended.size}</strong> and adding one overgrip (adds ~⅛") often provides the best fit and allows fine-tuning.</p>
-          </div>
-        </div>
+        <p class="text-body-sm-strong text-ink mb-1">✓ Sized for overgrip build-up</p>
+        <p class="text-caption text-body">Buying a paddle in <strong>${rec.size}</strong> and adding 1 standard overgrip (0.6 mm) brings your effective grip to ${formatFractionStr(clampedTarget + 0.125)}.</p>
       `;
     } else {
+      overgripNote.className = 'rounded-lg p-4 bg-canvas-soft border border-hairline';
       overgripNote.innerHTML = `
-        <div class="flex items-start gap-3">
-          <div class="w-5 h-5 mt-0.5 rounded-full bg-cyan-deep/10 flex items-center justify-center flex-shrink-0">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-cyan-deep"><path d="M3.5 6.5L5 8L8.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <p class="text-body-sm-strong text-ink mb-1">Good fit at ${recommended.size}</p>
-            <p class="text-caption text-body">Your measurement aligns well with this size. You can still add an overgrip if you prefer a slightly larger feel or want extra cushion.</p>
-          </div>
-        </div>
+        <p class="text-body-sm-strong text-ink mb-1">Using standard replacement grip</p>
+        <p class="text-caption text-body">If you decide to add an overgrip later, your grip will expand by ~⅛". If you feel between sizes, opt for ${rec.size} and add an overgrip to fine-tune.</p>
       `;
     }
 
-    // Issue-specific advice
     const issue = issueSelect.value;
     if (issue !== 'none') {
       issueAdvice.classList.remove('hidden');
-      const messages = {
-        slipping: 'If your paddle slips during play, the grip may be too small. A slightly larger grip or a tackier overgrip (such as a perforated dry overgrip) can help. Make sure you are not using a worn-out grip.',
-        fatigue: 'Hand fatigue and cramping often indicate a grip that is too small, causing you to squeeze harder. Moving up ⅛" can reduce the effort needed to hold the paddle securely.',
-        blisters: 'Blisters and hot spots usually come from a grip that is too large (causing sliding) or too small (causing excess pressure). The right size should let you hold firmly without white-knuckling.',
-        'wrist-pain': 'Wrist and elbow pain can be aggravated by an incorrect grip size. A grip that is too small increases wrist torque; too large increases forearm strain. Consider also checking your paddle weight and core thickness.',
+      const issueMsgs: Record<string, string> = {
+        slipping: 'Slipping often indicates a grip that is too small or worn out. Consider a tackier perforated overgrip or sizing up ⅛".',
+        fatigue: 'Hand fatigue and forearm cramping usually result from a grip that is too small, forcing you to death-grip the handle.',
+        blisters: 'Blisters occur when the grip shifts in your palm. A correct fit eliminates excess friction during off-center hits.',
+        'wrist-pain': 'Wrist or elbow discomfort is aggravated by excessive torque. Ensure your grip size lets your fingers rest naturally without overlapping tightly.',
       };
       issueAdvice.innerHTML = `
-        <div class="flex items-start gap-3">
-          <div class="w-5 h-5 mt-0.5 rounded-full bg-warning/20 flex items-center justify-center flex-shrink-0">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-warning-deep"><path d="M6 4v3M6 8.5h.005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <p class="text-body-sm-strong text-ink mb-1">About your grip issue</p>
-            <p class="text-caption text-body">${messages[issue] || ''}</p>
-          </div>
-        </div>
+        <p class="text-body-sm-strong text-ink mb-1">Grip issue advisory</p>
+        <p class="text-caption text-body">${issueMsgs[issue] || ''}</p>
       `;
     } else {
       issueAdvice.classList.add('hidden');
     }
 
-    // Next steps
     nextSteps.innerHTML = `
       <li>
-        <a href="/tools/overgrip-weight-adjustment/" class="flex items-center gap-2 text-body-sm text-link no-underline hover:underline">
+        <a href="/tools/overgrip-weight-adjustment/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          See how overgrips affect your grip size and paddle weight
+          See how overgrips adjust paddle weight and balance
         </a>
       </li>
       <li>
-        <a href="/tools/paddle-weight-advisor/" class="flex items-center gap-2 text-body-sm text-link no-underline hover:underline">
+        <a href="/tools/paddle-weight-advisor/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Find the right paddle weight for your play style
+          Find the right paddle weight range for your play style
         </a>
       </li>
-      ${issue === 'wrist-pain' ? `
-      <li>
-        <a href="/tools/arm-friendly-paddle-finder/" class="flex items-center gap-2 text-body-sm text-link no-underline hover:underline">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Find arm-friendly paddle specs to reduce strain
-        </a>
-      </li>
-      ` : ''}
     `;
 
-    savePreferences();
+    saveState();
   }
+
+  function saveState() {
+    try {
+      const data = {
+        method: currentMethod,
+        isMetric,
+        handMeasurement: handInput.value,
+        indexFinger: indexInput.value,
+        playerHeight: playerHeightSelect.value,
+        gloveSize: gloveSizeSelect.value,
+        comfortPref: (document.querySelector('input[name="comfort-pref"]:checked') as HTMLInputElement)?.value || '0',
+        useOvergrip: useOvergrip.checked,
+        twoHanded: twoHanded.checked,
+        currentIssues: issueSelect.value,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+
+      if (data.method) setMethod(data.method);
+      if (data.isMetric) setUnit(true);
+      if (data.handMeasurement) handInput.value = data.handMeasurement;
+      if (data.indexFinger) indexInput.value = data.indexFinger;
+      if (data.playerHeight) playerHeightSelect.value = data.playerHeight;
+      if (data.gloveSize) gloveSizeSelect.value = data.gloveSize;
+      if (data.useOvergrip) useOvergrip.checked = data.useOvergrip;
+      if (data.twoHanded) twoHanded.checked = data.twoHanded;
+      if (data.currentIssues) issueSelect.value = data.currentIssues;
+
+      if (data.comfortPref) {
+        const radio = document.querySelector(`input[name="comfort-pref"][value="${data.comfortPref}"]`) as HTMLInputElement;
+        if (radio) radio.checked = true;
+      }
+    } catch {}
+  }
+
+  methodDirectBtn.addEventListener('click', () => setMethod('direct'));
+  methodHeightBtn.addEventListener('click', () => setMethod('height'));
+
+  unitInches.addEventListener('click', () => setUnit(false));
+  unitCm.addEventListener('click', () => setUnit(true));
 
   calculateBtn.addEventListener('click', calculate);
 
@@ -663,5 +709,5 @@ const relatedTools = [
     if (e.key === 'Enter') calculate();
   });
 
-  loadSaved();
+  loadState();
 </script>

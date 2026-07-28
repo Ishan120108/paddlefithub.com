@@ -3,82 +3,137 @@ import Layout from '../layouts/Layout.astro';
 import ToolCard from '../components/ToolCard.astro';
 
 const tools = [
-  { title: 'Grip Size Calculator', description: 'Vernier hand measurement for ideal grip size.', href: '/tools/grip-size-calculator/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 13"/></svg>' },
-  { title: 'Paddle Weight Advisor', description: 'Weight recommendations by play style and arm health.', href: '/tools/paddle-weight-advisor/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>' },
-  { title: 'Paddle Shape Fit', description: 'Compare standard, hybrid, and elongated shapes.', href: '/tools/paddle-shape-fit/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 6v12"/><path d="M2 12h20"/></svg>' },
-  { title: 'Core Thickness Advisor', description: '14 mm, 16 mm, and 20 mm core tradeoffs.', href: '/tools/core-thickness-advisor/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v4"/><path d="M7 3v4"/><path d="M17 3v4"/><path d="M21 3v4"/><path d="M2 19h20"/><path d="M3 17v4"/><path d="M7 17v4"/><path d="M17 17v4"/><path d="M21 17v4"/></svg>' },
-  { title: 'Overgrip Weight Adjustment', description: 'How overgrips change weight, grip size, and balance.', href: '/tools/overgrip-weight-adjustment/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>' },
-  { title: 'Arm-Friendly Paddle Finder', description: 'Specs that minimize vibration and arm strain.', href: '/tools/arm-friendly-paddle-finder/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>' },
-  { title: 'Round-Robin Generator', description: 'Fair doubles rotation schedules with court assignments.', href: '/tools/round-robin-generator/', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+  {
+    title: 'Grip Size Calculator',
+    description: 'Exact Vernier measurement & height-based estimation rounded to standard 1/8" paddle sizes.',
+    href: '/tools/grip-size-calculator/',
+    tag: 'ESSENTIAL',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 13"/></svg>'
+  },
+  {
+    title: 'Paddle Weight Advisor',
+    description: 'Find your target weight range (7.2 – 8.8 oz) balancing hand speed, stability, and drive power.',
+    href: '/tools/paddle-weight-advisor/',
+    tag: 'PERFORMANCE',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>'
+  },
+  {
+    title: 'Paddle Shape Fit',
+    description: 'Compare Standard (16"×8"), Hybrid (16.25"×7.8"), and Elongated (16.5"×7.5") geometric fits.',
+    href: '/tools/paddle-shape-fit/',
+    tag: 'SPECS',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 6v12"/><path d="M2 12h20"/></svg>'
+  },
+  {
+    title: 'Core Thickness Advisor',
+    description: 'Understand 14mm, 16mm, and 20mm core physics tradeoffs for pop vs soft reset touch.',
+    href: '/tools/core-thickness-advisor/',
+    tag: 'PHYSICS',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M2 5h20"/><path d="M3 3v4"/><path d="M17 3v4"/><path d="M21 3v4"/><path d="M2 19h20"/><path d="M3 17v4"/><path d="M7 17v4"/><path d="M17 17v4"/><path d="M21 17v4"/></svg>'
+  },
+  {
+    title: 'Overgrip Weight Adjustment',
+    description: 'Calculate static mass addition (+7g), grip expansion (+1/16"), and handle balance shift.',
+    href: '/tools/overgrip-weight-adjustment/',
+    tag: 'ADJUSTMENT',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>'
+  },
+  {
+    title: 'Arm Comfort Recommendation Tool',
+    description: 'Equipment spec recommendations focused on shock absorption and vibration reduction.',
+    href: '/tools/arm-friendly-paddle-finder/',
+    tag: 'COMFORT',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>'
+  },
+  {
+    title: 'Round-Robin Generator',
+    description: 'Fair tournament and rec play rotation schedules for Doubles (2v2) and Singles (1v1).',
+    href: '/tools/round-robin-generator/',
+    tag: 'EVENT',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 1 0 7.75"/></svg>'
+  },
 ];
 
 const benefits = [
-  { title: 'Free forever.', description: 'Every calculator is free, no sign-up required.' },
-  { title: 'Data-driven results.', description: 'Real measurements and researched formulas, not guesswork.' },
-  { title: 'Works on any device.', description: 'Fully responsive for mobile, tablet, and desktop.' },
+  {
+    title: '100% Free & No Sign-up Required',
+    description: 'Every calculator is completely free to use. No account creation, popups, or paywalls.'
+  },
+  {
+    title: 'Researched Bio-Mechanics & Physics',
+    description: 'Formulas built around real paddle dimensions, USA Pickleball rules, and hand ergonomics.'
+  },
+  {
+    title: 'Instant Results Saved to Your Device',
+    description: 'Calculations run instantly in your browser and automatically remember your setup choices.'
+  },
 ];
 ---
 
 <Layout
-  title="Pickleball Calculators Hub - Find Your Perfect Paddle Fit | PaddleFitHub"
-  description="Free pickleball calculators: grip size, paddle weight, shape fit, core thickness, overgrip adjustment, arm-friendly finder, round-robin generator."
+  title="Pickleball Calculators Hub — Find Your Perfect Paddle Fit | PaddleFitHub"
+  description="Free, data-driven pickleball calculators to optimize your grip size, paddle weight, shape fit, core thickness, overgrips, and rotation schedules."
   canonicalPath="/"
 >
+  <!-- Hero Section -->
   <section class="relative overflow-hidden bg-canvas" id="hero">
     <div class="absolute inset-0 opacity-20 pointer-events-none" aria-hidden="true">
       <div class="absolute inset-0" style="background: radial-gradient(ellipse at 20% 50%, #007cf0 0%, transparent 50%), radial-gradient(ellipse at 60% 20%, #00dfd8 0%, transparent 40%), radial-gradient(ellipse at 80% 60%, #7928ca 0%, transparent 50%), radial-gradient(ellipse at 40% 80%, #ff0080 0%, transparent 40%), radial-gradient(ellipse at 90% 30%, #f9cb28 0%, transparent 35%);"></div>
     </div>
-    <div class="container-page relative py-24 md:py-32 lg:py-40">
+    <div class="container-page relative py-20 md:py-28 lg:py-32">
       <div class="max-w-3xl">
         <div class="badge-mono mb-6">
           <span class="w-1.5 h-1.5 rounded-full bg-cyan-deep inline-block"></span>
           paddlefithub.com
         </div>
         <h1 class="text-display-xl text-ink mb-6">Find your perfect paddle fit.</h1>
-        <p class="text-body-lg text-body mb-8 max-w-xl">Free, data-driven calculators to help pickleball players choose the right grip size, paddle weight, shape, and more.</p>
+        <p class="text-body-lg text-body mb-8 max-w-2xl">
+          Free, data-driven pickleball calculators to optimize your grip size, paddle weight, shape fit, core thickness, overgrips, and rotation schedules.
+        </p>
         <div class="flex flex-wrap gap-3">
-          <a href="/tools/grip-size-calculator/" class="btn-primary">
-            Start with Grip Size
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="/tools/grip-size-calculator/" aria-label="Start with Grip Size Calculator" class="btn-primary">
+            Start with Grip Size Calculator
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="#tools" class="btn-secondary">View All Tools</a>
+          <a href="#tools" aria-label="Explore All 7 Tools" class="btn-secondary">Explore All 7 Tools</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-canvas-soft py-16 md:py-20" id="intro">
+  <!-- Tools Hub Grid Section -->
+  <section class="bg-canvas-soft py-16 md:py-24 border-t border-hairline" id="tools">
     <div class="container-page">
-      <div class="max-w-2xl mx-auto text-center">
-        <p class="text-body-lg text-body">PaddleFitHub gives you the tools to make confident, informed decisions about your pickleball setup. Every calculator is designed around real-world measurements.</p>
+      <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Calculator Suite</p>
+          <h2 class="text-display-lg text-ink">Calculators built for precision.</h2>
+        </div>
+        <p class="text-body-sm text-mute max-w-sm m-0">
+          Select any tool below to analyze your equipment baseline or tournament schedule.
+        </p>
       </div>
-    </div>
-  </section>
 
-  <section class="bg-canvas-soft py-16 md:py-24" id="tools">
-    <div class="container-page">
-      <div class="mb-10">
-        <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Calculators</p>
-        <h2 class="text-display-lg text-ink">Every tool you need.</h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {tools.map((tool) => (
-          <ToolCard title={tool.title} description={tool.description} href={tool.href} icon={tool.icon} />
+          <ToolCard title={tool.title} description={tool.description} href={tool.href} icon={tool.icon} tag={tool.tag} />
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-ink py-16 md:py-24" id="benefits">
+  <!-- Trust Benefits Section -->
+  <section class="bg-ink py-16 md:py-24 text-on-primary" id="benefits">
     <div class="container-page">
-      <div class="text-center mb-12">
-        <p class="text-caption-mono text-hairline-strong uppercase tracking-wide mb-2">Why PaddleFitHub</p>
-        <h2 class="text-display-lg text-on-primary">Tools built for players.</h2>
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <p class="text-caption-mono text-hairline-strong uppercase tracking-wide mb-2">Why Players Trust PaddleFitHub</p>
+        <h2 class="text-display-lg text-on-primary">Data-driven equipment confidence.</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {benefits.map((benefit) => (
-          <div class="text-center p-6">
-            <h3 class="text-display-sm text-on-primary mb-2">{benefit.title}</h3>
+          <div class="bg-white/5 border border-white/10 rounded-lg p-6 text-center">
+            <h3 class="text-display-sm text-on-primary mb-3 font-semibold">{benefit.title}</h3>
             <p class="text-body-sm text-hairline-strong m-0">{benefit.description}</p>
           </div>
         ))}
@@ -86,11 +141,16 @@ const benefits = [
     </div>
   </section>
 
-  <section class="bg-canvas-soft py-16 md:py-24" id="cta">
-    <div class="container-page text-center">
-      <h2 class="text-display-lg text-ink mb-4">Ready to find your fit?</h2>
-      <p class="text-body-lg text-body mb-8 max-w-lg mx-auto">Start with the grip size calculator - the foundation of every good paddle setup.</p>
-      <a href="/tools/grip-size-calculator/" class="btn-primary">Get Started</a>
+  <!-- CTA Banner Section -->
+  <section class="bg-canvas py-16 md:py-20 border-t border-hairline" id="cta">
+    <div class="container-page text-center max-w-2xl mx-auto">
+      <h2 class="text-display-lg text-ink mb-4">Ready to optimize your paddle?</h2>
+      <p class="text-body-lg text-body mb-8">
+        Start with grip size — the essential foundation of comfort, wrist snap, and fatigue reduction.
+      </p>
+      <a href="/tools/grip-size-calculator/" aria-label="Calculate My Grip Size" class="btn-primary inline-flex">
+        Calculate My Grip Size
+      </a>
     </div>
   </section>
 </Layout>

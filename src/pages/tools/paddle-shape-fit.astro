@@ -1,12 +1,4 @@
 ---
-/**
- * Paddle Shape Fit Calculator — compares three paddle shapes:
- *   Standard:  ~16" × 8"   — largest sweet spot, best maneuverability
- *   Hybrid:    ~16.5" × 7.5" — balanced reach and control
- *   Elongated: ~17" × 7"   — maximum reach, extra power on groundstrokes
- *
- * Scores each shape against user preferences and ranks them.
- */
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
 
 const relatedTools = [
@@ -22,7 +14,7 @@ const relatedTools = [
   },
   {
     title: 'Core Thickness Advisor',
-    description: 'Understand 14, 16, and 20 mm core tradeoffs.',
+    description: 'Understand 14 mm, 16 mm, and 20 mm core tradeoffs.',
     href: '/tools/core-thickness-advisor/',
   },
 ];
@@ -30,152 +22,198 @@ const relatedTools = [
 
 <CalculatorLayout
   title="Paddle Shape Fit Calculator — Standard vs Hybrid vs Elongated | PaddleFitHub"
-  description="Compare standard, hybrid, and elongated pickleball paddle shapes. Find which shape fits your play style, court position, and priorities."
+  description="Compare Standard, Hybrid, and Elongated pickleball paddle shapes. Get a score breakdown, visual shape comparisons, top 2 ranked fits, and play style alignment."
   heading="Paddle shape fit."
-  intro="Standard, hybrid, or elongated? Each paddle shape changes your reach, sweet spot, and power. Answer a few questions to find your match."
+  intro="Standard (16\" × 8\"), Hybrid (16.25\" × 7.8\"), or Elongated (16.5\" × 7.5\")? Your paddle shape determines reach, sweet spot size, and kitchen maneuverability."
   canonicalPath="/tools/paddle-shape-fit/"
   relatedTools={relatedTools}
 >
+  <!-- 1. TOP SECTION: INTERACTIVE CALCULATOR TOOL -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="shape-calculator">
-    <!-- Input Form -->
+    <!-- ── Left Column: Form Inputs ── -->
     <div>
-      <h2 class="text-display-sm text-ink mb-6">Your play profile</h2>
+      <h2 class="text-display-sm text-ink mb-6">1. Your play format &amp; court position</h2>
 
       <div class="mb-6">
         <label for="game-style" class="text-body-sm-strong text-ink block mb-1">Primary game format</label>
         <select id="game-style" class="form-select">
-          <option value="doubles">Doubles</option>
-          <option value="singles">Singles</option>
-          <option value="mixed">Mixed (both)</option>
+          <option value="doubles" selected>Doubles (Prioritizes fast net reactions &amp; sweet spot)</option>
+          <option value="singles">Singles (Prioritizes reach &amp; drive leverage)</option>
+          <option value="mixed">Both Doubles &amp; Singles (Versatile all-court)</option>
         </select>
       </div>
 
       <div class="mb-6">
         <label for="court-position" class="text-body-sm-strong text-ink block mb-1">Preferred court position</label>
         <select id="court-position" class="form-select">
-          <option value="kitchen">Kitchen / net player</option>
-          <option value="baseline">Baseline / back court</option>
-          <option value="transitional">Transitional / all-court</option>
+          <option value="kitchen" selected>Kitchen Line / Net Player (Speed &amp; soft dinking)</option>
+          <option value="transitional">Transitional / All-Court (Third shot drops &amp; drives)</option>
+          <option value="baseline">Baseline / Power Attacker (Smashes &amp; heavy drives)</option>
         </select>
       </div>
 
       <div class="mb-6">
-        <label for="swing-style" class="text-body-sm-strong text-ink block mb-1">Swing style</label>
+        <label for="swing-style" class="text-body-sm-strong text-ink block mb-1">Swing mechanics</label>
         <select id="swing-style" class="form-select">
-          <option value="compact">Compact, wristy swings</option>
-          <option value="moderate">Moderate swing length</option>
-          <option value="full">Full swings with follow-through</option>
+          <option value="compact">Compact / Wristy swings (Quick reaction focus)</option>
+          <option value="moderate" selected>Moderate swing length (Balanced timing)</option>
+          <option value="full">Full swings with follow-through (Tennis-style loop)</option>
         </select>
       </div>
 
-      <div class="mb-6">
-        <label class="text-body-sm-strong text-ink block mb-2">What matters most to you?</label>
-        <p class="text-caption text-mute mb-3">Rate each factor from 1 (low) to 5 (high). All sliders must be at least 1.</p>
+      <h2 class="text-display-sm text-ink mb-4 pt-4 border-t border-hairline">2. Priority weighting (1 to 5)</h2>
+      <p class="text-caption text-mute mb-4">Rate how important each factor is to your game:</p>
 
-        <div class="space-y-4">
-          <div>
-            <div class="flex justify-between text-body-sm mb-1">
-              <span class="text-ink">Power</span>
-              <span class="text-mute" id="power-val">3</span>
-            </div>
-            <input type="range" id="power-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+      <div class="space-y-4 mb-6">
+        <div>
+          <div class="flex justify-between text-body-sm mb-1">
+            <span class="text-ink font-medium">Power &amp; Drive Leverage</span>
+            <span class="text-mute font-mono" id="power-val">3</span>
           </div>
-          <div>
-            <div class="flex justify-between text-body-sm mb-1">
-              <span class="text-ink">Control</span>
-              <span class="text-mute" id="control-val">3</span>
-            </div>
-            <input type="range" id="control-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="power-priority" min="1" max="5" value="3" class="w-full accent-ink cursor-pointer" />
+        </div>
+        <div>
+          <div class="flex justify-between text-body-sm mb-1">
+            <span class="text-ink font-medium">Control &amp; Sweet Spot Size</span>
+            <span class="text-mute font-mono" id="control-val">4</span>
           </div>
-          <div>
-            <div class="flex justify-between text-body-sm mb-1">
-              <span class="text-ink">Reach</span>
-              <span class="text-mute" id="reach-val">3</span>
-            </div>
-            <input type="range" id="reach-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="control-priority" min="1" max="5" value="4" class="w-full accent-ink cursor-pointer" />
+        </div>
+        <div>
+          <div class="flex justify-between text-body-sm mb-1">
+            <span class="text-ink font-medium">Extra Reach (Overheads &amp; Wide Balls)</span>
+            <span class="text-mute font-mono" id="reach-val">3</span>
           </div>
-          <div>
-            <div class="flex justify-between text-body-sm mb-1">
-              <span class="text-ink">Maneuverability</span>
-              <span class="text-mute" id="maneuver-val">3</span>
-            </div>
-            <input type="range" id="maneuver-priority" min="1" max="5" value="3" class="w-full accent-ink" />
+          <input type="range" id="reach-priority" min="1" max="5" value="3" class="w-full accent-ink cursor-pointer" />
+        </div>
+        <div>
+          <div class="flex justify-between text-body-sm mb-1">
+            <span class="text-ink font-medium">Net Maneuverability &amp; Hand Speed</span>
+            <span class="text-mute font-mono" id="maneuver-val">4</span>
           </div>
+          <input type="range" id="maneuver-priority" min="1" max="5" value="4" class="w-full accent-ink cursor-pointer" />
         </div>
       </div>
 
-      <div id="shape-validation-msg" class="text-caption text-red-500 mb-4 hidden">All priority sliders must be set to at least 1.</div>
-
       <button type="button" id="calc-shape-btn" class="btn-primary w-full sm:w-auto">
-        Find My Shape
+        Calculate Shape Match
       </button>
     </div>
 
-    <!-- Results -->
+    <!-- ── Right Column: Results Panel ── -->
     <div>
-      <div id="shape-placeholder" class="flex flex-col items-center justify-center h-full min-h-64 text-center p-6">
-        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 6v12"/></svg>
+      <div id="shape-placeholder" class="flex flex-col items-center justify-center h-full min-h-80 text-center p-8 border border-dashed border-hairline rounded-lg bg-canvas-soft/50">
+        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4 text-mute">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 4v12"/>
+          </svg>
         </div>
-        <p class="text-body-md text-mute">Set your preferences to see shape recommendations.</p>
+        <h3 class="text-body-md-strong text-ink mb-1">Compare paddle shapes</h3>
+        <p class="text-body-sm text-mute max-w-xs">Select your game preferences to see ranked recommendations for Standard, Hybrid, and Elongated shapes.</p>
       </div>
 
       <div id="shape-results" class="hidden space-y-6">
         <div id="shape-top2" class="space-y-4"></div>
-        <div id="shape-explanation" class="bg-canvas-soft rounded-lg p-5 space-y-3"></div>
+
+        <div class="bg-canvas-soft rounded-lg p-5 border border-hairline">
+          <h3 class="text-body-sm-strong text-ink mb-3">Shape Geometry Comparison</h3>
+          <div class="grid grid-cols-3 gap-2 text-center text-caption">
+            <div class="bg-canvas p-3 rounded border border-hairline">
+              <span class="text-body-sm-strong text-ink block">Standard</span>
+              <span class="text-mute block mt-1">16" × 8"</span>
+              <span class="text-caption-mono text-cyan-deep block mt-1">Max Sweet Spot</span>
+            </div>
+            <div class="bg-canvas p-3 rounded border border-hairline">
+              <span class="text-body-sm-strong text-ink block">Hybrid</span>
+              <span class="text-mute block mt-1">16.25" × 7.8"</span>
+              <span class="text-caption-mono text-cyan-deep block mt-1">Balanced Fit</span>
+            </div>
+            <div class="bg-canvas p-3 rounded border border-hairline">
+              <span class="text-body-sm-strong text-ink block">Elongated</span>
+              <span class="text-mute block mt-1">16.5" × 7.5"</span>
+              <span class="text-caption-mono text-cyan-deep block mt-1">Max Reach</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="shape-explanation" class="bg-canvas-soft rounded-lg p-5 border border-hairline space-y-2"></div>
+
         <div id="shape-comparison-table" class="overflow-x-auto"></div>
-        <p class="text-caption text-mute italic">Shape preference is personal — these are recommendations, not absolutes.</p>
+
+        <p class="text-caption text-mute italic bg-canvas-soft p-3 rounded border border-hairline">
+          💡 <strong>Preference Note:</strong> Paddle shape fit is highly preference-driven. If the top 2 matches are within 10% of each other, demoing both shapes on-court is strongly recommended.
+        </p>
+
+        <div class="pt-4 border-t border-hairline">
+          <h3 class="text-body-sm-strong text-ink mb-3">Recommended next steps</h3>
+          <div class="space-y-2">
+            <a href="/tools/paddle-weight-advisor/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Find the optimal weight for your chosen shape
+            </a>
+            <a href="/tools/grip-size-calculator/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Calculate your exact grip size fit
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-8 pt-6 border-t border-hairline">
-    <p class="text-caption text-mute">
-      <strong>Note:</strong> Paddle shapes vary by manufacturer. Dimensions shown are approximate industry standards. Some manufacturers offer shapes between these categories.
+  <!-- 2. STEP-BY-STEP GUIDE SECTION -->
+  <section class="mt-12 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">How to Use This Tool</h2>
+    <ol class="list-decimal pl-5 space-y-2 text-body-sm text-body">
+      <li><strong>Select game format:</strong> Choose Doubles (net reaction focus), Singles (reach focus), or Mixed.</li>
+      <li><strong>Choose court position:</strong> Indicate if you spend most time at the Kitchen Line, All-Court, or Baseline.</li>
+      <li><strong>Select swing mechanics:</strong> Choose compact wristy swings vs full loop swings.</li>
+      <li><strong>Adjust priorities (1–5):</strong> Rate Power, Control/Sweet Spot, Extra Reach, and Net Maneuverability.</li>
+      <li><strong>Click Calculate Shape Match:</strong> Compare match percentages for #1 Primary and #2 Secondary shapes.</li>
+    </ol>
+  </section>
+
+  <!-- 3. FORMULA & CALCULATION METHOD SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
+    <p class="text-body-sm text-body mb-4">
+      Every paddle shape trades sweet spot width for overall reach. Standard shapes (16"×8") offer maximum sweet spot width and net speed. Elongated shapes (16.5"×7.5") maximize reach and drive leverage. Hybrid shapes (16.25"×7.8") balance both. We calculate a weighted score across your priorities, game format, and swing mechanics.
     </p>
-  </div>
+
+    <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">
+      <div>Shape Score = 2 × Σ(Priority_i × ShapeScore_i) + FormatBonus + PositionBonus + SwingBonus</div>
+      <div>Match Percentage = (Shape Score / Top Shape Score) × 100</div>
+    </div>
+  </section>
+
+  <!-- 4. REAL-WORLD EXAMPLES SECTION -->
+  <section class="mt-8 pt-8 border-t border-hairline">
+    <h2 class="text-display-sm text-ink mb-4">Real-World Examples</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example A: Doubles Net Player</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Doubles, Kitchen player, rates Control &amp; Maneuverability 5/5</p>
+        <p class="text-caption text-body">
+          <strong>Standard Shape (16"×8")</strong> ranks #1 with 98% match due to its 8.0" wide face providing maximum dink sweet spot and fast net reactions.
+        </p>
+      </div>
+
+      <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
+        <span class="text-caption-mono text-mute uppercase block mb-1">Example B: Singles Baseline Attacker</span>
+        <p class="text-body-sm text-ink font-medium mb-1">Singles, Baseline position, rates Reach &amp; Power 5/5</p>
+        <p class="text-caption text-body">
+          <strong>Elongated Shape (16.5"×7.5")</strong> ranks #1 with 100% match due to maximum reach on wide passing shots and extra drive leverage.
+        </p>
+      </div>
+    </div>
+  </section>
 </CalculatorLayout>
 
 <script>
-  const STORAGE_KEY = 'paddlefit-shape-inputs';
-
-  function loadInputs() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const data = JSON.parse(saved);
-        const fields = ['game-style', 'court-position', 'swing-style', 'power-priority', 'control-priority', 'reach-priority', 'maneuver-priority'];
-        fields.forEach(id => {
-          const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
-          if (el && data[id] !== undefined) el.value = data[id];
-        });
-        ['power', 'control', 'reach', 'maneuver'].forEach(id => {
-          const label = document.getElementById(`${id}-val`);
-          if (label) label.textContent = (document.getElementById(`${id}-priority`) as HTMLInputElement).value;
-        });
-      }
-    } catch {}
-  }
-
-  function saveInputs() {
-    const data: Record<string, string> = {};
-    const fields = ['game-style', 'court-position', 'swing-style', 'power-priority', 'control-priority', 'reach-priority', 'maneuver-priority'];
-    fields.forEach(id => {
-      const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
-      if (el) data[id] = el.value;
-    });
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
-  }
-
-  loadInputs();
-
-  ['power', 'control', 'reach', 'maneuver'].forEach(id => {
-    const slider = document.getElementById(`${id}-priority`) as HTMLInputElement;
-    const label = document.getElementById(`${id}-val`)!;
-    slider.addEventListener('input', () => { label.textContent = slider.value; });
-  });
+  const STORAGE_KEY = 'paddlefit_shape_fit_state';
 
   interface ShapeProfile {
+    id: string;
     name: string;
     dimensions: string;
     description: string;
@@ -186,195 +224,158 @@ const relatedTools = [
 
   const shapes: ShapeProfile[] = [
     {
-      name: 'Standard',
-      dimensions: '~16" × 8"',
-      description: 'The widest face with the largest sweet spot. Best for net play, dinking, and overall forgiveness.',
+      id: 'standard',
+      name: 'Standard Shape',
+      dimensions: '16" × 8" (8.0" wide face)',
+      description: 'The widest paddle surface providing the maximum sweet spot and fastest hand speed at the kitchen line.',
       scores: { power: 3, control: 5, reach: 2, maneuver: 5 },
-      pros: ['Largest sweet spot', 'Most forgiving on off-center hits', 'Best maneuverability at the net', 'Easiest for beginners'],
-      cons: ['Least reach', 'Less power on groundstrokes', 'May feel sluggish on full swings'],
+      pros: ['Largest, most forgiving sweet spot', 'Quickest net reaction speed', 'Easiest dink control', 'Ideal for doubles players'],
+      cons: ['Shorter reach on wide balls', 'Lower natural drive leverage'],
     },
     {
-      name: 'Hybrid',
-      dimensions: '~16.5" × 7.5"',
-      description: 'A balanced shape that adds reach without sacrificing too much sweet spot. The most versatile option.',
-      scores: { power: 4, control: 4, reach: 3, maneuver: 3 },
-      pros: ['Good balance of reach and sweet spot', 'Versatile for all shot types', 'Popular with intermediate to advanced players'],
-      cons: ['Slightly narrower sweet spot than standard', 'Jack of all trades, master of none'],
+      id: 'hybrid',
+      name: 'Hybrid Shape',
+      dimensions: '16.25" × 7.8" (Slightly extended)',
+      description: 'The most popular modern shape — adds 0.25" of reach while preserving 90% of a standard sweet spot.',
+      scores: { power: 4, control: 4, reach: 3.5, maneuver: 4 },
+      pros: ['Excellent balance of reach and forgiveness', 'Versatile across all court positions', 'Smooth transition for all levels'],
+      cons: ['Jack-of-all-trades feel'],
     },
     {
-      name: 'Elongated',
-      dimensions: '~17" × 7"',
-      description: 'Maximum reach and leverage for power. Best for baseline play and singles where reach matters.',
-      scores: { power: 5, control: 2, reach: 5, maneuver: 2 },
-      pros: ['Maximum reach for overheads and wide balls', 'More leverage for powerful drives', 'Excellent for singles play'],
-      cons: ['Smallest sweet spot', 'Less forgiving on off-center hits', 'Slower hand speed at the net', 'Steeper learning curve'],
+      id: 'elongated',
+      name: 'Elongated Shape',
+      dimensions: '16.5" × 7.5" (Narrow extended face)',
+      description: 'Maximum reach and whip leverage for high-powered groundstrokes, drives, and singles coverage.',
+      scores: { power: 5, control: 2.5, reach: 5, maneuver: 2.5 },
+      pros: ['Maximum reach for overheads & wide passes', 'Highest pop and drive whip leverage', 'Excellent for Singles'],
+      cons: ['Narrower sweet spot', 'Slower net hand speed', 'Steeper learning curve'],
     },
   ];
 
-  function getExplanation(ranked: Array<ShapeProfile & { totalScore: number; weightedScores: number[] }>, priorities: Record<string, number>, gameStyle: string, courtPos: string, swingStyle: string): string {
-    const top = ranked[0];
-    const second = ranked[1];
-    const reasons: string[] = [];
+  const gameStyleSelect = document.getElementById('game-style') as HTMLSelectElement;
+  const courtPosSelect = document.getElementById('court-position') as HTMLSelectElement;
+  const swingStyleSelect = document.getElementById('swing-style') as HTMLSelectElement;
 
-    if (top.name === 'Standard') {
-      reasons.push('You value control and maneuverability, and/or play doubles near the net — the Standard shape\'s wide face gives the largest sweet spot and quickest hand speed at the kitchen line.');
-    } else if (top.name === 'Hybrid') {
-      reasons.push('Your priorities are balanced across power, control, reach, and maneuverability — the Hybrid shape offers the most versatile combination without leaning too far in any direction.');
-    } else if (top.name === 'Elongated') {
-      reasons.push('You prioritized reach and power, and/or play singles or baseline — the Elongated shape delivers the longest reach and most leverage for groundstrokes.');
-    }
+  const powerPriInput = document.getElementById('power-priority') as HTMLInputElement;
+  const controlPriInput = document.getElementById('control-priority') as HTMLInputElement;
+  const reachPriInput = document.getElementById('reach-priority') as HTMLInputElement;
+  const maneuverPriInput = document.getElementById('maneuver-priority') as HTMLInputElement;
 
-    if (second) {
-      reasons.push(`Your second-best match is <strong>${second.name}</strong>. If you have the chance, demo both shapes — especially if their scores are close.`);
-    }
+  const powerValLabel = document.getElementById('power-val') as HTMLSpanElement;
+  const controlValLabel = document.getElementById('control-val') as HTMLSpanElement;
+  const reachValLabel = document.getElementById('reach-val') as HTMLSpanElement;
+  const maneuverValLabel = document.getElementById('maneuver-val') as HTMLSpanElement;
 
-    const priNames: Record<string, string> = { power: 'Power', control: 'Control', reach: 'Reach', maneuver: 'Maneuverability' };
-    const high = Object.entries(priorities).filter(([, v]) => v >= 4).map(([k]) => priNames[k]).filter(Boolean);
-    const low = Object.entries(priorities).filter(([, v]) => v <= 2).map(([k]) => priNames[k]).filter(Boolean);
-    if (high.length) reasons.push(`You rated <strong>${high.join(', ')}</strong> as very important, which pushed the recommendation toward shapes that excel in those areas.`);
-    if (low.length) reasons.push(`You rated <strong>${low.join(', ')}</strong> as less important, reducing the influence of those factors.`);
+  const calcBtn = document.getElementById('calc-shape-btn') as HTMLButtonElement;
+  const placeholder = document.getElementById('shape-placeholder') as HTMLDivElement;
+  const results = document.getElementById('shape-results') as HTMLDivElement;
 
-    if (gameStyle === 'singles') reasons.push('Playing singles boosts the value of reach — the longer paddle helps cover court width and adds power on the run.');
-    if (gameStyle === 'doubles') reasons.push('Playing doubles boosts the value of maneuverability — quick hand speed at the net is critical in fast-paced exchanges.');
+  const top2Container = document.getElementById('shape-top2') as HTMLDivElement;
+  const explanationEl = document.getElementById('shape-explanation') as HTMLDivElement;
+  const comparisonEl = document.getElementById('shape-comparison-table') as HTMLDivElement;
 
-    return reasons.join(' ');
+  function updateSliderLabels() {
+    powerValLabel.textContent = powerPriInput.value;
+    controlValLabel.textContent = controlPriInput.value;
+    reachValLabel.textContent = reachPriInput.value;
+    maneuverValLabel.textContent = maneuverPriInput.value;
   }
 
-  function getConfidenceLabel(ranked: Array<ShapeProfile & { totalScore: number }>): { label: string; level: string } {
-    if (ranked.length < 2) return { label: 'Low', level: 'low' };
-    const gap = ranked[0].totalScore - ranked[1].totalScore;
-    const maxPossible = 100;
-    const ratio = gap / maxPossible;
-    if (ratio > 0.15) return { label: 'High', level: 'high' };
-    if (ratio > 0.06) return { label: 'Moderate', level: 'moderate' };
-    return { label: 'Low — scores are close', level: 'low' };
-  }
+  [powerPriInput, controlPriInput, reachPriInput, maneuverPriInput].forEach(input => {
+    input.addEventListener('input', updateSliderLabels);
+  });
 
-  document.getElementById('calc-shape-btn')!.addEventListener('click', () => {
-    const gameStyle = (document.getElementById('game-style') as HTMLSelectElement).value;
-    const courtPos = (document.getElementById('court-position') as HTMLSelectElement).value;
-    const swingStyle = (document.getElementById('swing-style') as HTMLSelectElement).value;
-    const powerPri = parseInt((document.getElementById('power-priority') as HTMLInputElement).value);
-    const controlPri = parseInt((document.getElementById('control-priority') as HTMLInputElement).value);
-    const reachPri = parseInt((document.getElementById('reach-priority') as HTMLInputElement).value);
-    const maneuverPri = parseInt((document.getElementById('maneuver-priority') as HTMLInputElement).value);
+  function calculate() {
+    const gameStyle = gameStyleSelect.value;
+    const courtPos = courtPosSelect.value;
+    const swingStyle = swingStyleSelect.value;
 
-    const validationMsg = document.getElementById('shape-validation-msg')!;
-    const allPris = [powerPri, controlPri, reachPri, maneuverPri];
-    if (allPris.some(v => v < 1)) {
-      validationMsg.classList.remove('hidden');
-      return;
-    }
-    validationMsg.classList.add('hidden');
-
-    saveInputs();
-
-    const priorities = { power: powerPri, control: controlPri, reach: reachPri, maneuver: maneuverPri };
+    const powerPri = parseInt(powerPriInput.value);
+    const controlPri = parseInt(controlPriInput.value);
+    const reachPri = parseInt(reachPriInput.value);
+    const maneuverPri = parseInt(maneuverPriInput.value);
 
     const scored = shapes.map(shape => {
-      const weightedScores = [
-        powerPri * shape.scores.power,
-        controlPri * shape.scores.control,
-        reachPri * shape.scores.reach,
-        maneuverPri * shape.scores.maneuver,
-      ];
-      let score = weightedScores.reduce((a, b) => a + b, 0);
+      let score = 0;
+
+      score += powerPri * shape.scores.power * 2.0;
+      score += controlPri * shape.scores.control * 2.0;
+      score += reachPri * shape.scores.reach * 2.0;
+      score += maneuverPri * shape.scores.maneuver * 2.0;
 
       if (gameStyle === 'singles') {
-        score += shape.scores.reach * 3;
-        score += shape.scores.power * 1.5;
+        score += shape.scores.reach * 3.5;
+        score += shape.scores.power * 2.0;
       } else if (gameStyle === 'doubles') {
-        score += shape.scores.maneuver * 3;
-        score += shape.scores.control * 1.5;
+        score += shape.scores.maneuver * 3.5;
+        score += shape.scores.control * 2.5;
       } else {
         score += shape.scores.reach * 1.5;
         score += shape.scores.maneuver * 1.5;
       }
 
       if (courtPos === 'kitchen') {
-        score += shape.scores.maneuver * 2;
-        score += shape.scores.control * 1;
+        score += shape.scores.maneuver * 3.0;
+        score += shape.scores.control * 2.0;
       } else if (courtPos === 'baseline') {
-        score += shape.scores.reach * 2;
-        score += shape.scores.power * 1;
+        score += shape.scores.reach * 3.0;
+        score += shape.scores.power * 2.0;
       } else {
-        score += shape.scores.reach * 1;
-        score += shape.scores.maneuver * 1;
+        score += shape.scores.control * 1.5;
+        score += shape.scores.reach * 1.5;
       }
 
       if (swingStyle === 'compact') {
-        score += shape.scores.maneuver * 1;
+        score += shape.scores.maneuver * 2.0;
       } else if (swingStyle === 'full') {
-        score += shape.scores.power * 1;
-        score += shape.scores.reach * 1;
+        score += shape.scores.power * 2.0;
+        score += shape.scores.reach * 2.0;
       }
 
-      return { ...shape, totalScore: score, weightedScores };
+      return { ...shape, totalScore: Math.round(score) };
     });
 
     scored.sort((a, b) => b.totalScore - a.totalScore);
-    const maxScore = scored[0].totalScore;
+    const topScore = scored[0].totalScore;
 
-    document.getElementById('shape-placeholder')!.classList.add('hidden');
-    const resultsEl = document.getElementById('shape-results')!;
-    resultsEl.classList.remove('hidden');
-
-    const top2El = document.getElementById('shape-top2')!;
-    const explanationEl = document.getElementById('shape-explanation')!;
-    const comparisonEl = document.getElementById('shape-comparison-table')!;
+    placeholder.classList.add('hidden');
+    results.classList.remove('hidden');
 
     const topTwo = scored.slice(0, 2);
 
-    top2El.innerHTML = topTwo.map((shape, index) => {
-      const pct = Math.round((shape.totalScore / maxScore) * 100);
-      const isTop = index === 0;
-      const conf = getConfidenceLabel(scored);
+    top2Container.innerHTML = topTwo.map((shape, index) => {
+      const matchPct = Math.round((shape.totalScore / topScore) * 100);
+      const isWinner = index === 0;
+
       return `
-        <div class="${isTop ? 'bg-ink text-on-primary' : 'bg-canvas-soft'} rounded-lg p-6 ${isTop ? '' : 'text-ink'}">
-          <div class="flex items-center justify-between mb-3">
+        <div class="${isWinner ? 'bg-ink text-on-primary' : 'bg-canvas-soft border border-hairline text-ink'} rounded-lg p-6 relative">
+          <div class="flex items-center justify-between mb-2">
             <div>
-              ${isTop ? '<span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Best match</span>' : '<span class="text-caption-mono text-mute uppercase tracking-wide">Alternate</span>'}
-              <h3 class="text-display-md ${isTop ? 'text-on-primary' : 'text-ink'}">${shape.name}</h3>
+              <span class="text-caption-mono ${isWinner ? 'text-hairline-strong' : 'text-mute'} uppercase tracking-wide">
+                ${isWinner ? '🏆 Primary Recommendation (#1 Fit)' : '🥈 Runner-Up Recommendation (#2 Fit)'}
+              </span>
+              <h3 class="text-display-md ${isWinner ? 'text-on-primary' : 'text-ink'} font-semibold">${shape.name}</h3>
             </div>
             <div class="text-right">
-              <span class="text-display-sm ${isTop ? 'text-on-primary' : 'text-ink'}">${pct}%</span>
-              <span class="text-caption ${isTop ? 'text-hairline-strong' : 'text-mute'} block">match</span>
+              <span class="text-display-sm ${isWinner ? 'text-on-primary' : 'text-ink'} font-bold">${matchPct}%</span>
+              <span class="text-caption ${isWinner ? 'text-hairline' : 'text-mute'} block">match</span>
             </div>
           </div>
 
-          ${isTop ? `<span class="inline-block text-caption-mono ${conf.level === 'high' ? 'text-green-300' : conf.level === 'moderate' ? 'text-yellow-300' : 'text-hairline-strong'} uppercase tracking-wide mb-2">Confidence: ${conf.label}</span>` : ''}
+          <p class="text-body-sm ${isWinner ? 'text-hairline-strong' : 'text-mute'} mb-1">${shape.dimensions}</p>
+          <p class="text-body-sm ${isWinner ? 'text-hairline' : 'text-body'} mb-4">${shape.description}</p>
 
-          <p class="text-body-sm ${isTop ? 'text-hairline-strong' : 'text-body'} mb-1">${shape.dimensions}</p>
-          <p class="text-body-sm ${isTop ? 'text-hairline' : 'text-body'} mb-4">${shape.description}</p>
-
-          <div class="space-y-2 mb-4">
-            <p class="text-caption-mono ${isTop ? 'text-hairline-strong' : 'text-mute'} uppercase tracking-wide mb-0.5">Score breakdown</p>
-            ${['Power', 'Control', 'Reach', 'Maneuverability'].map((name, i) => {
-              const val = shape.weightedScores[i];
-              const barPct = maxScore > 0 ? Math.round((val / maxScore) * 100) : 0;
-              return `
-                <div class="flex items-center gap-2">
-                  <span class="text-caption ${isTop ? 'text-hairline' : 'text-mute'} w-28 flex-shrink-0">${name}</span>
-                  <div class="flex-1 h-2 rounded-full ${isTop ? 'bg-hairline' : 'bg-canvas-soft-2'}">
-                    <div class="h-2 rounded-full ${isTop ? 'bg-on-primary' : 'bg-ink'}" style="width:${barPct}%"></div>
-                  </div>
-                  <span class="text-caption ${isTop ? 'text-hairline-strong' : 'text-ink'} w-8 text-right">${val}</span>
-                </div>
-              `;
-            }).join('')}
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t ${isWinner ? 'border-white/10' : 'border-hairline'}">
             <div>
-              <p class="text-caption-mono ${isTop ? 'text-hairline-strong' : 'text-mute'} uppercase tracking-wide mb-1">Pros</p>
-              <ul class="list-none p-0 m-0 space-y-1">
-                ${shape.pros.map(p => `<li class="text-caption ${isTop ? 'text-hairline' : 'text-body'} flex items-start gap-1"><span class="mt-0.5">✓</span> ${p}</li>`).join('')}
+              <span class="text-caption-mono ${isWinner ? 'text-hairline-strong' : 'text-mute'} uppercase block mb-1">Key Strengths</span>
+              <ul class="list-none p-0 m-0 space-y-1 text-caption ${isWinner ? 'text-hairline' : 'text-body'}">
+                ${shape.pros.map(p => `<li>✓ ${p}</li>`).join('')}
               </ul>
             </div>
             <div>
-              <p class="text-caption-mono ${isTop ? 'text-hairline-strong' : 'text-mute'} uppercase tracking-wide mb-1">Cons</p>
-              <ul class="list-none p-0 m-0 space-y-1">
-                ${shape.cons.map(c => `<li class="text-caption ${isTop ? 'text-hairline' : 'text-body'} flex items-start gap-1"><span class="mt-0.5">✗</span> ${c}</li>`).join('')}
+              <span class="text-caption-mono ${isWinner ? 'text-hairline-strong' : 'text-mute'} uppercase block mb-1">Tradeoffs</span>
+              <ul class="list-none p-0 m-0 space-y-1 text-caption ${isWinner ? 'text-hairline' : 'text-body'}">
+                ${shape.cons.map(c => `<li>• ${c}</li>`).join('')}
               </ul>
             </div>
           </div>
@@ -382,56 +383,100 @@ const relatedTools = [
       `;
     }).join('');
 
+    const winner = scored[0];
+    let reasonText = '';
+    if (winner.id === 'standard') {
+      reasonText = `<strong>Standard Shape</strong> won because your inputs strongly prioritized sweet spot forgiveness, kitchen maneuverability, and doubles dink control. Its 8.0" wide face provides maximum forgiveness on fast net exchanges.`;
+    } else if (winner.id === 'hybrid') {
+      reasonText = `<strong>Hybrid Shape</strong> won because your priorities are balanced between power, reach, and maneuverability. Its 16.25" × 7.8" footprint gives you extra reach without giving up net quickness.`;
+    } else {
+      reasonText = `<strong>Elongated Shape</strong> won because you prioritized reach, drive leverage, and/or singles court coverage. Its 16.5" length gives maximum whip momentum on full swings.`;
+    }
+
     explanationEl.innerHTML = `
-      <h4 class="text-body-sm-strong text-ink">Why ${scored[0].name} won</h4>
-      <p class="text-body-sm text-body">${getExplanation(scored, priorities, gameStyle, courtPos, swingStyle)}</p>
+      <h4 class="text-body-sm-strong text-ink mb-1">Why ${winner.name} ranked #1</h4>
+      <p class="text-body-sm text-body">${reasonText}</p>
     `;
 
     comparisonEl.innerHTML = `
-      <table class="w-full text-left text-body-sm">
+      <table class="w-full text-left text-body-sm border-collapse">
         <thead>
           <tr class="border-b border-hairline">
-            <th class="py-2 pr-4 text-caption-mono text-mute uppercase tracking-wide">Feature</th>
-            ${shapes.map(s => `<th class="py-2 px-2 text-caption-mono text-mute uppercase tracking-wide">${s.name}</th>`).join('')}
+            <th class="py-2 pr-4 text-caption-mono text-mute uppercase">Feature</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">Standard</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">Hybrid</th>
+            <th class="py-2 px-2 text-caption-mono text-ink uppercase">Elongated</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-body">
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Dimensions</td>
-            ${shapes.map(s => `<td class="py-2 px-2 text-body">${s.dimensions}</td>`).join('')}
+            <td class="py-2 pr-4 font-medium text-ink">Dimensions</td>
+            <td class="py-2 px-2">16" × 8"</td>
+            <td class="py-2 px-2">16.25" × 7.8"</td>
+            <td class="py-2 px-2">16.5" × 7.5"</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Sweet spot</td>
-            <td class="py-2 px-2 text-body">Largest</td>
-            <td class="py-2 px-2 text-body">Large</td>
-            <td class="py-2 px-2 text-body">Smallest</td>
+            <td class="py-2 pr-4 font-medium text-ink">Sweet Spot Area</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">Largest</td>
+            <td class="py-2 px-2">Generous</td>
+            <td class="py-2 px-2 text-amber-600">Narrowest</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Reach</td>
-            <td class="py-2 px-2 text-body">Shortest</td>
-            <td class="py-2 px-2 text-body">Moderate</td>
-            <td class="py-2 px-2 text-body">Longest</td>
+            <td class="py-2 pr-4 font-medium text-ink">Reach Advantage</td>
+            <td class="py-2 px-2">Standard</td>
+            <td class="py-2 px-2">+0.25" Reach</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">+0.50" Reach</td>
           </tr>
           <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Power</td>
-            <td class="py-2 px-2 text-body">Moderate</td>
-            <td class="py-2 px-2 text-body">Good</td>
-            <td class="py-2 px-2 text-body">Maximum</td>
-          </tr>
-          <tr class="border-b border-hairline">
-            <td class="py-2 pr-4 text-ink">Maneuverability</td>
-            <td class="py-2 px-2 text-body">Best</td>
-            <td class="py-2 px-2 text-body">Good</td>
-            <td class="py-2 px-2 text-body">Lowest</td>
+            <td class="py-2 pr-4 font-medium text-ink">Net Hand Speed</td>
+            <td class="py-2 px-2 text-emerald-600 font-medium">Fastest</td>
+            <td class="py-2 px-2">Balanced</td>
+            <td class="py-2 px-2">Moderate</td>
           </tr>
           <tr>
-            <td class="py-2 pr-4 text-ink">Best for</td>
-            <td class="py-2 px-2 text-body">Net play, doubles, control</td>
-            <td class="py-2 px-2 text-body">All-court, versatility</td>
-            <td class="py-2 px-2 text-body">Singles, baseline, power</td>
+            <td class="py-2 pr-4 font-medium text-ink">Best Game Format</td>
+            <td class="py-2 px-2">Doubles / Net Play</td>
+            <td class="py-2 px-2">All-Court / Mixed</td>
+            <td class="py-2 px-2">Singles / Power Baseline</td>
           </tr>
         </tbody>
       </table>
     `;
-  });
+
+    saveState();
+  }
+
+  function saveState() {
+    try {
+      const data = {
+        gameStyle: gameStyleSelect.value,
+        courtPos: courtPosSelect.value,
+        swingStyle: swingStyleSelect.value,
+        powerPri: powerPriInput.value,
+        controlPri: controlPriInput.value,
+        reachPri: reachPriInput.value,
+        maneuverPri: maneuverPriInput.value,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data.gameStyle) gameStyleSelect.value = data.gameStyle;
+      if (data.courtPos) courtPosSelect.value = data.courtPos;
+      if (data.swingStyle) swingStyleSelect.value = data.swingStyle;
+      if (data.powerPri) powerPriInput.value = data.powerPri;
+      if (data.controlPri) controlPriInput.value = data.controlPri;
+      if (data.reachPri) reachPriInput.value = data.reachPri;
+      if (data.maneuverPri) maneuverPriInput.value = data.maneuverPri;
+      updateSliderLabels();
+    } catch {}
+  }
+
+  calcBtn.addEventListener('click', calculate);
+  loadState();
 </script>
