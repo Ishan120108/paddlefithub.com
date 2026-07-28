@@ -1,0 +1,58 @@
+---
+import Layout from './Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedTools from '../components/RelatedTools.astro';
+
+interface RelatedTool {
+  title: string;
+  description: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  intro: string;
+  canonicalPath: string;
+  relatedTools: RelatedTool[];
+  disclaimer?: string;
+}
+
+const { title, description, heading, intro, canonicalPath, relatedTools, disclaimer } = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tools', href: '/#tools' },
+  { label: heading },
+];
+---
+
+<Layout title={title} description={description} canonicalPath={canonicalPath}>
+  <div class="bg-canvas-soft">
+    <div class="container-page py-8 md:py-16">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <!-- Page Header -->
+      <div class="max-w-3xl mb-8 md:mb-10">
+        <h1 class="text-display-xl text-ink mb-4">{heading}</h1>
+        <p class="text-body-lg text-body m-0">{intro}</p>
+      </div>
+
+      <!-- Calculator Content (slotted) -->
+      <div class="bg-canvas rounded-lg p-4 md:p-8" style={`box-shadow: var(--shadow-level-4);`}>
+        <slot />
+      </div>
+
+      <!-- Assumptions / Disclaimer -->
+      {disclaimer ? (
+        <div class="mt-8 p-4 bg-canvas-soft-2 rounded-md">
+          <p class="text-caption text-mute m-0">{disclaimer}</p>
+        </div>
+      ) : null}
+
+      <!-- Related Tools -->
+      <RelatedTools tools={relatedTools} />
+    </div>
+  </div>
+</Layout>

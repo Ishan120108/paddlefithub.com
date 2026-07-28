@@ -1,0 +1,50 @@
+---
+/**
+ * Breadcrumbs — renders both visual breadcrumb trail and JSON-LD structured data.
+ * Uses Schema.org BreadcrumbList for SEO.
+ */
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    ...(item.href ? { item: `https://paddlefithub.com${item.href}` } : {}),
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="mb-6">
+  <ol class="flex items-center gap-1.5 list-none p-0 m-0 flex-wrap">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
+        {index > 0 && (
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-mute">
+            <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        )}
+        {item.href ? (
+          <a href={item.href} class="text-body-sm text-body hover:text-ink no-underline transition-colors">
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-body-sm text-mute">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

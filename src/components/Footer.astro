@@ -1,0 +1,117 @@
+---
+/**
+ * Footer — DESIGN.md footer component.
+ * 4-column layout: Tools, Resources (blog links), Company, Legal.
+ * Blog links appear here only (not on homepage).
+ */
+
+const toolLinks = [
+  { label: 'Grip Size Calculator', href: '/tools/grip-size-calculator/' },
+  { label: 'Paddle Weight Advisor', href: '/tools/paddle-weight-advisor/' },
+  { label: 'Paddle Shape Fit', href: '/tools/paddle-shape-fit/' },
+  { label: 'Core Thickness Advisor', href: '/tools/core-thickness-advisor/' },
+  { label: 'Overgrip Weight', href: '/tools/overgrip-weight-adjustment/' },
+  { label: 'Arm-Friendly Finder', href: '/tools/arm-friendly-paddle-finder/' },
+  { label: 'Round-Robin Generator', href: '/tools/round-robin-generator/' },
+];
+
+const resourceLinks = [
+  { label: 'How to Measure Grip Size', href: '/blog/how-to-measure-grip-size/' },
+  { label: 'Paddle Weight Guide', href: '/blog/paddle-weight-guide/' },
+  { label: 'Choosing a Paddle Shape', href: '/blog/choosing-paddle-shape/' },
+  { label: 'Core Thickness Explained', href: '/blog/core-thickness-explained/' },
+  { label: 'Arm-Friendly Paddle Tips', href: '/blog/arm-friendly-paddle-tips/' },
+];
+
+const companyLinks = [
+  { label: 'About', href: '/about/' },
+  { label: 'Contact', href: '/contact/' },
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy-policy/' },
+  { label: 'Terms of Service', href: '/terms/' },
+];
+---
+
+<footer class="bg-canvas border-t border-hairline" id="site-footer">
+  <div class="container-page py-16">
+    <!-- Footer Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+      <!-- Tools Column -->
+      <div>
+        <h3 class="text-caption-mono text-mute uppercase tracking-wide mb-4">Tools</h3>
+        <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+          {toolLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-body-sm text-body hover:text-ink no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources Column (Blog Links) -->
+      <div>
+        <h3 class="text-caption-mono text-mute uppercase tracking-wide mb-4">Resources</h3>
+        <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+          {resourceLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-body-sm text-body hover:text-ink no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company Column -->
+      <div>
+        <h3 class="text-caption-mono text-mute uppercase tracking-wide mb-4">Company</h3>
+        <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+          {companyLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-body-sm text-body hover:text-ink no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal Column -->
+      <div>
+        <h3 class="text-caption-mono text-mute uppercase tracking-wide mb-4">Legal</h3>
+        <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+          {legalLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-body-sm text-body hover:text-ink no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 pt-8 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <span class="flex items-center justify-center w-6 h-6 bg-ink rounded-xs">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="9" r="6" stroke="white" stroke-width="2" fill="none"/>
+            <line x1="12" y1="15" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="9" r="2" fill="white"/>
+          </svg>
+        </span>
+        <span class="text-caption text-mute">PaddleFitHub</span>
+      </div>
+
+      <p class="text-caption text-mute">
+        &copy; {new Date().getFullYear()} PaddleFitHub. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

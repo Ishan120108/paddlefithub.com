@@ -1,0 +1,26 @@
+---
+/**
+ * Custom 404 page.
+ * Astro convention: src/pages/404.astro is served for not-found routes.
+ */
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page Not Found — PaddleFitHub"
+  description="The page you're looking for doesn't exist. Head back to our homepage to find the right pickleball calculator."
+>
+  <div class="bg-canvas-soft min-h-[60vh] flex items-center justify-center">
+    <div class="container-page text-center py-16">
+      <p class="text-caption-mono text-mute uppercase tracking-wide mb-4">404</p>
+      <h1 class="text-display-xl text-ink mb-4">Page not found.</h1>
+      <p class="text-body-lg text-body mb-8 max-w-md mx-auto">
+        This page does not exist. It may have been moved or the URL might be incorrect.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/" class="btn-primary">Back to Home</a>
+        <a href="/tools/grip-size-calculator/" class="btn-secondary">Try Grip Calculator</a>
+      </div>
+    </div>
+  </div>
+</Layout>

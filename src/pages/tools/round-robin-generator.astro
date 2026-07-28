@@ -1,0 +1,511 @@
+---
+/**
+ * Round-Robin Rotation Generator
+ *
+ * Uses the circle method (polygon scheduling) to create balanced
+ * round-robin schedules. Supports both doubles and singles formats.
+ *
+ * For odd player counts, a "BYE" placeholder is added and the paired
+ * player sits out that round.
+ */
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+
+const relatedTools = [
+  {
+    title: 'Grip Size Calculator',
+    description: 'Find your ideal grip size before your next match.',
+    href: '/tools/grip-size-calculator/',
+  },
+  {
+    title: 'Paddle Weight Advisor',
+    description: 'Make sure your paddle weight suits your play style.',
+    href: '/tools/paddle-weight-advisor/',
+  },
+  {
+    title: 'Paddle Shape Fit',
+    description: 'Compare paddle shapes for your game.',
+    href: '/tools/paddle-shape-fit/',
+  },
+];
+---
+
+<CalculatorLayout
+  title="Round-Robin Rotation Generator — Fair Scheduling | PaddleFitHub"
+  description="Generate fair round-robin rotation schedules for pickleball doubles and singles. Balanced partnerships, court assignments, and bye tracking for 4 to 16 players."
+  heading="Round-robin generator."
+  intro="Create fair rotation schedules for pickleball. Every player gets balanced partnerships and opponents across all rounds."
+  canonicalPath="/tools/round-robin-generator/"
+  relatedTools={relatedTools}
+>
+  <div id="robin-calculator">
+    <!-- Input Form -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div>
+        <label for="num-players" class="text-body-sm-strong text-ink block mb-1">Number of players</label>
+        <input type="number" id="num-players" class="form-input" value="8" min="4" max="16" step="1" />
+        <p id="players-validation" class="text-caption text-error hidden mt-1">Min 4, max 16 players.</p>
+      </div>
+      <div>
+        <label for="num-courts" class="text-body-sm-strong text-ink block mb-1">Number of courts</label>
+        <input type="number" id="num-courts" class="form-input" value="2" min="1" max="4" step="1" />
+        <p id="courts-validation" class="text-caption text-error hidden mt-1"></p>
+      </div>
+      <div>
+        <label for="format-type" class="text-body-sm-strong text-ink block mb-1">Format</label>
+        <select id="format-type" class="form-select">
+          <option value="doubles" selected>Doubles (2v2)</option>
+          <option value="singles">Singles (1v1)</option>
+        </select>
+      </div>
+      <div>
+        <label for="round-duration" class="text-body-sm-strong text-ink block mb-1">Round duration (min)</label>
+        <input type="number" id="round-duration" class="form-input" value="15" min="5" max="60" step="5" />
+      </div>
+    </div>
+
+    <!-- Player names (optional) -->
+    <div class="mb-6">
+      <button type="button" id="toggle-names" class="text-body-sm text-link cursor-pointer bg-transparent border-none p-0 hover:underline">
+        + Customize player names
+      </button>
+      <div id="names-panel" class="hidden mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
+      </div>
+    </div>
+
+    <button type="button" id="generate-btn" class="btn-primary mb-6">
+      Generate Schedule
+    </button>
+
+    <!-- Results -->
+    <div id="robin-results" class="hidden">
+      <!-- Summary -->
+      <div class="bg-canvas-soft rounded-md p-4 mb-5 flex flex-wrap gap-6">
+        <div>
+          <p class="text-caption-mono text-mute uppercase tracking-wide">Rounds</p>
+          <p class="text-display-sm text-ink" id="total-rounds">—</p>
+        </div>
+        <div>
+          <p class="text-caption-mono text-mute uppercase tracking-wide">Total Time</p>
+          <p class="text-display-sm text-ink" id="total-time">—</p>
+        </div>
+        <div>
+          <p class="text-caption-mono text-mute uppercase tracking-wide">Players</p>
+          <p class="text-display-sm text-ink" id="total-players">—</p>
+        </div>
+        <div>
+          <p class="text-caption-mono text-mute uppercase tracking-wide">Courts</p>
+          <p class="text-display-sm text-ink" id="total-courts-display">—</p>
+        </div>
+      </div>
+
+      <!-- Compact preview -->
+      <div id="compact-preview" class="mb-5">
+        <h3 class="text-body-sm-strong text-ink mb-2">Schedule preview</h3>
+        <div id="preview-content" class="bg-canvas-soft rounded-md p-4 text-body-sm text-body">
+        </div>
+      </div>
+
+      <!-- Full schedule table -->
+      <div class="overflow-x-auto mb-5">
+        <table class="w-full text-body-sm border-collapse" id="schedule-table">
+        </table>
+      </div>
+
+      <!-- Bye handling explanation -->
+      <div id="bye-section" class="hidden mb-5">
+        <h3 class="text-body-sm-strong text-ink mb-2">Bye tracking</h3>
+        <div id="bye-info" class="bg-canvas-soft rounded-md p-4 text-body-sm text-body"></div>
+        <div id="bye-explanation" class="mt-2 text-caption text-mute">
+        </div>
+      </div>
+
+      <!-- Fairness note -->
+      <div class="bg-canvas-soft rounded-md p-4 mb-5">
+        <p class="text-caption text-body">
+          <strong>Fairness note:</strong> This schedule uses the circle method, which ensures every player
+          partners with every other player the same number of times (doubles) or plays every other player
+          (singles). Byes are distributed as evenly as possible given court constraints.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-wrap gap-3">
+        <button type="button" id="copy-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="10" height="9" rx="1"/><path d="M4 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2"/></svg>
+          Copy Schedule
+        </button>
+        <button type="button" id="print-btn" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5V2h8v3"/><rect x="2" y="5" width="12" height="6" rx="1"/><path d="M4 11v3h8v-3"/><path d="M4 8h8"/></svg>
+          Print Schedule
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 pt-6 border-t border-hairline">
+    <p class="text-caption text-mute">
+      <strong>How it works:</strong> This generator uses the circle method (polygon scheduling algorithm) to produce balanced rotations. With fewer courts than simultaneous matches possible, some players sit out additional rounds. The algorithm maximizes partner and opponent diversity within the constraint of available courts.
+    </p>
+  </div>
+</CalculatorLayout>
+
+<script>
+  const STORAGE_KEY = 'round-robin-state';
+
+  function saveState() {
+    const state = {
+      players: document.getElementById('num-players').value,
+      courts: document.getElementById('num-courts').value,
+      format: document.getElementById('format-type').value,
+      duration: document.getElementById('round-duration').value,
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      if (state.players) document.getElementById('num-players').value = state.players;
+      if (state.courts) document.getElementById('num-courts').value = state.courts;
+      if (state.format) document.getElementById('format-type').value = state.format;
+      if (state.duration) document.getElementById('round-duration').value = state.duration;
+    } catch {}
+  }
+
+  const numPlayersInput = document.getElementById('num-players');
+  const numCourtsInput = document.getElementById('num-courts');
+  const formatTypeInput = document.getElementById('format-type');
+  const roundDurationInput = document.getElementById('round-duration');
+  const toggleNamesBtn = document.getElementById('toggle-names');
+  const namesPanel = document.getElementById('names-panel');
+  const generateBtn = document.getElementById('generate-btn');
+
+  let playerNames = [];
+
+  function updateNameInputs() {
+    const count = Math.max(4, Math.min(16, parseInt(numPlayersInput.value) || 8));
+    namesPanel.innerHTML = '';
+    playerNames = [];
+    for (let i = 0; i < count; i++) {
+      const name = `Player ${i + 1}`;
+      playerNames.push(name);
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = name;
+      input.className = 'form-input';
+      input.dataset.index = String(i);
+      input.addEventListener('input', (e) => {
+        playerNames[i] = e.target.value || `Player ${i + 1}`;
+      });
+      namesPanel.appendChild(input);
+    }
+  }
+
+  numPlayersInput.addEventListener('change', updateNameInputs);
+  updateNameInputs();
+
+  toggleNamesBtn.addEventListener('click', () => {
+    namesPanel.classList.toggle('hidden');
+    toggleNamesBtn.textContent = namesPanel.classList.contains('hidden')
+      ? '+ Customize player names'
+      : '− Hide player names';
+  });
+
+  function validateInputs() {
+    const numPlayers = parseInt(numPlayersInput.value);
+    const numCourts = parseInt(numCourtsInput.value);
+    const format = formatTypeInput.value;
+    const isDoubles = format === 'doubles';
+
+    let valid = true;
+    const playersValidation = document.getElementById('players-validation');
+    const courtsValidation = document.getElementById('courts-validation');
+
+    playersValidation.classList.add('hidden');
+    courtsValidation.classList.add('hidden');
+
+    if (isNaN(numPlayers) || numPlayers < 4 || numPlayers > 16) {
+      playersValidation.classList.remove('hidden');
+      valid = false;
+    }
+
+    const playersPerMatch = isDoubles ? 4 : 2;
+    const maxCourtsNeeded = Math.floor(numPlayers / playersPerMatch);
+    const maxCourtsAllowed = Math.min(4, maxCourtsNeeded);
+
+    if (isNaN(numCourts) || numCourts < 1 || numCourts > maxCourtsAllowed) {
+      courtsValidation.textContent = `With ${numPlayers} players in ${format}, max ${maxCourtsAllowed} court${maxCourtsAllowed > 1 ? 's' : ''}.`;
+      courtsValidation.classList.remove('hidden');
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  function generateRoundRobin(n, isDoubles) {
+    const isOdd = n % 2 !== 0;
+    const paddedN = isOdd ? n + 1 : n;
+    const names = [...playerNames.slice(0, n)];
+    if (isOdd) names.push('BYE');
+
+    const totalRounds = paddedN - 1;
+    const rounds = [];
+
+    const fixed = names[0];
+    const rotating = names.slice(1);
+
+    for (let r = 0; r < totalRounds; r++) {
+      const lineup = [fixed, ...rotating];
+      const pairs = [];
+
+      for (let i = 0; i < paddedN / 2; i++) {
+        pairs.push([lineup[i], lineup[paddedN - 1 - i]]);
+      }
+
+      const byes = [];
+      const activePairs = pairs.filter(([a, b]) => {
+        if (a === 'BYE') { byes.push(b); return false; }
+        if (b === 'BYE') { byes.push(a); return false; }
+        return true;
+      });
+
+      let matches;
+      if (isDoubles) {
+        matches = [];
+        for (let i = 0; i < activePairs.length - 1; i += 2) {
+          matches.push([activePairs[i][0], activePairs[i][1], activePairs[i + 1][0], activePairs[i + 1][1]]);
+        }
+        if (activePairs.length % 2 !== 0 && activePairs.length > 0) {
+          const lastPair = activePairs[activePairs.length - 1];
+          byes.push(lastPair[0], lastPair[1]);
+        }
+      } else {
+        matches = activePairs.map(pair => [pair[0], pair[1]]);
+      }
+
+      rounds.push({ round: r + 1, matches, byes });
+
+      rotating.unshift(rotating.pop());
+    }
+
+    return rounds;
+  }
+
+  function generateSchedule() {
+    if (!validateInputs()) return;
+
+    const numPlayers = Math.max(4, Math.min(16, parseInt(numPlayersInput.value) || 8));
+    const numCourts = Math.max(1, Math.min(4, parseInt(numCourtsInput.value) || 2));
+    const roundDuration = parseInt(roundDurationInput.value) || 15;
+    const isDoubles = formatTypeInput.value === 'doubles';
+
+    while (playerNames.length < numPlayers) {
+      playerNames.push(`Player ${playerNames.length + 1}`);
+    }
+
+    const schedule = generateRoundRobin(numPlayers, isDoubles);
+
+    const limitedSchedule = schedule.map(round => {
+      const courtMatches = round.matches.slice(0, numCourts);
+      const extraByes = [];
+      for (let i = numCourts; i < round.matches.length; i++) {
+        extraByes.push(...round.matches[i]);
+      }
+      return { ...round, matches: courtMatches, byes: [...round.byes, ...extraByes] };
+    });
+
+    document.getElementById('robin-results').classList.remove('hidden');
+    document.getElementById('total-rounds').textContent = String(limitedSchedule.length);
+    document.getElementById('total-time').textContent = `${limitedSchedule.length * roundDuration} min`;
+    document.getElementById('total-players').textContent = String(numPlayers);
+    document.getElementById('total-courts-display').textContent = String(numCourts);
+
+    // Compact preview
+    const previewContent = document.getElementById('preview-content');
+    const formatLabel = isDoubles ? 'Doubles' : 'Singles';
+    const matchCount = limitedSchedule.reduce((sum, r) => sum + r.matches.length, 0);
+    const hasByes = limitedSchedule.some(r => r.byes.length > 0);
+    previewContent.innerHTML = `
+      <span class="inline-flex items-center gap-1"><strong>${numPlayers} players</strong>, ${formatLabel}</span>
+      <span class="mx-2 text-mute">·</span>
+      <span class="inline-flex items-center gap-1"><strong>${limitedSchedule.length} rounds</strong>, ${numCourts} court${numCourts > 1 ? 's' : ''}</span>
+      <span class="mx-2 text-mute">·</span>
+      <span class="inline-flex items-center gap-1"><strong>${matchCount} match${matchCount !== 1 ? 'es' : ''}</strong> total</span>
+      ${hasByes ? '<span class="mx-2 text-mute">·</span><span class="text-mute">Includes byes (odd players or limited courts)</span>' : ''}
+    `;
+
+    // Full table
+    const table = document.getElementById('schedule-table');
+    const courtHeaders = Array.from({ length: numCourts }, (_, i) =>
+      `<th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 px-3 min-w-[180px]">Court ${i + 1}</th>`
+    ).join('');
+
+    if (isDoubles) {
+      table.innerHTML = `
+        <thead>
+          <tr class="border-b border-hairline">
+            <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 px-3 w-20">Round</th>
+            ${courtHeaders}
+            <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 px-3">Bye</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${limitedSchedule.map((round) => {
+            const matchCells = Array.from({ length: numCourts }, (_, ci) => {
+              if (ci < round.matches.length) {
+                const m = round.matches[ci];
+                return `<td class="py-2 px-3 text-ink"><span class="font-medium">${m[0]}</span> &amp; <span class="font-medium">${m[1]}</span><br><span class="text-caption text-mute">vs</span><br><span class="font-medium">${m[2]}</span> &amp; <span class="font-medium">${m[3]}</span></td>`;
+              }
+              return '<td class="py-2 px-3 text-mute">—</td>';
+            }).join('');
+
+            const byeCell = round.byes.length > 0
+              ? `<td class="py-2 px-3 text-mute">${round.byes.join(', ')}</td>`
+              : '<td class="py-2 px-3 text-mute">None</td>';
+
+            return `<tr class="border-b border-hairline">\n<td class="py-2 px-3 text-ink font-medium">R${round.round}</td>\n${matchCells}\n${byeCell}\n</tr>`;
+          }).join('')}
+        </tbody>
+      `;
+    } else {
+      table.innerHTML = `
+        <thead>
+          <tr class="border-b border-hairline">
+            <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 px-3 w-20">Round</th>
+            ${courtHeaders}
+            <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 px-3">Bye</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${limitedSchedule.map((round) => {
+            const matchCells = Array.from({ length: numCourts }, (_, ci) => {
+              if (ci < round.matches.length) {
+                const m = round.matches[ci];
+                return `<td class="py-2 px-3 text-ink"><span class="font-medium">${m[0]}</span><br><span class="text-caption text-mute">vs</span><br><span class="font-medium">${m[1]}</span></td>`;
+              }
+              return '<td class="py-2 px-3 text-mute">—</td>';
+            }).join('');
+
+            const byeCell = round.byes.length > 0
+              ? `<td class="py-2 px-3 text-mute">${round.byes.join(', ')}</td>`
+              : '<td class="py-2 px-3 text-mute">None</td>';
+
+            return `<tr class="border-b border-hairline">\n<td class="py-2 px-3 text-ink font-medium">R${round.round}</td>\n${matchCells}\n${byeCell}\n</tr>`;
+          }).join('')}
+        </tbody>
+      `;
+    }
+
+    // Bye section
+    const hasByes = limitedSchedule.some(r => r.byes.length > 0);
+    const byeSection = document.getElementById('bye-section');
+    const byeInfo = document.getElementById('bye-info');
+    const byeExplanation = document.getElementById('bye-explanation');
+
+    if (hasByes) {
+      byeSection.classList.remove('hidden');
+      const byeCount = {};
+      limitedSchedule.forEach(r => {
+        r.byes.forEach(b => {
+          byeCount[b] = (byeCount[b] || 0) + 1;
+        });
+      });
+      byeInfo.innerHTML = Object.entries(byeCount)
+        .sort(([, a], [, b]) => b - a)
+        .map(([name, count]) => `<span class="inline-flex items-center gap-1 mr-4"><strong>${name}</strong>: ${count} bye${count > 1 ? 's' : ''}</span>`)
+        .join('');
+
+      if (numPlayers % 2 !== 0) {
+        byeExplanation.textContent = `With ${numPlayers} players (odd count), one player has a bye each round. With ${numCourts} court${numCourts > 1 ? 's' : ''}, some players may sit out additional rounds when there aren't enough courts. Byes rotate to keep things fair.`;
+      } else {
+        byeExplanation.textContent = `With ${numCourts} court${numCourts > 1 ? 's' : ''} but enough players for more matches, some players sit out each round. Byes are distributed as evenly as possible.`;
+      }
+    } else {
+      byeSection.classList.add('hidden');
+    }
+  }
+
+  generateBtn.addEventListener('click', generateSchedule);
+
+  // Auto-regenerate when courts or format change
+  numCourtsInput.addEventListener('change', () => {
+    if (!document.getElementById('robin-results').classList.contains('hidden')) {
+      generateSchedule();
+    }
+    saveState();
+  });
+
+  formatTypeInput.addEventListener('change', () => {
+    if (!document.getElementById('robin-results').classList.contains('hidden')) {
+      generateSchedule();
+    }
+    saveState();
+  });
+
+  [numPlayersInput, roundDurationInput].forEach(el => {
+    el.addEventListener('change', saveState);
+  });
+
+  // Copy schedule
+  document.getElementById('copy-btn')?.addEventListener('click', () => {
+    const isDoubles = formatTypeInput.value === 'doubles';
+    const numPlayers = parseInt(numPlayersInput.value);
+    const numCourts = parseInt(numCourtsInput.value);
+    const schedule = generateRoundRobin(numPlayers, isDoubles);
+    const limitedSchedule = schedule.map(round => {
+      const courtMatches = round.matches.slice(0, numCourts);
+      const extraByes = [];
+      for (let i = numCourts; i < round.matches.length; i++) {
+        extraByes.push(...round.matches[i]);
+      }
+      return { ...round, matches: courtMatches, byes: [...round.byes, ...extraByes] };
+    });
+
+    const formatLabel = isDoubles ? 'Doubles' : 'Singles';
+    let text = `Round-Robin Schedule (${numPlayers} players, ${formatLabel}, ${numCourts} court${numCourts > 1 ? 's' : ''})\n`;
+    text += `Total: ${limitedSchedule.length} rounds\n\n`;
+
+    limitedSchedule.forEach(round => {
+      text += `Round ${round.round}\n`;
+      round.matches.forEach((match, ci) => {
+        if (isDoubles) {
+          text += `  Court ${ci + 1}: ${match[0]} & ${match[1]} vs ${match[2]} & ${match[3]}\n`;
+        } else {
+          text += `  Court ${ci + 1}: ${match[0]} vs ${match[1]}\n`;
+        }
+      });
+      if (round.byes.length > 0) {
+        text += `  Bye: ${round.byes.join(', ')}\n`;
+      }
+      text += '\n';
+    });
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    }).catch(() => {
+      alert('Could not copy to clipboard. You can select and copy the table manually.');
+    });
+  });
+
+  document.getElementById('print-btn')?.addEventListener('click', () => {
+    window.print();
+  });
+
+  loadState();
+</script>
+
+<style>
+  @media print {
+    header, footer, nav, .btn-primary, .btn-secondary, #toggle-names, #names-panel {
+      display: none !important;
+    }
+    body {
+      background: white !important;
+    }
+  }
+</style>

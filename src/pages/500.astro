@@ -1,0 +1,29 @@
+---
+/**
+ * Custom 500 page.
+ * For Cloudflare Pages, this is deployed as a static fallback.
+ * Since Astro generates static HTML, 500 errors are handled by the hosting
+ * platform, but we include this page for completeness and serve it via
+ * a custom Cloudflare Pages _routes.json or as a standalone page.
+ */
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Server Error — PaddleFitHub"
+  description="Something went wrong on our end. Please try again later or head back to the homepage."
+>
+  <div class="bg-canvas-soft min-h-[60vh] flex items-center justify-center">
+    <div class="container-page text-center py-16">
+      <p class="text-caption-mono text-mute uppercase tracking-wide mb-4">500</p>
+      <h1 class="text-display-xl text-ink mb-4">Something went wrong.</h1>
+      <p class="text-body-lg text-body mb-8 max-w-md mx-auto">
+        We ran into an unexpected issue. Please try again in a moment.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/" class="btn-primary">Back to Home</a>
+        <a href="/contact/" class="btn-secondary">Report an Issue</a>
+      </div>
+    </div>
+  </div>
+</Layout>

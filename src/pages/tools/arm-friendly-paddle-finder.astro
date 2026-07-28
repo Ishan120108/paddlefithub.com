@@ -1,0 +1,384 @@
+---
+/**
+ * Arm-Friendly Paddle Finder — Comfort Recommendation Tool
+ *
+ * Recommends paddle specs that may help reduce arm discomfort.
+ * Focuses on weight, core thickness, shape, and vibration control.
+ * This is NOT medical advice — always consult a professional.
+ */
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+
+const relatedTools = [
+  {
+    title: 'Grip Size Calculator',
+    description: 'Wrong grip size can worsen arm problems.',
+    href: '/tools/grip-size-calculator/',
+  },
+  {
+    title: 'Paddle Weight Advisor',
+    description: 'Weight affects vibration and arm strain.',
+    href: '/tools/paddle-weight-advisor/',
+  },
+  {
+    title: 'Core Thickness Advisor',
+    description: 'Thicker cores absorb more shock.',
+    href: '/tools/core-thickness-advisor/',
+  },
+];
+---
+
+<CalculatorLayout
+  title="Comfort Recommendation Tool — Arm-Friendly Paddle Specs | PaddleFitHub"
+  description="Get paddle spec recommendations that may help reduce arm discomfort. Personalized suggestions based on your situation."
+  heading="Comfort recommendation tool."
+  intro="Experiencing arm discomfort while playing? The right paddle specs may help reduce strain. Tell us about your situation and we'll recommend specs that may help."
+  canonicalPath="/tools/arm-friendly-paddle-finder/"
+  relatedTools={relatedTools}
+>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="arm-calculator">
+    <!-- Input Form -->
+    <div>
+      <h2 class="text-display-sm text-ink mb-6">Your situation</h2>
+
+      <div class="mb-6">
+        <label for="arm-issue" class="text-body-sm-strong text-ink block mb-1">Area of discomfort</label>
+        <select id="arm-issue" class="form-select">
+          <option value="tennis-elbow">Outside of elbow (lateral)</option>
+          <option value="golfers-elbow">Inside of elbow (medial)</option>
+          <option value="wrist">Wrist area</option>
+          <option value="shoulder">Shoulder area</option>
+          <option value="general">General fatigue / prevention</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label for="severity" class="text-body-sm-strong text-ink block mb-1">How it feels</label>
+        <select id="severity" class="form-select">
+          <option value="mild">Mild — occasional discomfort after play</option>
+          <option value="moderate">Moderate — some discomfort during play</option>
+          <option value="severe">Significant — discomfort that limits play</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label for="current-paddle-weight" class="text-body-sm-strong text-ink block mb-1">Current paddle weight (oz, if known)</label>
+        <input type="number" id="current-paddle-weight" class="form-input" placeholder="e.g. 7.8" step="0.1" min="5" max="12" />
+      </div>
+
+      <div class="mb-6">
+        <label for="current-core" class="text-body-sm-strong text-ink block mb-1">Current core thickness (if known)</label>
+        <select id="current-core" class="form-select">
+          <option value="unknown">Not sure</option>
+          <option value="14">14 mm (thin)</option>
+          <option value="16">16 mm (standard)</option>
+          <option value="20">20 mm (thick)</option>
+        </select>
+      </div>
+
+      <button type="button" id="calc-arm-btn" class="btn-primary w-full sm:w-auto">
+        Get Recommendations
+      </button>
+    </div>
+
+    <!-- Results -->
+    <div>
+      <div id="arm-placeholder" class="flex flex-col items-center justify-center h-full min-h-64 text-center p-6">
+        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <p class="text-body-md text-mute">Tell us about your situation to get paddle spec recommendations.</p>
+      </div>
+
+      <div id="arm-results" class="hidden">
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 pt-6 border-t border-hairline">
+    <div class="bg-warning-soft/40 rounded-md p-4 mb-4">
+      <p class="text-caption text-body">
+        <strong>⚠ NOT medical advice.</strong> These recommendations are for informational purposes only. If you are experiencing persistent pain, please consult a healthcare professional before continuing to play. Proper technique, rest, and conditioning are often more important than equipment changes.
+      </p>
+    </div>
+    <p class="text-caption text-mute">
+      <strong>Check with a professional.</strong> A certified pickleball coach can help evaluate your technique, and a sports medicine professional can assess your specific condition. Equipment recommendations are general guidelines — what works for one player may not work for another.
+    </p>
+  </div>
+</CalculatorLayout>
+
+<script>
+  const STORAGE_KEY = 'arm-friendly-state';
+
+  function saveState() {
+    const state = {
+      issue: document.getElementById('arm-issue').value,
+      severity: document.getElementById('severity').value,
+      weight: document.getElementById('current-paddle-weight').value,
+      core: document.getElementById('current-core').value,
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      if (state.issue) document.getElementById('arm-issue').value = state.issue;
+      if (state.severity) document.getElementById('severity').value = state.severity;
+      if (state.weight) document.getElementById('current-paddle-weight').value = state.weight;
+      if (state.core) document.getElementById('current-core').value = state.core;
+    } catch {}
+  }
+
+  function getRecommendation(issue, severity, currentWeight, currentCore) {
+    const isModerate = severity === 'moderate' || severity === 'severe';
+
+    const primaryWeight = isModerate
+      ? '7.5 – 8.0 oz — moderate weight dampens vibration better than ultralight'
+      : '7.0 – 8.0 oz — focus on a balanced, comfortable weight';
+
+    const primaryCore = isModerate
+      ? '16–20 mm — thicker core absorbs more vibration'
+      : '16 mm or thicker — standard thickness at minimum';
+
+    const primaryShape = isModerate
+      ? 'Standard or hybrid — avoid elongated shapes with higher swing weight'
+      : 'Any — standard and hybrid are most forgiving';
+
+    const backupWeight = isModerate
+      ? '7.0 – 7.5 oz — if the primary feels too heavy, this range still offers good dampening'
+      : '7.5 – 8.5 oz — for players who prefer a heavier, more stable feel';
+
+    const backupCore = isModerate
+      ? '16 mm — if 20 mm feels too thick, 16 mm is a solid alternative with good dampening'
+      : '16 mm — versatile option that works for most players';
+
+    const backupShape = isModerate
+      ? 'Standard — classic shape balances reach and sweet spot'
+      : 'Hybrid — a good compromise between reach and forgiveness';
+
+    const rec = {
+      primary: { weight: primaryWeight, core: primaryCore, shape: primaryShape },
+      backup: { weight: backupWeight, core: backupCore, shape: backupShape },
+      avoidList: [],
+      tips: [],
+    };
+
+    if (issue === 'tennis-elbow') {
+      rec.avoidList = [
+        'Paddles under 14 mm core thickness',
+        'Ultralight paddles (under 7.0 oz) that may vibrate more',
+        'Very stiff carbon fiber faces without vibration dampening',
+        'Grip sizes that are too small — may increase wrist torque',
+      ];
+      rec.tips = [
+        'A slightly larger grip may help reduce the wrist torque that can contribute to lateral elbow discomfort.',
+        'A thicker core (16–20 mm) may help dampen vibration before it travels up the forearm.',
+        'Consider a counterbalance weight at the handle end to reduce shock from off-center hits.',
+        'An elbow strap or brace during play may provide additional support.',
+      ];
+    } else if (issue === 'golfers-elbow') {
+      rec.avoidList = [
+        'Oversized grips that force fingers open',
+        'Very heavy paddles (over 8.5 oz)',
+        'Extended-length paddles that increase leverage',
+        'Grip sizes that are too large — may encourage over-gripping',
+      ];
+      rec.tips = [
+        'A slightly smaller grip may allow a more relaxed hold, reducing strain on the inner forearm.',
+        'A relaxed grip transmits less force to the tendons — avoid death-gripping.',
+        'Consider wrist curls and eccentric exercises as part of recovery.',
+      ];
+    } else if (issue === 'wrist') {
+      rec.avoidList = [
+        'Elongated paddles with high swing weight',
+        'Head-heavy paddles',
+        'Very thin grips',
+        'Excessive topspin technique that loads the wrist',
+      ];
+      rec.tips = [
+        'Wrist discomfort often comes from repetitive impact or excessive wrist snap on shots.',
+        'A balanced or slightly handle-heavy paddle may reduce wrist loading.',
+        'Consider a wrist support brace during play.',
+        'Focus on using shoulder and body rotation instead of wrist flicks.',
+      ];
+    } else if (issue === 'shoulder') {
+      rec.primary.weight = isModerate ? '7.0 – 7.5 oz — lighter to reduce shoulder load' : '7.0 – 7.8 oz';
+      rec.backup.weight = isModerate ? '7.5 – 8.0 oz — if lighter feels too under-powered' : '7.8 – 8.3 oz';
+      rec.avoidList = [
+        'Heavy paddles (over 8.0 oz)',
+        'Head-heavy balance that increases rotational strain',
+        'Elongated paddles with high swing weight',
+        'Overhead smashes until discomfort resolves',
+      ];
+      rec.tips = [
+        'Shoulder discomfort is often more affected by paddle weight and swing weight than vibration.',
+        'A lighter paddle with balanced or handle-heavy weight distribution may reduce shoulder load.',
+        'Avoid heavy overheads and serves until symptoms improve.',
+        'Strengthening rotator cuff muscles may significantly help long-term.',
+      ];
+    } else {
+      rec.avoidList = [
+        'Paddles with thin (14 mm) cores',
+        'Extreme head-heavy balance',
+        'Playing through emerging discomfort',
+      ];
+      rec.tips = [
+        'Prevention is easier than treatment. A well-fitted paddle may reduce cumulative strain.',
+        'Warm up before play and stretch afterward.',
+        'Listen to your body — mild discomfort that worsens over time is a warning sign.',
+        'Vary your play intensity to avoid repetitive strain.',
+      ];
+    }
+
+    if (currentWeight !== null) {
+      if (currentWeight < 7.0 && severity !== 'mild') {
+        rec.tips.push(`Your current paddle at ${currentWeight} oz is quite light. Lighter paddles may transmit more vibration. A slightly heavier option may help.`);
+      }
+      if (currentWeight > 8.5) {
+        rec.tips.push(`Your current paddle at ${currentWeight} oz is heavy. This may contribute to fatigue-related strain, especially on the shoulder.`);
+      }
+    }
+
+    if (currentCore === '14') {
+      rec.tips.push('Your current 14 mm core is the thinnest common option and may transmit more vibration. Trying 16 mm or 20 mm may make a noticeable difference.');
+    }
+
+    return rec;
+  }
+
+  document.getElementById('calc-arm-btn').addEventListener('click', () => {
+    const issue = document.getElementById('arm-issue').value;
+    const severity = document.getElementById('severity').value;
+    const weightInput = document.getElementById('current-paddle-weight').value;
+    const currentCore = document.getElementById('current-core').value;
+    const currentWeight = weightInput ? parseFloat(weightInput) : null;
+
+    const rec = getRecommendation(issue, severity, currentWeight, currentCore);
+
+    document.getElementById('arm-placeholder').classList.add('hidden');
+    const results = document.getElementById('arm-results');
+    results.classList.remove('hidden');
+
+    const issueLabels = {
+      'tennis-elbow': 'Lateral Elbow Discomfort',
+      'golfers-elbow': 'Medial Elbow Discomfort',
+      wrist: 'Wrist Discomfort',
+      shoulder: 'Shoulder Discomfort',
+      general: 'General Prevention',
+    };
+
+    const severityNote = severity === 'severe'
+      ? 'If discomfort limits your play, consider resting and consulting a healthcare professional before making equipment changes.'
+      : severity === 'moderate'
+      ? 'Consider reducing session length and intensity while adjusting your equipment.'
+      : 'A good time to optimize your equipment before any discomfort worsens.';
+
+    results.innerHTML = `
+      <div class="bg-canvas-soft rounded-md p-3 mb-5 flex items-start gap-3">
+        <div class="w-5 h-5 mt-0.5 rounded-full bg-link/10 flex items-center justify-center flex-shrink-0">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-link"><path d="M6 4v3M6 8.5h.005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <p class="text-body-sm text-body">${severityNote}</p>
+      </div>
+
+      <p class="text-caption-mono text-mute uppercase tracking-wide mb-3">Recommendation for ${issueLabels[issue]}</p>
+
+      <div class="mb-5">
+        <div class="rounded-md border border-hairline overflow-hidden">
+          <div class="bg-canvas-soft px-4 py-2 border-b border-hairline">
+            <p class="text-body-sm-strong text-ink">Primary recommendation <span class="text-caption text-mute font-normal">— best fit</span></p>
+          </div>
+          <div class="p-4 space-y-3">
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Weight</p>
+              <p class="text-body-sm text-ink">${rec.primary.weight}</p>
+            </div>
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Core Thickness</p>
+              <p class="text-body-sm text-ink">${rec.primary.core}</p>
+            </div>
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Shape</p>
+              <p class="text-body-sm text-ink">${rec.primary.shape}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <div class="rounded-md border border-hairline overflow-hidden">
+          <div class="bg-canvas-soft px-4 py-2 border-b border-hairline">
+            <p class="text-body-sm-strong text-ink">Backup option <span class="text-caption text-mute font-normal">— if primary doesn't feel right</span></p>
+          </div>
+          <div class="p-4 space-y-3">
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Weight</p>
+              <p class="text-body-sm text-ink">${rec.backup.weight}</p>
+            </div>
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Core Thickness</p>
+              <p class="text-body-sm text-ink">${rec.backup.core}</p>
+            </div>
+            <div>
+              <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Shape</p>
+              <p class="text-body-sm text-ink">${rec.backup.shape}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-body-sm-strong text-ink mb-2">What to avoid</h3>
+        <ul class="list-none p-0 m-0 space-y-1.5">
+          ${rec.avoidList.map(item => `
+            <li class="text-body-sm text-body flex items-start gap-2">
+              <span class="text-error mt-1 flex-shrink-0">✗</span>
+              ${item}
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="mb-6">
+        <h3 class="text-body-sm-strong text-ink mb-2">Additional guidance that may help</h3>
+        <div class="space-y-2">
+          ${rec.tips.map(tip => `
+            <div class="bg-canvas-soft rounded-md p-3">
+              <p class="text-caption text-body">${tip}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="bg-canvas-soft rounded-md p-4 mb-6">
+        <p class="text-caption text-body">
+          <strong>Check with a professional.</strong> These are general recommendations, not a prescription. A coach can evaluate your technique, and a sports medicine professional can assess your specific condition. What works for one player may not work for another.
+        </p>
+      </div>
+
+      <div class="pt-4 border-t border-hairline">
+        <h3 class="text-body-sm-strong text-ink mb-2">Check your current setup</h3>
+        <div class="space-y-2">
+          <a href="/tools/grip-size-calculator/" class="flex items-center gap-2 text-body-sm text-link no-underline hover:underline">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Verify your grip size is correct
+          </a>
+          <a href="/tools/core-thickness-advisor/" class="flex items-center gap-2 text-body-sm text-link no-underline hover:underline">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Compare core thickness options
+          </a>
+        </div>
+      </div>
+    `;
+
+    saveState();
+  });
+
+  ['arm-issue', 'severity', 'current-paddle-weight', 'current-core'].forEach(id => {
+    document.getElementById(id).addEventListener('change', saveState);
+  });
+
+  loadState();
+</script>

@@ -1,0 +1,325 @@
+---
+import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+
+const relatedTools = [
+  {
+    title: 'Grip Size Calculator',
+    description: 'Find your ideal grip size first.',
+    href: '/tools/grip-size-calculator/',
+  },
+  {
+    title: 'Paddle Weight Advisor',
+    description: 'Check if the new total weight is in your ideal range.',
+    href: '/tools/paddle-weight-advisor/',
+  },
+  {
+    title: 'Arm-Friendly Paddle Finder',
+    description: 'See how weight changes affect arm comfort.',
+    href: '/tools/arm-friendly-paddle-finder/',
+  },
+];
+---
+
+<CalculatorLayout
+  title="Overgrip Weight Adjustment Calculator | PaddleFitHub"
+  description="Calculate how adding overgrips changes your pickleball paddle's total weight, grip circumference, and balance point."
+  heading="Overgrip weight adjustment."
+  intro="Adding an overgrip changes more than just feel. It adds weight to the handle, increases the grip circumference, and shifts the balance point. See the full impact before you wrap."
+  canonicalPath="/tools/overgrip-weight-adjustment/"
+  relatedTools={relatedTools}
+>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="overgrip-calculator">
+    <!-- Input Form -->
+    <div>
+      <h2 class="text-display-sm text-ink mb-6">Your paddle setup</h2>
+
+      <div class="mb-6">
+        <label for="current-weight" class="text-body-sm-strong text-ink block mb-1">Current paddle weight (oz)</label>
+        <p class="text-caption text-mute mb-2">Check your paddle specs or weigh it. Most paddles are 7.0 – 8.5 oz.</p>
+        <input type="number" id="current-weight" class="form-input" placeholder="e.g. 7.8" step="0.1" min="5" max="12" />
+        <p id="weight-error" class="text-caption text-error hidden mt-1">Please enter a weight between 5.0 and 12.0 oz.</p>
+      </div>
+
+      <div class="mb-6">
+        <label for="current-grip-size" class="text-body-sm-strong text-ink block mb-1">Current grip size (inches)</label>
+        <select id="current-grip-size" class="form-select">
+          <option value="4.000">4"</option>
+          <option value="4.125">4⅛"</option>
+          <option value="4.250" selected>4¼"</option>
+          <option value="4.375">4⅜"</option>
+          <option value="4.500">4½"</option>
+          <option value="4.625">4⅝"</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label for="num-overgrips" class="text-body-sm-strong text-ink block mb-1">Number of overgrips to add</label>
+        <select id="num-overgrips" class="form-select">
+          <option value="1">1 overgrip</option>
+          <option value="2">2 overgrips</option>
+          <option value="3">3 overgrips</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label for="overgrip-type" class="text-body-sm-strong text-ink block mb-1">Overgrip thickness</label>
+        <select id="overgrip-type" class="form-select">
+          <option value="thin">Thin (0.4 mm) — ~5 g each</option>
+          <option value="standard" selected>Standard (0.6 mm) — ~7 g each</option>
+          <option value="thick">Thick (0.75 mm) — ~10 g each</option>
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <p class="text-body-sm-strong text-ink block mb-2">Your priority</p>
+        <div class="flex gap-4">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="priority" value="feel" checked class="accent-link" />
+            <span class="text-body-sm text-ink">Care more about feel</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="priority" value="weight" class="accent-link" />
+            <span class="text-body-sm text-ink">Care more about weight</span>
+          </label>
+        </div>
+      </div>
+
+      <button type="button" id="calc-overgrip-btn" class="btn-primary w-full sm:w-auto">
+        Calculate Impact
+      </button>
+    </div>
+
+    <!-- Results -->
+    <div>
+      <div id="overgrip-placeholder" class="flex flex-col items-center justify-center h-full min-h-64 text-center p-6">
+        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-mute"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+        </div>
+        <p class="text-body-md text-mute">Enter your paddle details to see the impact of adding overgrips.</p>
+      </div>
+
+      <div id="overgrip-results" class="hidden">
+        <div class="grid grid-cols-2 gap-4 mb-4" id="overgrip-stats">
+        </div>
+
+        <div id="confidence-label" class="mb-4">
+        </div>
+
+        <div class="mb-4">
+          <h3 class="text-body-sm-strong text-ink mb-3">Before vs. after</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-body-sm border-collapse" id="overgrip-table">
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-canvas-soft rounded-md p-3 mb-4">
+          <p class="text-caption text-body">
+            <strong>Grip size rule:</strong> Each overgrip layer adds approximately <strong>⅛" (3.2 mm)</strong> to grip circumference. Actual increase depends on wrap tension and overlap.
+          </p>
+        </div>
+
+        <div class="space-y-3" id="overgrip-notes">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 pt-6 border-t border-hairline">
+    <p class="text-caption text-mute">
+      <strong>Estimates, not exact figures.</strong> Overgrip weights are industry averages — actual weight varies by brand, wrap tension, and overlap by 1–2 g per grip. Grip size increase of ⅛" per layer is approximate. Balance shift of 2–4 mm per overgrip is estimated for a typical 16" paddle. These calculations are planning tools; actual results depend on your specific paddle and overgrip brand.
+    </p>
+  </div>
+</CalculatorLayout>
+
+<script>
+  const OVERGRIP_WEIGHTS = { thin: 5, standard: 7, thick: 10 };
+  const GRIP_SIZE_INCREASE_PER_LAYER = 0.125;
+  const BALANCE_SHIFT_PER_GRAM = 0.4;
+  const STORAGE_KEY = 'overgrip-calc-state';
+
+  function saveState() {
+    const state = {
+      currentWeight: (document.getElementById('current-weight')).value,
+      currentGripSize: (document.getElementById('current-grip-size')).value,
+      numOvergrips: (document.getElementById('num-overgrips')).value,
+      overgripType: (document.getElementById('overgrip-type')).value,
+      priority: document.querySelector('input[name="priority"]:checked')?.value || 'feel',
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      if (state.currentWeight) (document.getElementById('current-weight')).value = state.currentWeight;
+      if (state.currentGripSize) (document.getElementById('current-grip-size')).value = state.currentGripSize;
+      if (state.numOvergrips) (document.getElementById('num-overgrips')).value = state.numOvergrips;
+      if (state.overgripType) (document.getElementById('overgrip-type')).value = state.overgripType;
+      if (state.priority) {
+        const radio = document.querySelector(`input[name="priority"][value="${state.priority}"]`);
+        if (radio) radio.checked = true;
+      }
+    } catch {}
+  }
+
+  function getConfidenceLabel(totalGrams) {
+    if (totalGrams <= 5) return { level: 'Low', label: 'Estimate — small change, reliable' };
+    if (totalGrams <= 15) return { level: 'Moderate', label: 'Estimate — moderate confidence (±1–2 g)' };
+    return { level: 'Lower', label: 'Estimate — lower confidence (±2–3 g due to wrap variation)' };
+  }
+
+  function formatGripSizeDisplay(inches) {
+    const whole = Math.floor(inches);
+    const frac = inches - whole;
+    const fracs = { 0.000: '', 0.125: '⅛', 0.250: '¼', 0.375: '⅜', 0.500: '½', 0.625: '⅝', 0.750: '¾', 0.875: '⅞' };
+    const closest = Object.keys(fracs).map(Number).reduce((a, b) => Math.abs(b - frac) < Math.abs(a - frac) ? b : a);
+    const fracStr = fracs[closest] || '';
+    return fracStr ? `${whole}${whole > 0 ? ' ' : ''}${fracStr}"` : `${inches.toFixed(3)}"`;
+  }
+
+  document.getElementById('calc-overgrip-btn').addEventListener('click', () => {
+    const weightInput = document.getElementById('current-weight');
+    const currentWeight = parseFloat(weightInput.value);
+    const weightError = document.getElementById('weight-error');
+
+    if (isNaN(currentWeight) || currentWeight < 5 || currentWeight > 12) {
+      weightError.classList.remove('hidden');
+      weightInput.focus();
+      return;
+    }
+    weightError.classList.add('hidden');
+
+    const currentGripSize = parseFloat(document.getElementById('current-grip-size').value);
+    const numOvergrips = parseInt(document.getElementById('num-overgrips').value);
+    const overgripType = document.getElementById('overgrip-type').value;
+    const priority = document.querySelector('input[name="priority"]:checked')?.value || 'feel';
+
+    const weightPerGrip = OVERGRIP_WEIGHTS[overgripType];
+    const totalAddedGrams = weightPerGrip * numOvergrips;
+    const totalAddedOz = totalAddedGrams / 28.3495;
+
+    const newWeightOz = currentWeight + totalAddedOz;
+    const newWeightGrams = newWeightOz * 28.3495;
+    const currentWeightGrams = currentWeight * 28.3495;
+
+    const gripSizeIncrease = GRIP_SIZE_INCREASE_PER_LAYER * numOvergrips;
+    const newGripSize = currentGripSize + gripSizeIncrease;
+
+    const balanceShiftMm = Math.round(totalAddedGrams * BALANCE_SHIFT_PER_GRAM);
+
+    document.getElementById('overgrip-placeholder').classList.add('hidden');
+    document.getElementById('overgrip-results').classList.remove('hidden');
+
+    const stats = document.getElementById('overgrip-stats');
+    stats.innerHTML = `
+      <div class="bg-canvas-soft rounded-md p-4">
+        <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">New Total Weight</p>
+        <p class="text-display-md text-ink">${newWeightOz.toFixed(1)} oz</p>
+        <p class="text-caption text-body">${Math.round(newWeightGrams)} g (+${totalAddedGrams} g)</p>
+      </div>
+      <div class="bg-canvas-soft rounded-md p-4">
+        <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">New Grip Size</p>
+        <p class="text-display-md text-ink">${formatGripSizeDisplay(newGripSize)}</p>
+        <p class="text-caption text-body">+${gripSizeIncrease.toFixed(3)}" from ${numOvergrips} overgrip${numOvergrips > 1 ? 's' : ''}</p>
+      </div>
+      <div class="bg-canvas-soft rounded-md p-4">
+        <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Weight Added</p>
+        <p class="text-display-md text-ink">+${totalAddedGrams} g</p>
+        <p class="text-caption text-body">+${totalAddedOz.toFixed(2)} oz</p>
+      </div>
+      <div class="bg-canvas-soft rounded-md p-4">
+        <p class="text-caption-mono text-mute uppercase tracking-wide mb-0.5">Balance Shift</p>
+        <p class="text-display-md text-ink">~${balanceShiftMm} mm</p>
+        <p class="text-caption text-body">toward handle</p>
+      </div>
+    `;
+
+    const confidence = getConfidenceLabel(totalAddedGrams);
+    const confidenceEl = document.getElementById('confidence-label');
+    confidenceEl.innerHTML = `
+      <div class="bg-canvas-soft rounded-md p-2 px-3 inline-flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full ${confidence.level === 'Low' ? 'bg-green-500' : confidence.level === 'Moderate' ? 'bg-yellow-500' : 'bg-orange-400'}"></span>
+        <span class="text-caption text-body">${confidence.label}</span>
+      </div>
+    `;
+
+    const table = document.getElementById('overgrip-table');
+    table.innerHTML = `
+      <thead>
+        <tr class="border-b border-hairline">
+          <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 pr-4">Metric</th>
+          <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2 pr-4">Before</th>
+          <th class="text-left text-caption-mono text-mute uppercase tracking-wide py-2">After</th>
+        </tr>
+      </thead>
+      <tbody class="text-body">
+        <tr class="border-b border-hairline">
+          <td class="py-2 pr-4 text-ink">Weight</td>
+          <td class="py-2 pr-4">${currentWeight.toFixed(1)} oz (${Math.round(currentWeightGrams)} g)</td>
+          <td class="py-2 font-medium text-ink">${newWeightOz.toFixed(1)} oz (${Math.round(newWeightGrams)} g)</td>
+        </tr>
+        <tr class="border-b border-hairline">
+          <td class="py-2 pr-4 text-ink">Grip Circumference</td>
+          <td class="py-2 pr-4">${formatGripSizeDisplay(currentGripSize)}</td>
+          <td class="py-2 font-medium text-ink">${formatGripSizeDisplay(newGripSize)}</td>
+        </tr>
+        <tr>
+          <td class="py-2 pr-4 text-ink">Balance</td>
+          <td class="py-2 pr-4">Baseline</td>
+          <td class="py-2 font-medium text-ink">~${balanceShiftMm} mm toward handle</td>
+        </tr>
+      </tbody>
+    `;
+
+    const notes = document.getElementById('overgrip-notes');
+    const noteItems = [];
+
+    if (totalAddedGrams >= 15) {
+      noteItems.push('Adding this much weight may noticeably change how your paddle swings. Consider testing with the overgrips applied before committing to tournament play.');
+    }
+
+    if (numOvergrips >= 2) {
+      noteItems.push(`With ${numOvergrips} overgrips, your grip size increases by ${gripSizeIncrease.toFixed(3)}". Make sure this doesn't push your grip size too large — a too-large grip can reduce wrist snap and cause fatigue.`);
+    }
+
+    if (balanceShiftMm >= 6) {
+      noteItems.push('The significant balance shift toward the handle will make the paddle feel more head-light and maneuverable, with less power on drives. This is beneficial for quick hands at the kitchen.');
+    } else if (balanceShiftMm >= 3) {
+      noteItems.push('The moderate balance shift makes the paddle somewhat more head-light. Most players adapt to this quickly. The paddle becomes slightly more stable for dinks and resets.');
+    } else {
+      noteItems.push('The small balance shift is unlikely to be noticeable during play. Your paddle will feel about as head-heavy (or head-light) as before.');
+    }
+
+    if (priority === 'feel') {
+      noteItems.push('Since you care more about feel, consider how the thicker grip changes your hand position and wrist action. A thicker grip reduces wrist snap but can improve control for players with larger hands.');
+    } else {
+      noteItems.push('Since you care more about weight, note the total weight increase. If your paddle exceeds 8.5 oz after adding overgrips, it may feel sluggish. Consider thinner overgrips or fewer layers if weight is a concern.');
+    }
+
+    notes.innerHTML = `
+      <h3 class="text-body-sm-strong text-ink mb-1">Playability impact</h3>
+      ${noteItems.map(note => `
+        <div class="bg-canvas-soft rounded-md p-3 flex items-start gap-3">
+          <div class="w-4 h-4 mt-0.5 rounded-full bg-link/10 flex items-center justify-center flex-shrink-0">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" class="text-link"><path d="M5 3v2.5M5 7h.005" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <p class="text-caption text-body">${note}</p>
+        </div>
+      `).join('')}
+    `;
+
+    saveState();
+  });
+
+  ['current-weight', 'current-grip-size', 'num-overgrips', 'overgrip-type'].forEach(id => {
+    document.getElementById(id).addEventListener('change', saveState);
+  });
+  document.querySelectorAll('input[name="priority"]').forEach(el => {
+    el.addEventListener('change', saveState);
+  });
+
+  loadState();
+</script>
