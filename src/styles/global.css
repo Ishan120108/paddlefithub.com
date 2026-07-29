@@ -42,7 +42,7 @@
   --color-gradient-ship-end: #f9cb28;
 
   /* ─── Font Families ─── */
-  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
 
   /* ─── Border Radius ─── */
