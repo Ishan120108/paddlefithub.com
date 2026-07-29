@@ -20,3 +20,9 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Language & Localization
+
+- The site language is strictly **English (US)** (`en-US` / `en_US`).
+- All copy, content, SEO metadata, spelling (e.g. *color*, *center*, *customize*), and unit defaults (inches, ounces) must always follow US English standards.
+
