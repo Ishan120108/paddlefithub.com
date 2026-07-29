@@ -1,5 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# User-agent directives for PaddleFitHub
 User-agent: *
 Allow: /
 
+# Sitemap Location
 Sitemap: https://paddlefithub.com/sitemap.xml

@@ -179,17 +179,17 @@ const faqs = [
           <label class="text-body-sm-strong text-ink block mb-1">Grip feel preference</label>
           <div class="grid grid-cols-3 gap-2 mt-2">
             <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
-              <input type="radio" name="comfort-pref" value="-0.125" class="sr-only" />
+              <input type="radio" name="comfort-pref" id="pref-tighter" aria-label="Tighter grip feel preference (-1/8 inch)" value="-0.125" class="sr-only" />
               <span class="text-body-sm-strong text-ink block">Tighter</span>
               <span class="text-caption text-mute block mt-0.5">−⅛" (More control)</span>
             </label>
             <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
-              <input type="radio" name="comfort-pref" value="0" checked class="sr-only" />
+              <input type="radio" name="comfort-pref" id="pref-standard" aria-label="Standard grip feel preference (exact fit)" value="0" checked class="sr-only" />
               <span class="text-body-sm-strong text-ink block">Standard</span>
               <span class="text-caption text-mute block mt-0.5">Exact fit</span>
             </label>
             <label class="border border-hairline rounded-md p-3 text-center cursor-pointer transition-all hover:border-hairline-strong has-[:checked]:border-ink has-[:checked]:bg-canvas-soft">
-              <input type="radio" name="comfort-pref" value="0.125" class="sr-only" />
+              <input type="radio" name="comfort-pref" id="pref-cushioned" aria-label="Cushioned grip feel preference (+1/8 inch)" value="0.125" class="sr-only" />
               <span class="text-body-sm-strong text-ink block">Cushioned</span>
               <span class="text-caption text-mute block mt-0.5">+⅛" (More comfort)</span>
             </label>
@@ -198,7 +198,7 @@ const faqs = [
 
         <div class="mb-5">
           <label class="flex items-start gap-3 cursor-pointer">
-            <input type="checkbox" id="use-overgrip" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
+            <input type="checkbox" id="use-overgrip" aria-label="Plan to use an overgrip (+1/16 inch build-up)" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
             <div>
               <span class="text-body-sm-strong text-ink block">I plan to use an overgrip (+1/16" build-up)</span>
               <span class="text-caption text-mute block mt-0.5">
@@ -210,7 +210,7 @@ const faqs = [
 
         <div class="mb-6">
           <label class="flex items-start gap-3 cursor-pointer">
-            <input type="checkbox" id="two-handed" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
+            <input type="checkbox" id="two-handed" aria-label="Two-handed backhand player" class="mt-1 w-4 h-4 accent-ink rounded-xs" />
             <div>
               <span class="text-body-sm-strong text-ink block">Two-handed backhand player</span>
               <span class="text-caption text-mute block mt-0.5">
