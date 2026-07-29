@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,37 @@ const relatedTools = [
     title: 'Arm Comfort Recommendation Tool',
     description: 'Find specs that minimize vibration and strain.',
     href: '/tools/arm-friendly-paddle-finder/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What weight pickleball paddle should I use?',
+    answer: 'Most players perform best with a midweight paddle between 7.8 and 8.2 oz. Midweight paddles provide an optimal balance of kitchen hand speed and drive stability. Lightweight paddles (7.3–7.7 oz) favor fast resets, while heavyweight paddles (8.3+ oz) maximize power.',
+  },
+  {
+    question: 'What is the best weight for a pickleball paddle?',
+    answer: 'The best weight depends on your play style and arm health. For all-around play, 7.9 to 8.1 oz is considered the sweet spot. If you suffer from arm fatigue or tennis elbow, a midweight paddle (7.8–8.0 oz) with a thick core is ideal to absorb impact shock without straining your joint.',
+  },
+  {
+    question: 'What is twist weight in a pickleball paddle?',
+    answer: 'Twist weight measures a paddle\'s resistance to twisting when hit off-center. A higher twist weight expands the sweet spot and stabilizes the paddle face on mis-hits, whereas lower twist weight makes the paddle feel more maneuverable but less forgiving.',
+  },
+  {
+    question: 'Where to put weight on a pickleball paddle and how to add weight with lead tape?',
+    answer: 'You can customize weight distribution using 3g-per-strip lead or tungsten weight tape. Adding weight at the 3 and 9 o\'clock sides increases twist weight and sweet spot size. Placing weight at 12 o\'clock boosts drive power, while weighting the throat (4 and 8 o\'clock) adds stability without slowing hand speed.',
+  },
+  {
+    question: 'How to add weight to a pickleball paddle safely?',
+    answer: 'Clean the edge guard with rubbing alcohol, apply 2–4 inch strips of lead or tungsten weight tape symmetrically on both sides of the frame, and cover the tape with electrical tape or an edge guard wrap to prevent peeling.',
+  },
+  {
+    question: 'What is the lightest weight pickleball paddle available?',
+    answer: 'The lightest commercial pickleball paddles weigh around 6.8 to 7.2 ounces. While ultralight paddles offer explosive hand speed at the kitchen, they lack mass to absorb ball impact, transferring more vibration to your arm and offering less pop on baseline drives.',
+  },
+  {
+    question: 'How much weight can a paddle board hold vs what size paddle board do I need for my weight?',
+    answer: 'Stand-up paddle boards (SUPs) typically hold 200 to 350+ lbs depending on volume (liters). While SUP weight capacities refer to water displacement, pickleball paddle weight (7.2–8.8 oz) refers to static racket weight—a key distinction when evaluating equipment weight specs.',
   },
 ];
 ---
@@ -254,6 +286,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Pickleball Paddle Weight FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>

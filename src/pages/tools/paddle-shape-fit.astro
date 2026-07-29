@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,29 @@ const relatedTools = [
     title: 'Core Thickness Advisor',
     description: 'Understand 14 mm, 16 mm, and 20 mm core tradeoffs.',
     href: '/tools/core-thickness-advisor/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What are the main pickleball paddle shapes?',
+    answer: 'Under USA Pickleball regulations, the combined length and width cannot exceed 24 inches. The three main shapes are Standard Wide Face (16" × 8"), Hybrid (16.25" × 7.8"), and Elongated (16.5" × 7.5").',
+  },
+  {
+    question: 'Which paddle shape is best for aggressive play?',
+    answer: 'Elongated paddles (16.5" long) are best for aggressive play. Their extra length creates leverage for higher head speed, leading to harder baseline drives, aggressive overheads, and extra court coverage at the kitchen line.',
+  },
+  {
+    question: 'What shape pickleball paddle is best for all-around play?',
+    answer: 'Hybrid shapes (16.25" × 7.8") offer the best all-around performance. They provide extra reach over standard paddles while maintaining a wide sweet spot and fast kitchen maneuverability.',
+  },
+  {
+    question: 'How to use a pickleball paddle shape guide to find your fit?',
+    answer: 'A paddle shape guide evaluates your priorities: if you prioritize sweet spot size and kitchen fast hands, choose Standard; if you prioritize power and reach, choose Elongated; for a balance of both, select Hybrid.',
+  },
+  {
+    question: 'What is the best pickleball paddle shape for beginners?',
+    answer: 'Standard Wide Face (16" × 8") is the best shape for beginners because it offers the largest sweet spot and highest forgiveness on off-center hits.',
   },
 ];
 ---
@@ -207,6 +231,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Pickleball Paddle Shape FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>
@@ -417,19 +444,19 @@ const relatedTools = [
           </tr>
           <tr class="border-b border-hairline">
             <td class="py-2 pr-4 font-medium text-ink">Sweet Spot Area</td>
-            <td class="py-2 px-2 text-emerald-600 font-medium">Largest</td>
+            <td class="py-2 px-2 text-emerald-700 dark:text-emerald-400 font-medium">Largest</td>
             <td class="py-2 px-2">Generous</td>
-            <td class="py-2 px-2 text-amber-600">Narrowest</td>
+            <td class="py-2 px-2 text-amber-700 dark:text-amber-400">Narrowest</td>
           </tr>
           <tr class="border-b border-hairline">
             <td class="py-2 pr-4 font-medium text-ink">Reach Advantage</td>
             <td class="py-2 px-2">Standard</td>
             <td class="py-2 px-2">+0.25" Reach</td>
-            <td class="py-2 px-2 text-emerald-600 font-medium">+0.50" Reach</td>
+            <td class="py-2 px-2 text-emerald-700 dark:text-emerald-400 font-medium">+0.50" Reach</td>
           </tr>
           <tr class="border-b border-hairline">
             <td class="py-2 pr-4 font-medium text-ink">Net Hand Speed</td>
-            <td class="py-2 px-2 text-emerald-600 font-medium">Fastest</td>
+            <td class="py-2 px-2 text-emerald-700 dark:text-emerald-400 font-medium">Fastest</td>
             <td class="py-2 px-2">Balanced</td>
             <td class="py-2 px-2">Moderate</td>
           </tr>

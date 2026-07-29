@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,25 @@ const relatedTools = [
     title: 'Paddle Shape Fit',
     description: 'Compare paddle shapes for your game.',
     href: '/tools/paddle-shape-fit/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What is a round robin in pickleball and how does it work?',
+    answer: 'A round robin is a tournament or rec play format where every player or team plays against every other player or team in the group. In pickleball doubles round robins, players rotate partners each round so everyone gets equal playing time.',
+  },
+  {
+    question: 'What does round robin mean in pickleball rec play?',
+    answer: 'In rec play, a round robin means a structured rotation schedule where 8, 10, 12, or more players share a fixed number of courts (e.g. 2 or 3 courts). The rotation schedule ensures fair partnerships, balanced opponents, and equal bye (sit-out) turns.',
+  },
+  {
+    question: 'How to generate and print pickleball round robin charts?',
+    answer: 'Enter your total player count and available court count in our free round robin generator. The tool instantly creates a balanced matrix schedule that you can customize with player names and print out for court-side tracking.',
+  },
+  {
+    question: 'How are byes handled in pickleball round robins with odd numbers?',
+    answer: 'When the number of players is not a multiple of 4 (e.g. 5, 9, or 10 players on 2 courts), the schedule rotates byes evenly so every player sits out the exact same number of rounds.',
   },
 ];
 ---
@@ -182,6 +202,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Pickleball Round Robin FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>

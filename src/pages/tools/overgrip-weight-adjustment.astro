@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,25 @@ const relatedTools = [
     title: 'Arm Comfort Recommendation Tool',
     description: 'See how weight changes affect arm comfort.',
     href: '/tools/arm-friendly-paddle-finder/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What is a pickleball overgrip and why do players use it?',
+    answer: 'A pickleball overgrip is a thin, wrap-around tape applied over the paddle\'s factory grip. Players use overgrips for sweat absorption, enhanced tackiness, grip size customization, and vibration dampening.',
+  },
+  {
+    question: 'How much weight does an overgrip add to a pickleball paddle?',
+    answer: 'Overgrip weight adjustment depends on layer count and wrap thickness. A standard overgrip adds approximately 5 to 7 grams (0.18 to 0.25 oz) of static weight per layer. Because this mass is added at the handle, it slightly lowers the paddle\'s balance point, making it feel slightly more head-light.',
+  },
+  {
+    question: 'How to overgrip a pickleball paddle step-by-step?',
+    answer: 'To overgrip a pickleball paddle, unroll the grip and peel off the protective film. Start wrapping at the butt cap end, overlapping each turn by 1/8 inch as you wrap tightly up the handle. Trim the top edge at an angle and secure it with the included finishing tape.',
+  },
+  {
+    question: 'How to choose between tacky and dry feel overgrips?',
+    answer: 'Tacky overgrips offer maximum stickiness and secure grip control in normal or cool conditions. Dry feel overgrips specialize in moisture absorption for hot weather or sweaty hands.',
   },
 ];
 ---
@@ -192,6 +212,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Pickleball Overgrip FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>

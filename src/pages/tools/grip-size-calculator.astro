@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,33 @@ const relatedTools = [
     title: 'Arm Comfort Recommendation Tool',
     description: 'Prioritize low vibration and strain reduction for arm comfort.',
     href: '/tools/arm-friendly-paddle-finder/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'How to measure grip size for a pickleball paddle?',
+    answer: 'Measure from the middle lateral crease of your palm along your ring finger to its tip. The resulting length in inches (typically 4.0" to 4.5") corresponds directly to your target grip circumference.',
+  },
+  {
+    question: 'How to determine pickleball paddle grip size if between sizes?',
+    answer: 'If you fall between two standard 1/8" grip sizes, always choose the smaller size. You can easily build up a smaller grip with an overgrip (+1/16" build-up), whereas shrinking an oversized grip handle is virtually impossible.',
+  },
+  {
+    question: 'What size grip for a pickleball paddle is standard for most players?',
+    answer: 'The most common grip size is 4 1/4" (4.25 inches). Women and players under 5\'8" generally prefer 4.0" to 4.125" grips, while taller players or those with larger hands often use 4.375" to 4.5" grips.',
+  },
+  {
+    question: 'How to choose pickleball paddle grip size for your playing style?',
+    answer: 'A smaller grip provides greater wrist mobility, snap, and spin control—ideal for dinking and fast kitchen exchanges. A slightly larger grip provides paddle stability and reduces forearm strain, making it suitable for baseline drives and players with tennis elbow concerns.',
+  },
+  {
+    question: 'What grip size for a pickleball paddle should I use if I wear an overgrip?',
+    answer: 'Each standard overgrip layer adds approximately 1/16" (0.0625") to your total grip circumference. If your ideal circumference is 4 1/4" and you plan to add an overgrip, select a 4 1/8" paddle so it reaches 4 1/4" after wrapping.',
+  },
+  {
+    question: 'How does a pickleball paddle grip size chart work?',
+    answer: 'A pickleball paddle grip size chart maps hand measurements (in inches or cm) or player height/glove sizes to standard 1/8" grip increments (4", 4 1/8", 4 1/4", 4 3/8", 4 1/2"). Our calculator uses this exact mapping to give you instant, personalized results.',
   },
 ];
 ---
@@ -323,6 +351,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Pickleball Grip Size FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>
@@ -469,7 +500,7 @@ const relatedTools = [
   function calculate() {
     let baseInches = 4.25;
     let confidenceText = 'High Confidence';
-    let confidenceClass = 'bg-emerald-500/20 text-emerald-300';
+    let confidenceClass = 'bg-canvas/10 text-on-primary border border-white/20';
     let isFallback = false;
 
     if (currentMethod === 'direct') {
@@ -504,7 +535,7 @@ const relatedTools = [
 
       baseInches = (heightMap[heightVal] || 4.25) + (gloveMap[gloveVal] || 0);
       confidenceText = 'Best Starting Point (Height Fallback)';
-      confidenceClass = 'bg-amber-500/20 text-amber-300';
+      confidenceClass = 'bg-canvas/10 text-on-primary border border-white/20';
     }
 
     const checkedComfort = document.querySelector('input[name="comfort-pref"]:checked') as HTMLInputElement;
@@ -572,18 +603,22 @@ const relatedTools = [
 
     sizeChart.innerHTML = GRIP_SIZES.map((gs, i) => {
       const isSelected = i === bestIdx;
-      const barPct = ((gs.decimal - 4.0) / 0.625) * 100;
+      const barPct = 18 + ((gs.decimal - 4.0) / 0.625) * 82;
       return `
-        <div class="flex items-center gap-3 text-caption">
-          <span class="w-12 text-right ${isSelected ? 'font-semibold text-ink' : 'text-mute'}">${gs.size}</span>
-          <div class="flex-1 h-6 bg-canvas-soft-2 rounded-xs overflow-hidden relative">
-            <div
-              class="h-full rounded-xs transition-all duration-300 ${isSelected ? 'bg-ink' : 'bg-hairline'}"
-              style="width: ${Math.max(barPct, 12)}%"
-            ></div>
-            ${isSelected ? '<span class="absolute inset-y-0 right-2 flex items-center text-caption-mono text-on-primary font-medium">← Recommended</span>' : ''}
+        <div class="p-2.5 rounded-md transition-all ${isSelected ? 'bg-canvas ring-1 ring-hairline shadow-level-1' : ''}">
+          <div class="flex items-center justify-between text-caption mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="${isSelected ? 'font-semibold text-ink text-body-sm' : 'text-mute font-medium'}">${gs.size}</span>
+              <span class="text-caption-mono ${isSelected ? 'text-body font-medium' : 'text-mute'}">(${gs.mm.toFixed(1)} mm)</span>
+            </div>
+            ${isSelected ? '<span class="px-2 py-0.5 rounded-full bg-ink text-on-primary text-[10px] font-mono font-medium tracking-tight uppercase shrink-0">Recommended</span>' : ''}
           </div>
-          <span class="w-16 text-right text-mute">${gs.mm.toFixed(1)} mm</span>
+          <div class="h-2.5 bg-canvas-soft-2 rounded-full overflow-hidden">
+            <div
+              class="h-full rounded-full transition-all duration-300 ${isSelected ? 'bg-ink' : 'bg-hairline-strong/30'}"
+              style="width: ${barPct.toFixed(1)}%"
+            ></div>
+          </div>
         </div>
       `;
     }).join('');

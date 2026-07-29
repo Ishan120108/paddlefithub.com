@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '../../layouts/CalculatorLayout.astro';
+import FAQSection from '../../components/FAQSection.astro';
 
 const relatedTools = [
   {
@@ -16,6 +17,21 @@ const relatedTools = [
     title: 'Core Thickness Advisor',
     description: 'Thicker cores absorb more shock before reaching your joint.',
     href: '/tools/core-thickness-advisor/',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What makes a pickleball paddle arm-friendly?',
+    answer: 'An arm-friendly pickleball paddle features a thicker core (16mm or 20mm), a midweight static weight (7.8–8.1 oz), and a properly fitted grip circumference. This combination absorbs impact shock and prevents joint strain caused by off-center hits.',
+  },
+  {
+    question: 'Why do pickleball players wear arm sleeves?',
+    answer: 'Pickleball players wear compression arm sleeves to increase blood circulation, keep elbow tendons warm, reduce muscle oscillation during repetitive swings, and alleviate symptoms of tennis elbow or golfer\'s elbow.',
+  },
+  {
+    question: 'Can changing my paddle help with tennis elbow or arm pain?',
+    answer: 'Yes. Switching from an ultra-stiff 14mm paddle or an undersized grip to a 16mm core paddle with a properly sized grip can significantly reduce the impact shock transmitted to your wrist, forearm, and elbow.',
   },
 ];
 ---
@@ -98,7 +114,7 @@ const relatedTools = [
         <div class="bg-ink text-on-primary rounded-lg p-6 relative overflow-hidden">
           <div class="flex items-center justify-between mb-2">
             <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Primary Recommended Setup</span>
-            <span class="px-2.5 py-1 rounded-full text-caption-mono bg-emerald-500/20 text-emerald-300">
+            <span class="px-2.5 py-1 rounded-full text-caption-mono bg-canvas/10 text-on-primary border border-white/20">
               Max Shock Absorption
             </span>
           </div>
@@ -206,6 +222,9 @@ const relatedTools = [
       </div>
     </div>
   </section>
+
+  <!-- FAQ Section -->
+  <FAQSection title="Arm-Friendly Paddle FAQs" faqs={faqs} />
 </CalculatorLayout>
 
 <script>
