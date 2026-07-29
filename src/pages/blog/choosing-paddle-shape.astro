@@ -1,5 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/#tools' },
+  { label: 'Choosing a Paddle Shape' },
+];
 ---
 
 <Layout
@@ -7,23 +14,61 @@ import Layout from '../../layouts/Layout.astro';
   description="Compare standard, hybrid, and elongated pickleball paddle shapes. Learn which shape fits your play style, court position, and priorities."
   canonicalPath="/blog/choosing-paddle-shape/"
 >
-  <div class="container-narrow py-16">
-    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Resource</p>
-    <h1 class="text-display-xl text-ink mb-4">Choosing a Paddle Shape</h1>
-    <p class="text-body-lg text-body mb-8">Standard, hybrid, or elongated? Each paddle shape trades off reach, sweet spot size, and maneuverability.</p>
+  <div class="container-narrow py-12 md:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Guide</p>
+    <h1 class="text-display-xl text-ink mb-4">How to Choose the Right Pickleball Paddle Shape</h1>
+    <p class="text-body-lg text-body mb-8">Paddle shape is one of the most overlooked specs in pickleball — many players buy based on brand or color without understanding how dimensions affect their game. This guide explains the three standard shapes, their tradeoffs, and how to decide which one fits your play style.</p>
 
     <div class="prose text-body-md text-body space-y-6 max-w-none">
-      <h2 class="text-display-sm text-ink">Standard (~16" × 8")</h2>
-      <p>The widest face with the largest sweet spot. Best for net play, dinking, and players who value forgiveness over reach. The easiest shape for beginners.</p>
+      <h2 class="text-display-sm text-ink">The three standard paddle shapes</h2>
+      <p>Under USA Pickleball rules, the combined length and width of a paddle cannot exceed 24 inches, and the maximum length is 17 inches. Within these constraints, manufacturers offer three primary shapes:</p>
 
-      <h2 class="text-display-sm text-ink">Hybrid (~16.5" × 7.5")</h2>
-      <p>The most versatile shape, adding about half an inch of reach without sacrificing too much sweet spot. A popular choice for all-around players.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Standard (16" × 8")</h3>
+      <p>The widest and most forgiving shape. A standard paddle has the largest sweet spot, which means off-center hits still produce decent shots. The wider face also provides a larger blocking surface for kitchen-line volleys. This shape is ideal for beginners, all-court players, and anyone who prioritizes consistency over reach.</p>
+      <p><strong>Best for:</strong> Beginners, doubles players who spend time at the kitchen, and players who want the most forgiving sweet spot.</p>
 
-      <h2 class="text-display-sm text-ink">Elongated (~17" × 7")</h2>
-      <p>Maximum reach and leverage for power. Ideal for baseline play and singles. The narrow face means a smaller sweet spot and steeper learning curve.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Hybrid (16.25" × 7.8")</h3>
+      <p>A compromise between standard and elongated. The hybrid adds roughly a quarter inch of length while narrowing the face slightly. This gives you a bit more reach on overhead smashes and wide dinks without dramatically shrinking the sweet spot. Many intermediate and advanced players settle on hybrid shapes because they offer the best balance of reach and control.</p>
+      <p><strong>Best for:</strong> Intermediate to advanced players who want a versatile paddle, singles players who need extra reach, and all-court players.</p>
 
-      <h2 class="text-display-sm text-ink">Which should you choose?</h2>
-      <p>There is no single right answer. Your game format (singles vs doubles), court position, and swing style all matter. Use the <a href="/tools/paddle-shape-fit/">Paddle Shape Fit</a> tool for a data-driven recommendation.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Elongated (16.5" × 7.5")</h3>
+      <p>The longest legal shape. Elongated paddles maximize reach — critical for baseline defense, overhead smashes, and singles play where court coverage matters. The tradeoff is a narrower face and smaller sweet spot. Off-center hits punish you more, and quick reactions at the kitchen line require more precision. Power-oriented singles players and advanced players with excellent technique tend to favor elongated shapes.</p>
+      <p><strong>Best for:</strong> Advanced singles players, power hitters, and players with refined mechanics who can consistently find the sweet spot.</p>
+
+      <h2 class="text-display-sm text-ink">How shape affects your game</h2>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Sweet spot size</h3>
+      <p>A wider paddle face means a larger sweet spot. Standard paddles are the most forgiving — you can make contact slightly off-center and still produce a clean shot. Elongated paddles have the smallest sweet spot, meaning mis-hits produce more vibration and less predictable ball flight. If you are still developing consistent contact, a standard or hybrid shape will be more forgiving.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Reach and court coverage</h3>
+      <p>Each extra half-inch of length extends your reach by roughly that amount — which sounds small but makes a real difference on wide balls and overheads. In singles, where you have to cover the entire court alone, that extra reach can save you steps. In doubles, reach matters less because you are covering half the court.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Maneuverability</h3>
+      <p>Wider paddles are slightly easier to maneuver for quick volley exchanges because their mass is distributed more evenly. Elongated paddles have a higher swing weight (more mass is concentrated farther from the grip), which can slow down fast exchanges but adds leverage on power shots.</p>
+
+      <h2 class="text-display-sm text-ink">Shape and other specs work together</h2>
+      <p>Shape does not exist in isolation. A lightweight elongated paddle (7.2 oz) plays very differently from a heavy elongated paddle (8.3 oz). The shape determines the paddle's geometry, but <a href="/blog/paddle-weight-guide/" class="text-link">weight</a> and <a href="/blog/core-thickness-explained/" class="text-link">core thickness</a> determine how it feels and performs within that geometry.</p>
+      <p>For example, a standard shape with a thin 14mm core gives you a wide sweet spot with crisp pop — great for aggressive doubles. A standard shape with a thick 20mm core gives you that same sweet spot but with a softer, more controlled feel — better for touch players. Always evaluate shape alongside the other key specs.</p>
+
+      <h2 class="text-display-sm text-ink">Which shape should you choose?</h2>
+      <p>Ask yourself three questions:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Do you play mostly doubles or singles?</strong> Doubles players generally benefit from standard or hybrid shapes. Singles players benefit from hybrid or elongated.</li>
+        <li><strong>How consistent is your contact?</strong> If you frequently mis-hit, choose the widest shape you can. As your technique improves, you can experiment with narrower faces.</li>
+        <li><strong>Do you value reach or sweet spot more?</strong> This is the core tradeoff. There is no wrong answer — it depends on your game.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">Common shape mistakes</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Buying elongated as a beginner.</strong> The narrow sweet spot amplifies every mis-hit. Start with standard or hybrid and switch later if you need more reach.</li>
+        <li><strong>Ignoring handle length.</strong> Some paddles achieve "elongated" dimensions by lengthening the handle instead of the face. A longer handle helps two-handed backhands but does not increase reach on the face itself. Check the face dimensions, not just overall length.</li>
+        <li><strong>Confusing brand naming.</strong> Different brands use different names for the same shapes. "Elongated," "extended," and "blade" often describe the same 16.5" × 7.5" geometry. Focus on the actual dimensions.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">What to do next</h2>
+      <p>Use the <a href="/tools/paddle-shape-fit/" class="text-link">Paddle Shape Fit Tool</a> to get a scored breakdown of all three shapes based on your play style priorities. It ranks your top two fits and shows a visual comparison. Once you know your ideal shape, match it with the right <a href="/tools/paddle-weight-advisor/" class="text-link">weight</a> and <a href="/tools/grip-size-calculator/" class="text-link">grip size</a> for a complete setup.</p>
     </div>
 
     <div class="mt-12 pt-8 border-t border-hairline">

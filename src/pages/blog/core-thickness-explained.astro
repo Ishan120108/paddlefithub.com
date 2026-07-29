@@ -1,5 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/#tools' },
+  { label: 'Core Thickness Explained' },
+];
 ---
 
 <Layout
@@ -7,23 +14,61 @@ import Layout from '../../layouts/Layout.astro';
   description="Understand the tradeoffs between 14 mm, 16 mm, and 20 mm pickleball paddle cores. Which thickness suits your play style?"
   canonicalPath="/blog/core-thickness-explained/"
 >
-  <div class="container-narrow py-16">
-    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Resource</p>
-    <h1 class="text-display-xl text-ink mb-4">Core Thickness Explained</h1>
-    <p class="text-body-lg text-body mb-8">The core thickness of your paddle changes how it feels, sounds, and performs. Here is the breakdown.</p>
+  <div class="container-narrow py-12 md:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Guide</p>
+    <h1 class="text-display-xl text-ink mb-4">Pickleball Core Thickness Explained: 14 mm vs 16 mm vs 20 mm</h1>
+    <p class="text-body-lg text-body mb-8">Core thickness is one of the least understood pickleball paddle specs, but it has a massive impact on how the ball feels off the face. Thinner cores produce more "pop" and raw power. Thicker cores absorb more energy, giving you softer touch and better vibration control. This guide explains the physics, the real-world tradeoffs, and how to choose the right thickness for your game.</p>
 
     <div class="prose text-body-md text-body space-y-6 max-w-none">
-      <h2 class="text-display-sm text-ink">14 mm — Maximum pop</h2>
-      <p>Thinnest core. Delivers the fastest ball speed off the face with the most audible pop. Least control and most vibration. Best for aggressive power players. Not ideal for arm sensitivity or noise-restricted venues.</p>
+      <h2 class="text-display-sm text-ink">What is the core and why does thickness matter?</h2>
+      <p>The core is the honeycomb layer sandwiched between the two face sheets of a pickleball paddle. Most modern paddles use a polypropylene (PP) honeycomb core, though some use Nomex or aluminum. The core is the primary structure that determines how energy transfers between the ball and the paddle face.</p>
+      <p>When the ball strikes the paddle, the core compresses. A thinner core compresses less — the ball bounces off more quickly, producing a crisper feel with more rebound speed (pop). A thicker core compresses more — absorbing energy, slowing the ball down, and giving you more time to direct the shot (touch). This is the fundamental tradeoff.</p>
 
-      <h2 class="text-display-sm text-ink">16 mm — The sweet spot</h2>
-      <p>The most popular thickness for good reason. Balanced power and control with a generous sweet spot and moderate noise. Works well for all playing styles. The safest choice if you are unsure.</p>
+      <h2 class="text-display-sm text-ink">The three standard thicknesses</h2>
 
-      <h2 class="text-display-sm text-ink">20 mm — Maximum control</h2>
-      <p>Thickest core. Softest feel, quietest sound, and largest sweet spot. Best for finesse players and those with arm concerns. Tradeoff is less power on drives — you will need to swing harder.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">14 mm — Maximum pop</h3>
+      <p>A 14mm core is the thinnest option available in mainstream paddles. It produces the most pop — drives and serves come off the face with maximum velocity. The tradeoff is less forgiveness: off-center hits transfer more vibration to your arm, and soft resets and dinks are harder to control because the ball rebounds so quickly. Competitive power players who hit clean and hard favor 14mm cores.</p>
+      <p><strong>Best for:</strong> Power-oriented players with consistent contact who want maximum drive speed.</p>
 
-      <h2 class="text-display-sm text-ink">Keep in mind</h2>
-      <p>Core material matters too. Most paddles use polymer honeycomb, but face material (carbon fiber vs fiberglass) and edge construction also affect feel. Use the <a href="/tools/core-thickness-advisor/">Core Thickness Advisor</a> to see which thickness matches your priorities.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">16 mm — The balanced choice</h3>
+      <p>The 16mm core is the industry standard and by far the most common thickness. It offers a good balance between pop and control. You get enough rebound energy for solid drives while retaining the ability to soften dinks and resets. Most paddles from major brands come in 16mm by default, making it the safest starting point for players at any level.</p>
+      <p><strong>Best for:</strong> All-court players, beginners, intermediates, and anyone who wants versatility without extreme tradeoffs.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">20 mm — Maximum control and comfort</h3>
+      <p>A 20mm core absorbs the most energy on contact. The feel is noticeably softer — dinks land short and dead, resets are easier to execute, and the paddle transmits significantly less vibration to your hand and arm. The tradeoff is reduced pop: drives and serves do not leap off the face the way they do with a thin core. You need to generate more swing speed yourself for power shots.</p>
+      <p><strong>Best for:</strong> Touch and finesse players, seniors, players with arm issues, and anyone who prioritizes soft game and comfort.</p>
+
+      <h2 class="text-display-sm text-ink">The physics behind the feel</h2>
+      <p>When the ball compresses against the paddle face, the kinetic energy splits three ways: some bounces back into the ball (rebound), some is absorbed by the core (dampening), and some transfers through the handle into your hand (vibration). Thinner cores redirect more energy into rebound, producing more ball speed but also more vibration. Thicker cores redirect more energy into dampening, producing a softer feel with less arm impact.</p>
+      <p>This is why core thickness is especially important for players dealing with arm discomfort. A 20mm core can reduce the peak vibration transmitted to your elbow by 25-40% compared to a 14mm core at the same <a href="/blog/paddle-weight-guide/" class="text-link">paddle weight</a>. If arm health is a priority, thickness is the single most impactful spec to change.</p>
+
+      <h2 class="text-display-sm text-ink">How core thickness interacts with other specs</h2>
+      <p>Core thickness does not work in isolation — it interacts with weight and <a href="/blog/choosing-paddle-shape/" class="text-link">paddle shape</a> to determine the overall feel:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Thin core + heavy weight:</strong> Maximum power. The mass adds stability while the thin core adds pop. This combination is common in competitive singles paddles.</li>
+        <li><strong>Thick core + light weight:</strong> Maximum comfort and control. Soft touch with easy maneuverability. Great for kitchen-line play and players with arm sensitivity.</li>
+        <li><strong>Standard core + mid weight:</strong> The all-rounder. A 16mm / 7.7 oz paddle works well for most players in most situations.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">Common core thickness mistakes</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Choosing thin cores for power when you lack clean contact.</strong> A 14mm core punishes off-center hits harder. If your mechanics are still developing, the extra pop is negated by inconsistency.</li>
+        <li><strong>Ignoring core thickness when dealing with arm pain.</strong> Many players focus only on <a href="/blog/how-to-measure-grip-size/" class="text-link">grip size</a> when their forearm hurts, but core thickness often has a bigger impact on vibration.</li>
+        <li><strong>Assuming thicker is always softer.</strong> Some paddle constructions use stiffer face materials that partially override the softness of a thick core. Always test the full paddle, not just the spec sheet.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">Which thickness should you choose?</h2>
+      <p>Ask yourself these questions:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Do you want more power or more control?</strong> Power → 14mm. Control → 20mm. Balance → 16mm.</li>
+        <li><strong>Do you have any arm, wrist, or elbow issues?</strong> If yes, strongly consider 16mm or 20mm. See the <a href="/tools/arm-friendly-paddle-finder/" class="text-link">Arm-Friendly Paddle Finder</a> for a holistic recommendation.</li>
+        <li><strong>What is your primary shot?</strong> If you live at the kitchen with dinks and drops, thicker cores help. If you attack with drives and serves, thinner cores help.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">What to do next</h2>
+      <p>Use the <a href="/tools/core-thickness-advisor/" class="text-link">Core Thickness Advisor</a> to get a personalized recommendation based on your priorities for power, touch, comfort, and noise. Once you know your ideal thickness, pair it with the right <a href="/tools/paddle-weight-advisor/" class="text-link">paddle weight</a> and <a href="/tools/paddle-shape-fit/" class="text-link">shape</a> for a complete setup profile.</p>
     </div>
 
     <div class="mt-12 pt-8 border-t border-hairline">

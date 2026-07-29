@@ -1,5 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/#tools' },
+  { label: 'Arm-Friendly Paddle Tips' },
+];
 ---
 
 <Layout
@@ -7,25 +14,62 @@ import Layout from '../../layouts/Layout.astro';
   description="Learn how to choose arm-friendly pickleball paddle specs. Tips on weight, core thickness, grip size, and vibration control for comfortable play."
   canonicalPath="/blog/arm-friendly-paddle-tips/"
 >
-  <div class="container-narrow py-16">
-    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Resource</p>
-    <h1 class="text-display-xl text-ink mb-4">Arm-Friendly Paddle Tips</h1>
-    <p class="text-body-lg text-body mb-8">The right paddle specs can make a real difference in playing comfort. Here are the key factors to consider.</p>
+  <div class="container-narrow py-12 md:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Guide</p>
+    <h1 class="text-display-xl text-ink mb-4">Arm-Friendly Pickleball Paddle Tips: How to Play Without Pain</h1>
+    <p class="text-body-lg text-body mb-8">Arm pain — especially tennis elbow, golfer's elbow, and generalized forearm fatigue — is one of the most common complaints among regular pickleball players. While proper technique and conditioning are essential, your equipment choices play a significant role. The right combination of <a href="/blog/paddle-weight-guide/" class="text-link">paddle weight</a>, <a href="/blog/core-thickness-explained/" class="text-link">core thickness</a>, and <a href="/blog/how-to-measure-grip-size/" class="text-link">grip size</a> can dramatically reduce vibration and impact shock.</p>
 
     <div class="prose text-body-md text-body space-y-6 max-w-none">
-      <h2 class="text-display-sm text-ink">Weight matters</h2>
-      <p>Ultralight paddles (under 7.0 oz) can transmit more vibration. A moderate weight (7.5 – 8.0 oz) provides stability that helps absorb impact shock. Very heavy paddles (over 8.5 oz) can increase cumulative fatigue.</p>
+      <h2 class="text-display-sm text-ink">Why pickleball causes arm pain</h2>
+      <p>Pickleball involves thousands of repetitive impacts per session. Each time the ball hits the paddle, vibration travels through the paddle face, into the core, through the handle, and into your hand, wrist, forearm, and elbow. Over time, this repetitive micro-trauma inflames tendons — particularly the lateral epicondyle (tennis elbow) and medial epicondyle (golfer's elbow).</p>
+      <p>Unlike tennis, pickleball is played on a smaller court with faster exchanges, meaning you absorb more impacts per minute. Players who compete 3-5 times per week are especially vulnerable. The good news is that equipment changes can reduce the peak vibration transmitted to your arm by 25-50%, depending on which specs you adjust.</p>
 
-      <h2 class="text-display-sm text-ink">Thicker cores absorb vibration</h2>
-      <p>A 16 mm or 20 mm core dampens more vibration than a thin 14 mm core. If arm comfort is a priority, avoid the thinnest cores.</p>
+      <h2 class="text-display-sm text-ink">The four equipment factors that matter most</h2>
 
-      <h2 class="text-display-sm text-ink">Grip size is critical</h2>
-      <p>A grip that is too small increases wrist torque; one that is too large forces you to grip tighter. Both can aggravate arm issues. Use the <a href="/tools/grip-size-calculator/">Grip Size Calculator</a> to check your fit.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">1. Core thickness — the biggest lever</h3>
+      <p>Core thickness has the single largest impact on vibration dampening. A 20mm polypropylene honeycomb core absorbs significantly more impact energy than a 14mm core, reducing the peak vibration that reaches your hand. If you are experiencing arm discomfort and currently using a paddle with a thin (14mm) core, switching to a 16mm or 20mm core is the most effective change you can make.</p>
+      <p>The tradeoff is reduced pop — thicker cores give you a softer feel with less rebound speed on drives. For players prioritizing comfort over power, this is a worthwhile exchange. See our <a href="/blog/core-thickness-explained/" class="text-link">Core Thickness Guide</a> for a detailed comparison.</p>
 
-      <h2 class="text-display-sm text-ink">Shape and balance</h2>
-      <p>Standard and hybrid shapes offer larger sweet spots, meaning fewer off-center hits that send shock through the arm. A handle-heavy balance can also reduce impact strain.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">2. Paddle weight — finding the sweet spot</h3>
+      <p>Weight is counterintuitive. Ultra-light paddles (under 7.0 oz) might seem easier on the arm, but they actually transmit more vibration per impact because there is less mass to absorb the shock. Conversely, very heavy paddles (over 8.5 oz) cause cumulative fatigue over long sessions — the repetitive effort of swinging a heavy paddle strains muscles and tendons.</p>
+      <p>The arm-friendly sweet spot is typically between 7.3 and 7.8 oz — heavy enough to dampen vibration but light enough to avoid fatigue. Use the <a href="/tools/paddle-weight-advisor/" class="text-link">Paddle Weight Advisor</a> with arm sensitivity set to "severe" for a personalized recommendation.</p>
 
-      <p class="mt-6 p-4 bg-warning-soft/30 rounded-md text-body-sm">This information is for general guidance only and is not medical advice. If you are experiencing persistent arm pain, consult a healthcare professional.</p>
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">3. Grip size — often underestimated</h3>
+      <p>An incorrect grip size forces your hand to compensate, dramatically increasing forearm strain:</p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Too small:</strong> You squeeze tighter to maintain control, which increases forearm muscle activation by 20-30% and puts extra load on the medial and lateral epicondyles.</li>
+        <li><strong>Too large:</strong> Your fingers cannot wrap fully, reducing wrist stability and forcing your forearm extensors to work harder to control the paddle face angle.</li>
+      </ul>
+      <p>Measure your hand using the <a href="/tools/grip-size-calculator/" class="text-link">Grip Size Calculator</a> and make sure your grip circumference is correct. If you are between sizes and have arm issues, size up slightly — a slightly larger grip reduces the squeezing force required.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">4. Paddle shape and sweet spot</h3>
+      <p>Off-center hits generate significantly more vibration than clean, centered contact. A wider <a href="/blog/choosing-paddle-shape/" class="text-link">standard-shape paddle (16" × 8")</a> has a larger sweet spot, meaning more of your shots land in the optimal zone. Elongated paddles (16.5" × 7.5") have a narrower sweet spot, and every off-center hit sends a sharper vibration pulse through the handle. If arm comfort is a priority, choose the widest face geometry that works for your play style.</p>
+
+      <h2 class="text-display-sm text-ink">Additional tips for reducing arm strain</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Add a vibration dampener.</strong> Some paddles accept edge guard dampeners or weight tape that absorbs high-frequency vibrations. Even a thin layer of lead tape at the 3 and 9 o'clock positions can improve dampening.</li>
+        <li><strong>Use an overgrip.</strong> A cushioned overgrip adds a layer of shock absorption between your hand and the handle. It also increases the grip circumference slightly — check the <a href="/tools/overgrip-weight-adjustment/" class="text-link">Overgrip Calculator</a> to see the exact impact.</li>
+        <li><strong>Warm up properly.</strong> Cold tendons are more susceptible to micro-tears. Gentle forearm stretches and wrist rotations for 3-5 minutes before play can reduce injury risk.</li>
+        <li><strong>Limit session duration.</strong> If you are currently experiencing pain, reduce your playing time to 60-90 minutes maximum and give yourself at least one rest day between sessions.</li>
+        <li><strong>Check your technique.</strong> Wristy shots and late contact points generate more arm stress than smooth, full-body strokes. Work with a coach to clean up your swing mechanics.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">The ideal arm-friendly paddle profile</h2>
+      <p>Based on the factors above, here is the spec profile that minimizes arm strain for most players:</p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Core thickness:</strong> 16mm or 20mm (polypropylene honeycomb)</li>
+        <li><strong>Weight:</strong> 7.3 – 7.8 oz</li>
+        <li><strong>Shape:</strong> Standard (16" × 8") or Hybrid (16.25" × 7.8")</li>
+        <li><strong>Grip size:</strong> Correctly measured (use the <a href="/tools/grip-size-calculator/" class="text-link">Grip Size Calculator</a>)</li>
+        <li><strong>Balance:</strong> Handle-heavy or neutral (not head-heavy)</li>
+      </ul>
+
+      <p class="mt-6 p-4 bg-warning-soft/30 rounded-md text-body-sm"><strong>Important:</strong> This information is for general guidance only and is not medical advice. If you are experiencing persistent arm pain that does not improve with equipment changes and rest, consult a healthcare professional or sports medicine specialist.</p>
+
+      <h2 class="text-display-sm text-ink">What to do next</h2>
+      <p>Use the <a href="/tools/arm-friendly-paddle-finder/" class="text-link">Arm-Friendly Paddle Finder</a> to generate a complete spec recommendation — it considers core thickness, weight, grip size, and shape together to build a primary and backup setup designed for comfort. From there, you can fine-tune your <a href="/tools/paddle-weight-advisor/" class="text-link">weight range</a> and <a href="/tools/core-thickness-advisor/" class="text-link">core thickness</a> individually.</p>
     </div>
 
     <div class="mt-12 pt-8 border-t border-hairline">

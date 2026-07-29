@@ -1,5 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/#tools' },
+  { label: 'Paddle Weight Guide' },
+];
 ---
 
 <Layout
@@ -7,25 +14,62 @@ import Layout from '../../layouts/Layout.astro';
   description="Understand pickleball paddle weight ranges: light (7.0-7.5 oz), mid (7.5-8.0 oz), and heavy (8.0-8.5 oz). Which is right for you?"
   canonicalPath="/blog/paddle-weight-guide/"
 >
-  <div class="container-narrow py-16">
-    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Resource</p>
-    <h1 class="text-display-xl text-ink mb-4">Paddle Weight Guide</h1>
-    <p class="text-body-lg text-body mb-8">Paddle weight is one of the most important factors in how your paddle feels and performs. Here is what you need to know.</p>
+  <div class="container-narrow py-12 md:py-16">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <p class="text-caption-mono text-mute uppercase tracking-wide mb-2">Guide</p>
+    <h1 class="text-display-xl text-ink mb-4">Pickleball Paddle Weight Guide: Light vs Mid vs Heavy</h1>
+    <p class="text-body-lg text-body mb-8">Paddle weight is one of the three most important specs — alongside <a href="/blog/how-to-measure-grip-size/" class="text-link">grip size</a> and <a href="/blog/core-thickness-explained/" class="text-link">core thickness</a> — that determine how a paddle performs in your hand. This guide breaks down the three weight categories, explains the real-world tradeoffs, and helps you figure out which range fits your game.</p>
 
     <div class="prose text-body-md text-body space-y-6 max-w-none">
-      <h2 class="text-display-sm text-ink">Weight categories</h2>
-      <p>Most pickleball paddles fall into three weight ranges:</p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Light (7.0 – 7.5 oz):</strong> Fastest hand speed, least fatigue, but less power and stability on off-center hits.</li>
-        <li><strong>Mid-weight (7.5 – 8.0 oz):</strong> Best balance of power and control. The most popular range for intermediate to advanced players.</li>
-        <li><strong>Heavy (8.0 – 8.5 oz):</strong> Maximum power and stability, but slower to maneuver and more fatiguing over long sessions.</li>
+      <h2 class="text-display-sm text-ink">The three weight categories</h2>
+      <p>Pickleball paddle weights typically fall between 7.0 and 8.5 ounces (198–241 grams). Manufacturers and players generally divide this range into three categories:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Lightweight (7.0 – 7.5 oz / 198–213g):</strong> Fastest hand speed and quickest reaction time at the kitchen line. Ideal for players who rely on dinks, resets, and finesse. The tradeoff is less inherent power on drives and serves — you need to generate more swing speed yourself.</li>
+        <li><strong>Mid-weight (7.5 – 8.0 oz / 213–227g):</strong> The most popular range for intermediate to advanced players. Balances power, control, and maneuverability. A mid-weight paddle gives you enough mass for solid groundstrokes without sacrificing quick volleys at the net.</li>
+        <li><strong>Heavyweight (8.0 – 8.5 oz / 227–241g):</strong> Maximum power and shot stability. The added mass means drives and serves carry more momentum. However, heavier paddles are slower to reposition and can cause arm fatigue during longer sessions — especially for players with existing elbow or shoulder issues.</li>
       </ul>
 
       <h2 class="text-display-sm text-ink">How weight affects your game</h2>
-      <p>Heavier paddles generate more power from mass alone, requiring less swing effort. Lighter paddles give you quicker reactions at the net but may lack punch on groundstrokes. Mid-weight is the safest starting point.</p>
+      <p>The physics are straightforward: a heavier object transfers more energy on contact, given the same swing speed. This means a heavier paddle generates more power from mass alone, requiring less effort on your part for powerful drives. But the cost is agility — the heavier the paddle, the harder it is to change direction quickly during fast-paced exchanges at the net.</p>
+      <p>In practice, the difference between a 7.3 oz paddle and an 8.0 oz paddle is significant. Players who switch from lightweight to mid-weight often notice immediately that their third-shot drives have more penetration, but their quick-volley reactions feel a half-step slower. The reverse is also true — switching to a lighter paddle unlocks speed but can make blocks and power shots feel hollow.</p>
 
-      <h2 class="text-display-sm text-ink">Factors to consider</h2>
-      <p>Your play style, arm health, session length, and experience level all affect the ideal weight. Use the <a href="/tools/paddle-weight-advisor/">Paddle Weight Advisor</a> for a personalized recommendation.</p>
+      <h2 class="text-display-sm text-ink">Factors that should influence your choice</h2>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Play style</h3>
+      <p>If you play a speed-oriented dinking and resetting game, lean lighter (7.0–7.5 oz). If you favor powerful baseline drives and aggressive volleys, lean heavier (8.0–8.5 oz). If you play an all-court game mixing both, mid-weight (7.5–8.0 oz) gives you the most versatility.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Arm health and sensitivity</h3>
+      <p>Heavier paddles transmit more cumulative force to your wrist, forearm, and elbow over a long session. If you have any history of tennis elbow, golfer's elbow, or general arm fatigue, a lighter paddle (under 7.8 oz) is usually recommended. See the <a href="/tools/arm-friendly-paddle-finder/" class="text-link">Arm-Friendly Paddle Finder</a> for a full spec recommendation that factors in weight, core thickness, and grip size together.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Session length</h3>
+      <p>Players who play 2+ hours at a time or compete in tournament formats with back-to-back matches should factor in fatigue. A paddle that feels fine for 30 minutes can become exhausting after 90. If you regularly play long sessions, err toward the lighter end of your ideal range.</p>
+
+      <h3 class="text-display-sm text-ink" style="font-size:18px;">Experience level</h3>
+      <p>Beginners often benefit from mid-weight paddles because they provide forgiveness on off-center hits and enough mass to keep shots stable while technique develops. Advanced players with refined mechanics can extract more value from the extremes — going ultra-light for net speed or heavy for power.</p>
+
+      <h2 class="text-display-sm text-ink">Static weight vs swing weight</h2>
+      <p>The number on the scale (static weight) is not the whole story. Two paddles at 7.8 oz can feel very different depending on where the weight is distributed. A head-heavy paddle swings heavier than its static weight suggests, delivering more power but slower maneuverability. A handle-heavy paddle swings lighter, giving you quicker hands at the net.</p>
+      <p>Adding <a href="/tools/overgrip-weight-adjustment/" class="text-link">overgrips</a> shifts weight toward the handle (roughly 7 grams per wrap), which effectively makes a paddle feel lighter in the swing while adding static mass. Lead tape on the paddle head does the opposite — it increases both static and swing weight for more power.</p>
+
+      <h2 class="text-display-sm text-ink">Real-world weight recommendations by scenario</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Senior players (60+):</strong> 7.2–7.6 oz for reduced strain and easier maneuverability.</li>
+        <li><strong>Competitive doubles:</strong> 7.5–7.9 oz for quick exchanges balanced with enough pop on put-aways.</li>
+        <li><strong>Competitive singles:</strong> 7.8–8.3 oz for more power on groundstrokes and serves.</li>
+        <li><strong>Casual rec play:</strong> 7.5–8.0 oz — the versatile sweet spot.</li>
+        <li><strong>Players with arm issues:</strong> Under 7.8 oz, combined with a <a href="/blog/core-thickness-explained/" class="text-link">thicker core (16mm+)</a> for vibration absorption.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">How to fine-tune weight after purchase</h2>
+      <p>You are not locked into your paddle's factory weight. There are two common ways to adjust:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Add weight:</strong> Lead tape strips (typically 2–4 grams each) applied to the paddle head or edge guard add power. The <a href="/tools/overgrip-weight-adjustment/" class="text-link">Overgrip Calculator</a> shows the exact impact of each addition.</li>
+        <li><strong>Reduce effective weight:</strong> Removing a factory overgrip or switching to a thinner replacement can trim 5–8 grams. Note that this also reduces <a href="/blog/how-to-measure-grip-size/" class="text-link">grip circumference</a>.</li>
+      </ul>
+
+      <h2 class="text-display-sm text-ink">What to do next</h2>
+      <p>The best way to find your ideal weight is to input your play style, arm sensitivity, and session length into the <a href="/tools/paddle-weight-advisor/" class="text-link">Paddle Weight Advisor</a> — it generates a personalized recommendation with a target weight range and tradeoff analysis. Once you know your weight, pair it with the right <a href="/blog/choosing-paddle-shape/" class="text-link">paddle shape</a> and <a href="/tools/grip-size-calculator/" class="text-link">grip size</a> for a complete setup.</p>
     </div>
 
     <div class="mt-12 pt-8 border-t border-hairline">
