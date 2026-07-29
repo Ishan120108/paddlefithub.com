@@ -1,0 +1,55 @@
+{
+  "$schema": "https://isitagentready.com/schemas/v1/dns-aid.json",
+  "domain": "paddlefithub.com",
+  "dnssec": true,
+  "records": [
+    {
+      "name": "_index._agents.paddlefithub.com",
+      "type": "HTTPS",
+      "priority": 1,
+      "target": "paddlefithub.com",
+      "params": {
+        "alpn": ["h2", "h3"],
+        "port": 443,
+        "path": "/.well-known/agent-skills/index.json"
+      },
+      "raw": "_index._agents.paddlefithub.com. IN HTTPS 1 paddlefithub.com. alpn=\"h2,h3\" port=443 path=\"/.well-known/agent-skills/index.json\""
+    },
+    {
+      "name": "_a2a._agents.paddlefithub.com",
+      "type": "HTTPS",
+      "priority": 1,
+      "target": "paddlefithub.com",
+      "params": {
+        "alpn": ["h2", "h3"],
+        "port": 443,
+        "path": "/.well-known/agent-card.json"
+      },
+      "raw": "_a2a._agents.paddlefithub.com. IN HTTPS 1 paddlefithub.com. alpn=\"h2,h3\" port=443 path=\"/.well-known/agent-card.json\""
+    },
+    {
+      "name": "_mcp._agents.paddlefithub.com",
+      "type": "HTTPS",
+      "priority": 1,
+      "target": "paddlefithub.com",
+      "params": {
+        "alpn": ["h2", "h3"],
+        "port": 443,
+        "path": "/.well-known/mcp/server-card.json"
+      },
+      "raw": "_mcp._agents.paddlefithub.com. IN HTTPS 1 paddlefithub.com. alpn=\"h2,h3\" port=443 path=\"/.well-known/mcp/server-card.json\""
+    },
+    {
+      "name": "_auth._agents.paddlefithub.com",
+      "type": "HTTPS",
+      "priority": 1,
+      "target": "paddlefithub.com",
+      "params": {
+        "alpn": ["h2", "h3"],
+        "port": 443,
+        "path": "/auth.md"
+      },
+      "raw": "_auth._agents.paddlefithub.com. IN HTTPS 1 paddlefithub.com. alpn=\"h2,h3\" port=443 path=\"/auth.md\""
+    }
+  ]
+}

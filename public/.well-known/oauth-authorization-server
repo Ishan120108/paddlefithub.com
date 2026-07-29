@@ -3,11 +3,24 @@
   "authorization_endpoint": "https://paddlefithub.com/auth/authorize",
   "token_endpoint": "https://paddlefithub.com/auth/token",
   "jwks_uri": "https://paddlefithub.com/.well-known/jwks.json",
-  "grant_types_supported": ["client_credentials", "authorization_code"],
+  "grant_types_supported": [
+    "client_credentials",
+    "authorization_code"
+  ],
+  "response_types_supported": [
+    "token",
+    "code"
+  ],
   "agent_auth": {
     "register_uri": "https://paddlefithub.com/auth/register-agent",
-    "supported_identity_types": ["anonymous", "verified_agent"],
-    "credential_types": ["api_key", "bearer_token"],
+    "supported_identity_types": [
+      "anonymous",
+      "verified_agent"
+    ],
+    "credential_types": [
+      "api_key",
+      "bearer_token"
+    ],
     "claim_uri": "https://paddlefithub.com/auth/claim",
     "revocation_uri": "https://paddlefithub.com/auth/revoke"
   }

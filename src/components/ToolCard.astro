@@ -16,7 +16,6 @@ const { title, description, href, icon, tag } = Astro.props;
 
 <a
   href={href}
-  aria-label={`${title} — ${description}`}
   class="card-marketing group block no-underline border border-hairline hover:border-hairline-strong transition-all duration-200"
   id={`tool-card-${href.split('/').filter(Boolean).pop()}`}
 >

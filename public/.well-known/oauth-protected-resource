@@ -3,5 +3,12 @@
   "authorization_servers": [
     "https://paddlefithub.com"
   ],
-  "scopes_supported": ["read:tools", "execute:calculators"]
+  "scopes_supported": [
+    "read:tools",
+    "execute:calculators"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://paddlefithub.com/auth.md"
 }

@@ -20,7 +20,7 @@ const { tools } = Astro.props;
   <h2 class="text-display-md text-ink mb-6">Related tools.</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {tools.map((tool) => (
-      <a href={tool.href} aria-label={`${tool.title} — ${tool.description}`} class="card-marketing group block no-underline">
+      <a href={tool.href} class="card-marketing group block no-underline">
         <div class="flex flex-col gap-2">
           <h3 class="text-body-md-strong text-ink m-0 group-hover:text-link transition-colors">{tool.title}</h3>
           <p class="text-body-sm text-body m-0">{tool.description}</p>

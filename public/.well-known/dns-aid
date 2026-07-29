@@ -1,0 +1,8 @@
+; DNS for AI Discovery (DNS-AID) Zone File for paddlefithub.com
+; RFC 9460 ServiceMode SVCB/HTTPS Records
+; DNSSEC Signed Zone: Yes
+
+_index._agents.paddlefithub.com. IN HTTPS 1 paddlefithub.com. alpn="h2,h3" port=443 path="/.well-known/agent-skills/index.json"
+_a2a._agents.paddlefithub.com.   IN HTTPS 1 paddlefithub.com. alpn="h2,h3" port=443 path="/.well-known/agent-card.json"
+_mcp._agents.paddlefithub.com.   IN HTTPS 1 paddlefithub.com. alpn="h2,h3" port=443 path="/.well-known/mcp/server-card.json"
+_auth._agents.paddlefithub.com.  IN HTTPS 1 paddlefithub.com. alpn="h2,h3" port=443 path="/auth.md"

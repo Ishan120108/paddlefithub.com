@@ -16,5 +16,7 @@
 
 - [API Catalog](https://paddlefithub.com/.well-known/api-catalog): RFC 9727 API discovery metadata.
 - [MCP Server Card](https://paddlefithub.com/.well-known/mcp/server-card.json): Model Context Protocol server capabilities.
+- [A2A Agent Card](https://paddlefithub.com/.well-known/agent-card.json): Agent-to-Agent discovery card and interface capabilities.
 - [Agent Skills Index](https://paddlefithub.com/.well-known/agent-skills/index.json): Agent Skills Discovery RFC v0.2.0 index.
-- [Auth & Access](https://paddlefithub.com/auth.md): Agent authentication and open access documentation.
+- [DNS-AID Metadata](https://paddlefithub.com/.well-known/dns-aid.json): DNS for AI Discovery (DNS-AID) RFC 9460 SVCB/HTTPS service record specifications.
+- [Auth & Access](https://paddlefithub.com/auth.md): Agent registration and authentication specifications.
