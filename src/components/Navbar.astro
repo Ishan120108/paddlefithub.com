@@ -248,13 +248,29 @@ const navLinks = [
   const closeIcon = document.getElementById('close-icon');
 
   if (mobileBtn && mobileMenu && hamburgerIcon && closeIcon) {
+    const closeMobileMenu = () => {
+      mobileBtn.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.add('hidden');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+      document.body.style.overflow = '';
+    };
+
     mobileBtn.addEventListener('click', () => {
       const isOpen = mobileBtn.getAttribute('aria-expanded') === 'true';
-      mobileBtn.setAttribute('aria-expanded', String(!isOpen));
-      mobileMenu.classList.toggle('hidden', isOpen);
-      hamburgerIcon.classList.toggle('hidden', !isOpen);
-      closeIcon.classList.toggle('hidden', isOpen);
-      document.body.style.overflow = isOpen ? '' : 'hidden';
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        mobileBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMobileMenu);
     });
   }
 </script>

@@ -511,6 +511,9 @@ html.dark .form-select {
     background-position: right 12px center;
     padding-right: 32px;
     cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .form-select:focus {
@@ -549,7 +552,7 @@ html.dark .form-select {
 }
 
 /* ============================================================
-   RESPONSIVE — mobile-first overrides
+   RESPONSIVE — mobile & tablet overrides
    ============================================================ */
 
 @media (max-width: 599px) {
@@ -574,4 +577,25 @@ html.dark .form-select {
     padding-left: 16px;
     padding-right: 16px;
   }
+
+  /* Prevent iOS Safari input focus auto-zoom */
+  .form-input, .form-select, .form-input-lg {
+    font-size: 16px;
+  }
+
+  /* Ensure buttons fit small viewports cleanly */
+  .btn-primary, .btn-secondary {
+    max-width: 100%;
+    padding: 0 16px;
+    white-space: normal;
+    text-align: center;
+  }
 }
+
+@media (max-width: 959px) {
+  /* Ensure touch-friendly tap targets on mobile and tablet */
+  button, input[type="submit"], select, a.btn-primary, a.btn-secondary {
+    min-height: 40px;
+  }
+}
+
