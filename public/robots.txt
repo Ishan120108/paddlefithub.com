@@ -2,5 +2,6 @@
 User-agent: *
 Allow: /
 
-# Sitemap Location
+# Sitemap Locations
 Sitemap: https://paddlefithub.com/sitemap.xml
+Sitemap: http://localhost:4321/sitemap.xml

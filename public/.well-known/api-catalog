@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://paddlefithub.com/api/v1",
+      "service-desc": [
+        {
+          "href": "https://paddlefithub.com/.well-known/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://paddlefithub.com/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://paddlefithub.com/api/status.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

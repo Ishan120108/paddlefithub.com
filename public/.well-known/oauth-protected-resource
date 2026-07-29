@@ -1,0 +1,7 @@
+{
+  "resource": "https://paddlefithub.com",
+  "authorization_servers": [
+    "https://paddlefithub.com"
+  ],
+  "scopes_supported": ["read:tools", "execute:calculators"]
+}

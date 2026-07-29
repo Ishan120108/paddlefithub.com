@@ -68,9 +68,22 @@ import '../styles/global.css';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Inter:wght@400;500;600&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XDVPM4VDW0"></script>
@@ -85,8 +98,41 @@ import '../styles/global.css';
     <!-- Google Search Console verification — replace content with your code -->
     <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
 
-    <!-- Bing Webmaster Tools verification — replace content with your code -->
-    <!-- <meta name="msvalidate.01" content="YOUR_VERIFICATION_CODE" /> -->
+    <!-- WebMCP: Expose site tools to browser AI agents -->
+    <script is:inline>
+      if (typeof window !== 'undefined' && 'modelContext' in navigator) {
+        try {
+          navigator.modelContext.provideContext({
+            tools: [
+              {
+                name: 'calculateGripSize',
+                description: 'Calculates recommended pickleball paddle grip size based on palm-to-finger measurement in inches or cm.',
+                inputSchema: {
+                  type: 'object',
+                  properties: {
+                    handMeasurement: { type: 'number', description: 'Palm crease to ring finger tip' },
+                    unit: { type: 'string', enum: ['inches', 'cm'], default: 'inches' }
+                  },
+                  required: ['handMeasurement']
+                }
+              },
+              {
+                name: 'calculatePaddleWeight',
+                description: 'Recommends target paddle weight range in ounces based on play style and arm sensitivity.',
+                inputSchema: {
+                  type: 'object',
+                  properties: {
+                    playStyle: { type: 'string', enum: ['quick', 'all-around', 'power'] },
+                    armSensitivity: { type: 'string', enum: ['none', 'mild', 'severe'] }
+                  },
+                  required: ['playStyle']
+                }
+              }
+            ]
+          });
+        } catch (e) {}
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Navbar />

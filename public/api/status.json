@@ -1,0 +1,6 @@
+{
+  "status": "operational",
+  "service": "PaddleFitHub",
+  "version": "1.0.0",
+  "agent_ready": true
+}

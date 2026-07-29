@@ -1,1 +1,138 @@
-[]
+[
+  {
+    "path": "/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/about/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/blog/arm-friendly-paddle-tips/",
+    "score": 0.86,
+    "performance": 0.58,
+    "accessibility": 0.96,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/blog/choosing-paddle-shape/",
+    "score": 0.85,
+    "performance": 0.57,
+    "accessibility": 0.96,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/blog/core-thickness-explained/",
+    "score": 0.85,
+    "performance": 0.57,
+    "accessibility": 0.96,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/blog/how-to-measure-grip-size/",
+    "score": 0.85,
+    "performance": 0.57,
+    "accessibility": 0.96,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/blog/paddle-weight-guide/",
+    "score": 0.85,
+    "performance": 0.57,
+    "accessibility": 0.96,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/contact/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/privacy-policy/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/terms/",
+    "score": 0.87,
+    "performance": 0.58,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/arm-friendly-paddle-finder/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/core-thickness-advisor/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/grip-size-calculator/",
+    "score": 0.86,
+    "performance": 0.56,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/overgrip-weight-adjustment/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/paddle-shape-fit/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/paddle-weight-advisor/",
+    "score": 0.87,
+    "performance": 0.58,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  },
+  {
+    "path": "/tools/round-robin-generator/",
+    "score": 0.86,
+    "performance": 0.57,
+    "accessibility": 1,
+    "best-practices": 0.96,
+    "seo": 0.92
+  }
+]

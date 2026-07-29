@@ -1,2 +1,2 @@
-https://paddlefithub.pages.dev//*
-  X-Robots-Tag: noindex
+/*
+  Link: </.well-known/api-catalog>; rel="api-catalog", </.well-known/agent-skills/index.json>; rel="agent-skills", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </llms.txt>; rel="service-doc"

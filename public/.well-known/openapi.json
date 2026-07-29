@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "PaddleFitHub API",
+    "version": "1.0.0",
+    "description": "API endpoints for pickleball equipment fitting calculations and round-robin schedule generation."
+  },
+  "servers": [
+    {
+      "url": "https://paddlefithub.com/api/v1"
+    }
+  ],
+  "paths": {
+    "/status": {
+      "get": {
+        "summary": "Check API health status",
+        "responses": {
+          "200": {
+            "description": "API is operational"
+          }
+        }
+      }
+    }
+  }
+}

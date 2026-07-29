@@ -1,0 +1,56 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "name": "paddlefithub-skills",
+  "description": "AI Agent skills and calculator tools for pickleball equipment fitting and tournament rotation generation.",
+  "skills": [
+    {
+      "name": "grip-size-calculator",
+      "type": "calculator",
+      "description": "Calculates recommended pickleball paddle grip size based on palm-to-finger measurements or player height.",
+      "url": "https://paddlefithub.com/tools/grip-size-calculator/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "paddle-weight-advisor",
+      "type": "advisor",
+      "description": "Recommends paddle weight in ounces and grams based on play style, arm sensitivity, and session duration.",
+      "url": "https://paddlefithub.com/tools/paddle-weight-advisor/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "paddle-shape-fit",
+      "type": "advisor",
+      "description": "Compares Standard, Hybrid, and Elongated paddle shapes matching player priorities.",
+      "url": "https://paddlefithub.com/tools/paddle-shape-fit/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "core-thickness-advisor",
+      "type": "advisor",
+      "description": "Analyzes 14mm, 16mm, and 20mm core thickness tradeoffs for pop vs soft touch.",
+      "url": "https://paddlefithub.com/tools/core-thickness-advisor/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "overgrip-weight-adjustment",
+      "type": "calculator",
+      "description": "Calculates static weight addition, grip expansion, and balance shift from overgrip wraps.",
+      "url": "https://paddlefithub.com/tools/overgrip-weight-adjustment/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "arm-friendly-paddle-finder",
+      "type": "advisor",
+      "description": "Equipment spec recommendations for shock absorption and vibration reduction.",
+      "url": "https://paddlefithub.com/tools/arm-friendly-paddle-finder/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "round-robin-generator",
+      "type": "generator",
+      "description": "Generates fair tournament rotation schedules for Doubles and Singles pickleball.",
+      "url": "https://paddlefithub.com/tools/round-robin-generator/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

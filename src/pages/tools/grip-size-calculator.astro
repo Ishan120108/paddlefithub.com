@@ -256,14 +256,14 @@ const faqs = [
 
       <div id="results-panel" class="hidden space-y-6">
         <div class="bg-ink text-on-primary rounded-lg p-6 relative overflow-hidden">
-          <div class="flex items-center justify-between mb-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
             <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Recommended Grip Size</span>
-            <span id="confidence-badge" class="px-2.5 py-1 rounded-full text-caption-mono bg-canvas/10 text-on-primary">
+            <span id="confidence-badge" class="inline-block self-start sm:self-auto px-2.5 py-1 rounded-full text-caption-mono text-xs leading-normal max-w-full whitespace-normal bg-canvas/10 text-on-primary">
               High Confidence
             </span>
           </div>
 
-          <div class="flex items-baseline gap-3 mb-2">
+          <div class="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-2">
             <p class="text-display-xl text-on-primary font-semibold" id="result-size">4 ¼"</p>
             <span class="text-body-md text-hairline" id="result-fraction-label">(4.250 in)</span>
           </div>
@@ -570,7 +570,7 @@ const faqs = [
     resultsPanel.classList.remove('hidden');
 
     confidenceBadge.textContent = confidenceText;
-    confidenceBadge.className = `px-2.5 py-1 rounded-full text-caption-mono ${confidenceClass}`;
+    confidenceBadge.className = `inline-block self-start sm:self-auto px-2.5 py-1 rounded-full text-caption-mono text-xs leading-normal max-w-full whitespace-normal ${confidenceClass}`;
 
     resultSize.textContent = rec.size;
     resultFractionLabel.textContent = `(${rec.decimal.toFixed(3)} in)`;

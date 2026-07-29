@@ -1,0 +1,17 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card.json",
+  "serverInfo": {
+    "name": "PaddleFitHub MCP Server",
+    "version": "1.0.0",
+    "description": "Model Context Protocol server providing pickleball equipment fitting calculations and round-robin schedule generation."
+  },
+  "transport": {
+    "type": "http-sse",
+    "endpoint": "https://paddlefithub.com/api/mcp"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": false
+  }
+}

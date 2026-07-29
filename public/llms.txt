@@ -1,0 +1,20 @@
+# PaddleFitHub — AI Agent Guide
+
+> PaddleFitHub provides 7 free, data-driven pickleball equipment calculators for grip size, paddle weight, shape fit, core thickness, overgrip weight adjustment, arm comfort recommendations, and round-robin schedule generation.
+
+## Calculators & Tools
+
+- [Grip Size Calculator](https://paddlefithub.com/tools/grip-size-calculator/): Calculates recommended grip size in 1/8" increments from palm-to-finger measurements or player height.
+- [Paddle Weight Advisor](https://paddlefithub.com/tools/paddle-weight-advisor/): Recommends paddle static weight (7.2–8.8 oz) based on play style, arm sensitivity, and session length.
+- [Paddle Shape Fit](https://paddlefithub.com/tools/paddle-shape-fit/): Compares Standard (16"x8"), Hybrid (16.25"x7.8"), and Elongated (16.5"x7.5") paddle geometries.
+- [Core Thickness Advisor](https://paddlefithub.com/tools/core-thickness-advisor/): Analyzes pop vs soft reset tradeoffs for 14mm, 16mm, and 20mm honeycomb cores.
+- [Overgrip Weight Adjustment](https://paddlefithub.com/tools/overgrip-weight-adjustment/): Calculates static mass (+7g), grip expansion (+1/16"), and balance shift from overgrips.
+- [Arm-Friendly Paddle Finder](https://paddlefithub.com/tools/arm-friendly-paddle-finder/): Generates vibration-reduction equipment specifications.
+- [Round-Robin Generator](https://paddlefithub.com/tools/round-robin-generator/): Generates balanced rotation schedules for Doubles and Singles rec play & tournaments.
+
+## Documentation & API Metadata
+
+- [API Catalog](https://paddlefithub.com/.well-known/api-catalog): RFC 9727 API discovery metadata.
+- [MCP Server Card](https://paddlefithub.com/.well-known/mcp/server-card.json): Model Context Protocol server capabilities.
+- [Agent Skills Index](https://paddlefithub.com/.well-known/agent-skills/index.json): Agent Skills Discovery RFC v0.2.0 index.
+- [Auth & Access](https://paddlefithub.com/auth.md): Agent authentication and open access documentation.
