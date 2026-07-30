@@ -5,58 +5,46 @@ import FAQSection from '../../components/FAQSection.astro';
 const relatedTools = [
   {
     title: 'Grip Size Calculator',
-    description: 'Find your ideal grip size using a hand measurement.',
+    description: 'Find your ideal grip size based on hand size or height.',
     href: '/tools/grip-size-calculator/',
   },
   {
     title: 'Core Thickness Advisor',
-    description: 'Understand 14 mm, 16 mm, and 20 mm core tradeoffs.',
+    description: 'Balance pop vs. control with 14mm, 16mm, or 20mm cores.',
     href: '/tools/core-thickness-advisor/',
   },
   {
     title: 'Arm Comfort Recommendation Tool',
-    description: 'Find specs that minimize vibration and strain.',
+    description: 'Spec guidance specifically for arm strain and vibration dampening.',
     href: '/tools/arm-friendly-paddle-finder/',
   },
 ];
 
 const faqs = [
   {
-    question: 'What weight pickleball paddle should I use?',
-    answer: 'Most players perform best with a midweight paddle between 7.8 and 8.2 oz. Midweight paddles provide an optimal balance of kitchen hand speed and drive stability. Lightweight paddles (7.3–7.7 oz) favor fast resets, while heavyweight paddles (8.3+ oz) maximize power.',
+    question: 'What is the most popular pickleball paddle weight?',
+    answer: 'The most popular pickleball paddle weight range is midweight, between 7.8 and 8.2 ounces (221 to 232 grams). Midweight paddles offer the best balance of kitchen-line hand speed, off-center shot stability, and baseline drive power for most intermediate and advanced players.',
   },
   {
-    question: 'What is the best weight for a pickleball paddle?',
-    answer: 'The best weight depends on your play style and arm health. For all-around play, 7.9 to 8.1 oz is considered the sweet spot. If you suffer from arm fatigue or tennis elbow, a midweight paddle (7.8–8.0 oz) with a thick core is ideal to absorb impact shock without straining your joint.',
+    question: 'How do I know if my pickleball paddle is too heavy?',
+    answer: 'Signs that your paddle is too heavy include shoulder or forearm fatigue during sessions, difficulty getting your paddle up quickly during fast kitchen-line volley exchanges, and tendon soreness in your wrist or elbow after playing.',
   },
   {
-    question: 'What is twist weight in a pickleball paddle?',
-    answer: 'Twist weight measures a paddle\'s resistance to twisting when hit off-center. A higher twist weight expands the sweet spot and stabilizes the paddle face on mis-hits, whereas lower twist weight makes the paddle feel more maneuverable but less forgiving.',
+    question: 'Can I add weight to a lighter paddle later?',
+    answer: 'Yes. Many players purchase a lighter stock paddle (7.5–7.7 oz / 213–218g) and customize it by applying small strips of tungsten or lead tape along the 3 and 9 o\'clock perimeter positions to expand the sweet spot without sacrificing hand speed.',
   },
   {
-    question: 'Where to put weight on a pickleball paddle and how to add weight with lead tape?',
-    answer: 'You can customize weight distribution using 3g-per-strip lead or tungsten weight tape. Adding weight at the 3 and 9 o\'clock sides increases twist weight and sweet spot size. Placing weight at 12 o\'clock boosts drive power, while weighting the throat (4 and 8 o\'clock) adds stability without slowing hand speed.',
-  },
-  {
-    question: 'How to add weight to a pickleball paddle safely?',
-    answer: 'Clean the edge guard with rubbing alcohol, apply 2–4 inch strips of lead or tungsten weight tape symmetrically on both sides of the frame, and cover the tape with electrical tape or an edge guard wrap to prevent peeling.',
-  },
-  {
-    question: 'What is the lightest weight pickleball paddle available?',
-    answer: 'The lightest commercial pickleball paddles weigh around 6.8 to 7.2 ounces. While ultralight paddles offer explosive hand speed at the kitchen, they lack mass to absorb ball impact, transferring more vibration to your arm and offering less pop on baseline drives.',
-  },
-  {
-    question: 'Does a heavier pickleball paddle give you more power?',
-    answer: 'Yes. A heavier paddle (8.3+ oz) has higher static mass, transferring more kinetic energy to the ball on baseline drives and smashes. However, heavier paddles require stronger forearm strength and slightly reduce kitchen hand speed compared to midweight (7.8–8.2 oz) or lightweight (7.3–7.7 oz) models.',
+    question: 'Does a heavy paddle give you more power in pickleball?',
+    answer: 'Yes. A heavier paddle (8.3+ oz / 235g+) has higher static mass, transferring more kinetic energy to the ball on baseline drives and smashes. However, heavier paddles require stronger forearm strength and slightly reduce kitchen hand speed compared to midweight (7.8–8.2 oz) or lightweight (7.3–7.7 oz) models.',
   },
 ];
 ---
 
 <CalculatorLayout
   title="Pickleball Paddle Weight Calculator & Advisor | PaddleFitHub"
-  description="Get personalized paddle weight recommendations based on play style, arm sensitivity, and experience level. Covers the 7.2–8.8 oz range with tradeoff analysis."
+  description="Get personalized paddle weight recommendations based on play style, arm sensitivity, and experience level. Supports ounces (oz), grams (g), inches (in), and cm."
   heading="Paddle weight calculator & advisor."
-  intro="Your paddle's weight affects hand speed, power, and arm endurance. Answer a few questions about your play style to calculate your target weight range, or read our complete <a href='/blog/paddle-weight-guide/' class='text-link'>paddle weight guide</a> for an in-depth breakdown."
+  intro="Your paddle's weight affects hand speed, power, and arm endurance. Answer a few questions about your play style to calculate your target weight range in ounces (oz) and grams (g), or read our complete <a href='/blog/paddle-weight-guide/' class='text-link'>paddle weight guide</a> for an in-depth breakdown."
   canonicalPath="/tools/paddle-weight-advisor/"
   relatedTools={relatedTools}
 >
@@ -100,6 +88,18 @@ const faqs = [
       <h2 class="text-display-sm text-ink mb-4 pt-4 border-t border-hairline">2. Player &amp; session factors</h2>
 
       <div class="mb-6">
+        <div class="flex items-center justify-between mb-1">
+          <label for="current-weight-input" class="text-body-sm-strong text-ink block" id="weight-label">Current paddle weight (optional baseline)</label>
+          <div class="inline-flex rounded border border-hairline p-0.5 text-caption font-medium bg-canvas-soft">
+            <button type="button" id="unit-oz-btn" class="px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer">oz</button>
+            <button type="button" id="unit-g-btn" class="px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer">grams (g)</button>
+          </div>
+        </div>
+        <input type="number" id="current-weight-input" class="form-input" placeholder="e.g. 7.8" step="0.1" min="5.0" max="12.0" autocomplete="off" />
+        <p class="text-caption text-mute mt-1 m-0" id="weight-hint">Enter in oz (5.0–12.0) or grams (140–340g) to compare against recommendation.</p>
+      </div>
+
+      <div class="mb-6">
         <label for="arm-sensitivity" class="text-body-sm-strong text-ink block mb-1">Arm &amp; joint sensitivity</label>
         <p class="text-caption text-mute mb-2">Do you have a history of tennis elbow, golfer's elbow, or shoulder fatigue?</p>
         <select id="arm-sensitivity" class="form-select">
@@ -141,7 +141,7 @@ const faqs = [
           </svg>
         </div>
         <h3 class="text-body-md-strong text-ink mb-1">Select your play style</h3>
-        <p class="text-body-sm text-mute max-w-xs">Pick a play style on the left to generate your target paddle weight range and performance tradeoffs.</p>
+        <p class="text-body-sm text-mute max-w-xs">Pick a play style on the left to generate your target paddle weight range and performance tradeoffs in oz and grams.</p>
       </div>
 
       <div id="weight-results" class="hidden space-y-6">
@@ -220,20 +220,6 @@ const faqs = [
           <div class="text-body-sm text-body space-y-2" id="weight-explanation-content">
           </div>
         </div>
-
-        <div class="pt-4 border-t border-hairline">
-          <h3 class="text-body-sm-strong text-ink mb-3">Recommended next steps</h3>
-          <div class="space-y-2">
-            <a href="/tools/core-thickness-advisor/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Pair weight with the right core thickness (14mm vs 16mm vs 20mm)
-            </a>
-            <a href="/tools/arm-friendly-paddle-finder/" class="flex items-center gap-2 text-body-sm text-link hover:underline">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              View arm-friendly specs for vibration reduction
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -243,6 +229,7 @@ const faqs = [
     <h2 class="text-display-sm text-ink mb-4">How to Use This Tool</h2>
     <ol class="list-decimal pl-5 space-y-2 text-body-sm text-body">
       <li><strong>Select your primary play style:</strong> Choose <em>Quick Hands</em> (dinks &amp; net battles), <em>All-Around</em> (balanced all-court play), or <em>Power / Attacker</em> (drives &amp; smashes).</li>
+      <li><strong>Enter optional current weight:</strong> Input your current paddle weight in oz or grams using the unit toggle.</li>
       <li><strong>Specify arm sensitivity:</strong> Indicate if you have any history of elbow soreness or joint discomfort.</li>
       <li><strong>Set session duration:</strong> Select your typical playing time (<1 hr, 1–2 hrs, or >2 hr marathons).</li>
       <li><strong>Select experience level:</strong> Choose Beginner, Intermediate, or Advanced.</li>
@@ -254,14 +241,14 @@ const faqs = [
   <section class="mt-8 pt-8 border-t border-hairline">
     <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
     <p class="text-body-sm text-body mb-4">
-      We start with an established baseline weight class matching your play style: Lightweight (7.3–7.7 oz), Midweight (7.8–8.2 oz), or Heavyweight (8.3–8.8 oz). Next, we apply small numerical modifiers (−0.1 oz for mild arm sensitivity or long sessions; +0.1 oz for short sessions or advanced stability). Finally, the target range is clamped between 7.2 oz and 8.8 oz to match commercial market availability.
+      We start with an established baseline weight class matching your play style: Lightweight (7.3–7.7 oz / 207–218g), Midweight (7.8–8.2 oz / 221–232g), or Heavyweight (8.3–8.8 oz / 235–249g). Next, we apply small numerical modifiers (−0.1 oz for mild arm sensitivity or long sessions; +0.1 oz for short sessions or advanced stability). Finally, the target range is clamped between 7.2 oz (204g) and 8.8 oz (249g) to match commercial market availability.
     </p>
 
     <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">
       <div>Quick Base = [7.3, 7.7] oz | All-Around Base = [7.8, 8.2] oz | Power Base = [8.3, 8.8] oz</div>
       <div>Low = Base_Low + Arm_Delta + Session_Delta + Exp_Delta</div>
       <div>High = Base_High + Arm_Delta + Session_Delta + Exp_Delta</div>
-      <div>Final Weight Range = ClampedTo[7.2 oz, 8.8 oz](Low, High)</div>
+      <div>Final Weight Range = ClampedTo[7.2 oz, 8.8 oz](Low, High) [Grams = Oz × 28.3495]</div>
     </div>
   </section>
 
@@ -305,9 +292,17 @@ const faqs = [
   const STORAGE_KEY = 'paddlefit_weight_advisor_state';
 
   let selectedStyle: PlayStyle | null = null;
+  let activeWeightUnit: 'oz' | 'g' = 'oz';
 
   const styleButtons = document.querySelectorAll('.style-option') as NodeListOf<HTMLButtonElement>;
   const styleError = document.getElementById('style-error') as HTMLParagraphElement;
+
+  const currentWeightInput = document.getElementById('current-weight-input') as HTMLInputElement;
+  const weightLabel = document.getElementById('weight-label') as HTMLLabelElement;
+  const weightHint = document.getElementById('weight-hint') as HTMLParagraphElement;
+
+  const unitOzBtn = document.getElementById('unit-oz-btn') as HTMLButtonElement;
+  const unitGBtn = document.getElementById('unit-g-btn') as HTMLButtonElement;
 
   const armSelect = document.getElementById('arm-sensitivity') as HTMLSelectElement;
   const sessionSelect = document.getElementById('session-length') as HTMLSelectElement;
@@ -336,6 +331,47 @@ const faqs = [
   const longSessionNote = document.getElementById('long-session-note') as HTMLDivElement;
   const beginnerNote = document.getElementById('beginner-note') as HTMLDivElement;
   const explanationContent = document.getElementById('weight-explanation-content') as HTMLDivElement;
+
+  function setWeightUnit(unit: 'oz' | 'g') {
+    if (activeWeightUnit === unit) return;
+
+    const currentVal = parseFloat(currentWeightInput.value);
+    activeWeightUnit = unit;
+
+    if (unit === 'oz') {
+      unitOzBtn.className = 'px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer';
+      unitGBtn.className = 'px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer';
+      weightLabel.textContent = 'Current paddle weight (optional baseline in oz)';
+      weightHint.textContent = 'Enter in oz (5.0–12.0) or grams (140–340g) to compare.';
+      currentWeightInput.placeholder = 'e.g. 7.8';
+      currentWeightInput.step = '0.1';
+      currentWeightInput.min = '5.0';
+      currentWeightInput.max = '12.0';
+
+      if (!isNaN(currentVal) && currentVal > 20) {
+        currentWeightInput.value = (currentVal / 28.3495).toFixed(1);
+      }
+    } else {
+      unitGBtn.className = 'px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer';
+      unitOzBtn.className = 'px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer';
+      weightLabel.textContent = 'Current paddle weight (optional baseline in grams)';
+      weightHint.textContent = 'Enter in grams (140–340g) to compare against recommendation.';
+      currentWeightInput.placeholder = 'e.g. 221';
+      currentWeightInput.step = '1';
+      currentWeightInput.min = '140';
+      currentWeightInput.max = '340';
+
+      if (!isNaN(currentVal) && currentVal < 20) {
+        currentWeightInput.value = Math.round(currentVal * 28.3495).toString();
+      }
+    }
+
+    if (selectedStyle) calculate();
+    saveState();
+  }
+
+  unitOzBtn.addEventListener('click', () => setWeightUnit('oz'));
+  unitGBtn.addEventListener('click', () => setWeightUnit('g'));
 
   function selectStyle(style: PlayStyle) {
     selectedStyle = style;
@@ -418,15 +454,33 @@ const faqs = [
     placeholder.classList.add('hidden');
     results.classList.remove('hidden');
 
-    weightRangeEl.textContent = `${low.toFixed(1)} – ${high.toFixed(1)} oz`;
-    weightGramsEl.textContent = `${lowGrams} – ${highGrams} grams`;
+    if (activeWeightUnit === 'g') {
+      weightRangeEl.textContent = `${lowGrams} – ${highGrams} grams`;
+      weightGramsEl.textContent = `${low.toFixed(1)} – ${high.toFixed(1)} oz`;
+    } else {
+      weightRangeEl.textContent = `${low.toFixed(1)} – ${high.toFixed(1)} oz`;
+      weightGramsEl.textContent = `${lowGrams} – ${highGrams} grams`;
+    }
 
     const isCustomized = arm !== 'none' || session !== 'medium' || exp !== 'intermediate';
     confidenceBadge.textContent = isCustomized ? 'Tailored Recommendation' : 'Best Starting Range';
 
-    let breakdownHTML = `Base range for ${selectedStyle.toUpperCase()}: ${baseRanges[selectedStyle][0].toFixed(1)}–${baseRanges[selectedStyle][1].toFixed(1)} oz.`;
+    let breakdownHTML = `Base range for ${selectedStyle.toUpperCase()}: ${baseRanges[selectedStyle][0].toFixed(1)}–${baseRanges[selectedStyle][1].toFixed(1)} oz (${Math.round(baseRanges[selectedStyle][0] * 28.3495)}–${Math.round(baseRanges[selectedStyle][1] * 28.3495)}g).`;
     if (deltas.length > 0) {
       breakdownHTML += `<br>Adjustments: ${deltas.join('; ')}.`;
+    }
+
+    const userWeightRaw = parseFloat(currentWeightInput.value);
+    if (!isNaN(userWeightRaw)) {
+      let userOz = activeWeightUnit === 'g' ? userWeightRaw / 28.3495 : userWeightRaw;
+      let userGrams = Math.round(userOz * 28.3495);
+      if (userOz >= low && userOz <= high) {
+        breakdownHTML += `<br><strong>Current Baseline:</strong> Your current paddle (${userOz.toFixed(1)} oz / ${userGrams}g) is <strong>perfectly inside your ideal target range</strong>!`;
+      } else if (userOz < low) {
+        breakdownHTML += `<br><strong>Current Baseline:</strong> Your current paddle (${userOz.toFixed(1)} oz / ${userGrams}g) is slightly <strong>lighter than recommended</strong> (${(low - userOz).toFixed(1)} oz lighter). Consider adding lead/tungsten tape.`;
+      } else {
+        breakdownHTML += `<br><strong>Current Baseline:</strong> Your current paddle (${userOz.toFixed(1)} oz / ${userGrams}g) is <strong>heavier than recommended</strong> (${(userOz - high).toFixed(1)} oz heavier). Sizing down may reduce arm strain.`;
+      }
     }
     mathBreakdown.innerHTML = breakdownHTML;
 
@@ -458,7 +512,7 @@ const faqs = [
     beginnerNote.classList.toggle('hidden', exp !== 'beginner');
 
     explanationContent.innerHTML = `
-      <p>A paddle in the <strong>${low.toFixed(1)} – ${high.toFixed(1)} oz</strong> range fits your ${selectedStyle} profile.</p>
+      <p>A paddle in the <strong>${low.toFixed(1)} – ${high.toFixed(1)} oz (${lowGrams} – ${highGrams}g)</strong> range fits your ${selectedStyle} profile.</p>
       <p>• <strong>Hand Speed (${speedPct}%):</strong> Lighter weight reduces rotational inertia, letting you bring your paddle up faster during rapid fire kitchen exchanges.</p>
       <p>• <strong>Stability (${stabilityPct}%):</strong> Mass behind the ball keeps the paddle face square on off-center dinks, reducing torque on your wrist.</p>
       <p>• <strong>Power (${powerPct}%):</strong> Static mass adds momentum on drives without needing to swing violently.</p>
@@ -471,6 +525,8 @@ const faqs = [
     try {
       const data = {
         style: selectedStyle,
+        unit: activeWeightUnit,
+        currentWeight: currentWeightInput.value,
         arm: armSelect.value,
         session: sessionSelect.value,
         exp: expSelect.value,
@@ -484,6 +540,10 @@ const faqs = [
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const data = JSON.parse(raw);
+      if (data.unit && (data.unit === 'oz' || data.unit === 'g')) {
+        setWeightUnit(data.unit);
+      }
+      if (data.currentWeight) currentWeightInput.value = data.currentWeight;
       if (data.style) selectStyle(data.style as PlayStyle);
       if (data.arm) armSelect.value = data.arm;
       if (data.session) sessionSelect.value = data.session;

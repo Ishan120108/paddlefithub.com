@@ -42,9 +42,9 @@ const faqs = [
 
 <CalculatorLayout
   title="Pickleball Overgrip Calculator | PaddleFitHub"
-  description="Calculate how adding overgrips changes your paddle's weight, grip circumference, and balance point. See the exact impact of each layer."
+  description="Calculate how adding overgrips changes your paddle's weight, grip circumference, and balance point. Supports ounces (oz), grams (g), inches (in), and centimeters (cm)."
   heading="Overgrip weight adjustment."
-  intro="Adding overgrips changes more than just feel — it shifts total weight, grip circumference, and balance point. See exactly how each layer affects your paddle."
+  intro="Adding overgrips changes more than just feel — it shifts total weight, grip circumference, and balance point. See exactly how each layer affects your paddle in ounces, grams, inches, and cm."
   canonicalPath="/tools/overgrip-weight-adjustment/"
   relatedTools={relatedTools}
 >
@@ -55,21 +55,27 @@ const faqs = [
       <h2 class="text-display-sm text-ink mb-6">1. Current paddle specs</h2>
 
       <div class="mb-6">
-        <label for="current-weight" class="text-body-sm-strong text-ink block mb-1">Unweighted paddle weight (oz)</label>
-        <p class="text-caption text-mute mb-2">Check manufacturer specs or weigh on a scale (typical: 7.0 – 8.5 oz).</p>
+        <div class="flex items-center justify-between mb-1">
+          <label for="current-weight" class="text-body-sm-strong text-ink block" id="weight-label">Unweighted paddle weight (oz)</label>
+          <div class="inline-flex rounded border border-hairline p-0.5 text-caption font-medium bg-canvas-soft">
+            <button type="button" id="unit-oz-btn" class="px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer">oz</button>
+            <button type="button" id="unit-g-btn" class="px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer">grams (g)</button>
+          </div>
+        </div>
+        <p class="text-caption text-mute mb-2" id="weight-hint">Check manufacturer specs or weigh on a scale (typical: 7.0 – 8.5 oz / 198 – 241 g).</p>
         <input type="number" id="current-weight" class="form-input" placeholder="e.g. 7.8" step="0.1" min="5.0" max="12.0" autocomplete="off" />
-        <p id="weight-error" class="text-caption text-error hidden mt-1">Please enter a valid weight between 5.0 and 12.0 oz.</p>
+        <p id="weight-error" class="text-caption text-error hidden mt-1">Please enter a valid weight between 5.0 and 12.0 oz (140 and 340 g).</p>
       </div>
 
       <div class="mb-6">
-        <label for="current-grip-size" class="text-body-sm-strong text-ink block mb-1">Stock grip size (inches)</label>
+        <label for="current-grip-size" class="text-body-sm-strong text-ink block mb-1">Stock grip size (inches &amp; cm)</label>
         <select id="current-grip-size" class="form-select">
-          <option value="4.000">4" (4.000 in)</option>
-          <option value="4.125">4 ⅛" (4.125 in)</option>
-          <option value="4.250" selected>4 ¼" (4.250 in)</option>
-          <option value="4.375">4 ⅜" (4.375 in)</option>
-          <option value="4.500">4 ½" (4.500 in)</option>
-          <option value="4.625">4 ⅝" (4.625 in)</option>
+          <option value="4.000">4" (4.000 in / 10.2 cm)</option>
+          <option value="4.125">4 ⅛" (4.125 in / 10.5 cm)</option>
+          <option value="4.250" selected>4 ¼" (4.250 in / 10.8 cm)</option>
+          <option value="4.375">4 ⅜" (4.375 in / 11.1 cm)</option>
+          <option value="4.500">4 ½" (4.500 in / 11.4 cm)</option>
+          <option value="4.625">4 ⅝" (4.625 in / 11.7 cm)</option>
         </select>
       </div>
 
@@ -78,9 +84,9 @@ const faqs = [
       <div class="mb-6">
         <label for="num-overgrips" class="text-body-sm-strong text-ink block mb-1">Number of overgrip layers</label>
         <select id="num-overgrips" class="form-select">
-          <option value="1" selected>1 overgrip wrap (+1/16" thickness build-up)</option>
-          <option value="2">2 overgrip wraps (+1/8" thickness build-up)</option>
-          <option value="3">3 overgrip wraps (+3/16" thickness build-up)</option>
+          <option value="1" selected>1 overgrip wrap (+1/16" / +1.6 mm thickness build-up)</option>
+          <option value="2">2 overgrip wraps (+1/8" / +3.2 mm thickness build-up)</option>
+          <option value="3">3 overgrip wraps (+3/16" / +4.8 mm thickness build-up)</option>
         </select>
       </div>
 
@@ -123,7 +129,7 @@ const faqs = [
           </svg>
         </div>
         <h3 class="text-body-md-strong text-ink mb-1">Awaiting paddle specs</h3>
-        <p class="text-body-sm text-mute max-w-xs">Enter your paddle weight and overgrip count to see static weight growth, grip expansion, and balance shift.</p>
+        <p class="text-body-sm text-mute max-w-xs">Enter your paddle weight and overgrip count to see static weight growth, grip expansion, and balance shift in oz, grams, inches, and cm.</p>
       </div>
 
       <div id="overgrip-results" class="hidden space-y-6">
@@ -168,8 +174,8 @@ const faqs = [
   <section class="mt-12 pt-8 border-t border-hairline">
     <h2 class="text-display-sm text-ink mb-4">How to Use This Tool</h2>
     <ol class="list-decimal pl-5 space-y-2 text-body-sm text-body">
-      <li><strong>Enter paddle weight:</strong> Input your unweighted paddle weight in ounces (e.g. 7.8 oz).</li>
-      <li><strong>Select stock grip size:</strong> Choose your current grip size (e.g. 4 ¼").</li>
+      <li><strong>Enter paddle weight:</strong> Input your unweighted paddle weight in ounces (e.g. 7.8 oz) or grams (e.g. 221 g) using the oz/g unit selector toggle.</li>
+      <li><strong>Select stock grip size:</strong> Choose your current grip size in inches or metric cm (e.g. 4 ¼" / 10.8 cm).</li>
       <li><strong>Select overgrip layers:</strong> Choose 1, 2, or 3 overgrip wraps.</li>
       <li><strong>Select wrap thickness:</strong> Choose Thin (0.4mm ~5g), Standard (0.6mm ~7g), or Thick Cushioned (0.75mm ~10g).</li>
       <li><strong>Click Calculate Overgrip Impact:</strong> Review your final total weight, grip circumference expansion, and handle balance shift.</li>
@@ -180,13 +186,14 @@ const faqs = [
   <section class="mt-8 pt-8 border-t border-hairline">
     <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
     <p class="text-body-sm text-body mb-4">
-      Adding overgrips adds mass strictly to the handle end of the paddle. We calculate static weight increase in grams and ounces, grip expansion (+1/16" per layer), and the resulting balance point shift in millimeters toward your hand. Because mass is added below the fulcrum, the paddle feels slightly more head-light in swing weight despite the static mass addition.
+      Adding overgrips adds mass strictly to the handle end of the paddle. We calculate static weight increase in grams and ounces, grip expansion (+1/16" / 1.6 mm per layer), and the resulting balance point shift in millimeters toward your hand. Because mass is added below the fulcrum, the paddle feels slightly more head-light in swing weight despite the static mass addition.
     </p>
 
     <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">
       <div>Mass Added (g) = Weight_Per_Grip × Layer_Count</div>
-      <div>Final Weight (oz) = Stock_Weight + (Mass_Added / 28.3495)</div>
-      <div>Grip Circumference Build-Up = Stock_Grip + (0.0625 × Layer_Count)</div>
+      <div>Final Weight (oz) = Stock_Weight_Oz + (Mass_Added / 28.3495)</div>
+      <div>Final Weight (g) = Stock_Weight_Grams + Mass_Added</div>
+      <div>Grip Circumference Build-Up = Stock_Grip + (0.0625" × Layer_Count) [or +1.58mm × Layer_Count]</div>
       <div>Balance Point Shift (mm toward handle) = Mass_Added × 0.45</div>
     </div>
   </section>
@@ -197,17 +204,17 @@ const faqs = [
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
         <span class="text-caption-mono text-mute uppercase block mb-1">Example A: 1 Standard Overgrip Wrap</span>
-        <p class="text-body-sm text-ink font-medium mb-1">7.8 oz paddle + 1 standard overgrip (7g)</p>
+        <p class="text-body-sm text-ink font-medium mb-1">7.8 oz (221 g) paddle + 1 standard overgrip (7 g)</p>
         <p class="text-caption text-body">
-          Static weight increases to <strong>8.05 oz</strong> (+7g). Grip circumference expands by +1/16" from 4 ¼" to <strong>4 5/16"</strong>. Balance point shifts <strong>3mm toward handle</strong>.
+          Static weight increases to <strong>8.05 oz (228 g)</strong>. Grip circumference expands by +1/16" (+1.6 mm) from 4 ¼" (10.8 cm) to <strong>4 5/16" (11.0 cm)</strong>. Balance point shifts <strong>3 mm toward handle</strong>.
         </p>
       </div>
 
       <div class="bg-canvas-soft p-4 rounded-lg border border-hairline">
         <span class="text-caption-mono text-mute uppercase block mb-1">Example B: 2 Cushioned Overgrip Wraps</span>
-        <p class="text-body-sm text-ink font-medium mb-1">8.0 oz paddle + 2 thick overgrips (20g total)</p>
+        <p class="text-body-sm text-ink font-medium mb-1">8.0 oz (227 g) paddle + 2 thick overgrips (20 g total)</p>
         <p class="text-caption text-body">
-          Static weight increases to <strong>8.71 oz</strong> (+20g). Grip circumference expands by +⅛" from 4 ¼" to <strong>4 ⅜"</strong>. Balance shifts <strong>9mm toward handle</strong>.
+          Static weight increases to <strong>8.71 oz (247 g)</strong>. Grip circumference expands by +⅛" (+3.2 mm) from 4 ¼" (10.8 cm) to <strong>4 ⅜" (11.1 cm)</strong>. Balance shifts <strong>9 mm toward handle</strong>.
         </p>
       </div>
     </div>
@@ -231,7 +238,12 @@ const faqs = [
   const OVERGRIP_WEIGHTS: Record<string, number> = { thin: 5, standard: 7, thick: 10 };
 
   const weightInput = document.getElementById('current-weight') as HTMLInputElement;
+  const weightLabel = document.getElementById('weight-label') as HTMLLabelElement;
+  const weightHint = document.getElementById('weight-hint') as HTMLParagraphElement;
   const weightError = document.getElementById('weight-error') as HTMLParagraphElement;
+  const unitOzBtn = document.getElementById('unit-oz-btn') as HTMLButtonElement;
+  const unitGBtn = document.getElementById('unit-g-btn') as HTMLButtonElement;
+
   const gripSizeSelect = document.getElementById('current-grip-size') as HTMLSelectElement;
   const numOvergripsSelect = document.getElementById('num-overgrips') as HTMLSelectElement;
   const overgripTypeSelect = document.getElementById('overgrip-type') as HTMLSelectElement;
@@ -245,17 +257,78 @@ const faqs = [
   const balanceBox = document.getElementById('balance-shift-box') as HTMLDivElement;
   const notesContainer = document.getElementById('overgrip-notes') as HTMLDivElement;
 
+  let activeWeightUnit: 'oz' | 'g' = 'oz';
+
+  function setWeightUnit(unit: 'oz' | 'g') {
+    if (activeWeightUnit === unit) return;
+
+    const currentVal = parseFloat(weightInput.value);
+    activeWeightUnit = unit;
+
+    if (unit === 'oz') {
+      unitOzBtn.className = 'px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer';
+      unitGBtn.className = 'px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer';
+      weightLabel.textContent = 'Unweighted paddle weight (oz)';
+      weightHint.textContent = 'Check manufacturer specs or weigh on a scale (typical: 7.0 – 8.5 oz).';
+      weightInput.placeholder = 'e.g. 7.8';
+      weightInput.step = '0.1';
+      weightInput.min = '5.0';
+      weightInput.max = '12.0';
+      weightError.textContent = 'Please enter a valid weight between 5.0 and 12.0 oz.';
+
+      if (!isNaN(currentVal) && currentVal > 20) {
+        weightInput.value = (currentVal / 28.3495).toFixed(1);
+      }
+    } else {
+      unitGBtn.className = 'px-2.5 py-0.5 rounded bg-ink text-on-primary font-semibold transition-all cursor-pointer';
+      unitOzBtn.className = 'px-2.5 py-0.5 rounded text-mute hover:text-ink transition-all cursor-pointer';
+      weightLabel.textContent = 'Unweighted paddle weight (grams / g)';
+      weightHint.textContent = 'Check manufacturer specs or weigh on a scale (typical: 198 – 241 g).';
+      weightInput.placeholder = 'e.g. 221';
+      weightInput.step = '1';
+      weightInput.min = '140';
+      weightInput.max = '340';
+      weightError.textContent = 'Please enter a valid weight between 140 and 340 grams.';
+
+      if (!isNaN(currentVal) && currentVal < 20) {
+        weightInput.value = Math.round(currentVal * 28.3495).toString();
+      }
+    }
+    weightError.classList.add('hidden');
+    saveState();
+  }
+
+  unitOzBtn.addEventListener('click', () => setWeightUnit('oz'));
+  unitGBtn.addEventListener('click', () => setWeightUnit('g'));
+
   function formatFractionStr(num: number): string {
     const whole = Math.floor(num);
     const frac = Math.round((num - whole) * 8);
-    if (frac === 0) return `${whole}"`;
+    const cmVal = (num * 2.54).toFixed(1);
+    if (frac === 0) return `${whole}" (${cmVal} cm)`;
     const fracMap: Record<number, string> = { 1: '⅛', 2: '¼', 3: '⅜', 4: '½', 5: '⅝', 6: '¾', 7: '⅞' };
-    return `${whole} ${fracMap[frac] || ''}"`;
+    return `${whole} ${fracMap[frac] || ''}" (${cmVal} cm)`;
   }
 
   function calculate() {
-    const currentWeightOz = parseFloat(weightInput.value);
-    if (isNaN(currentWeightOz) || currentWeightOz < 5.0 || currentWeightOz > 12.0) {
+    const rawVal = parseFloat(weightInput.value);
+
+    let currentWeightOz = 0;
+    let isValid = false;
+
+    if (activeWeightUnit === 'oz') {
+      if (!isNaN(rawVal) && rawVal >= 5.0 && rawVal <= 12.0) {
+        currentWeightOz = rawVal;
+        isValid = true;
+      }
+    } else {
+      if (!isNaN(rawVal) && rawVal >= 140 && rawVal <= 340) {
+        currentWeightOz = rawVal / 28.3495;
+        isValid = true;
+      }
+    }
+
+    if (!isValid) {
       weightError.classList.remove('hidden');
       return;
     }
@@ -276,6 +349,7 @@ const faqs = [
     const oldWeightGrams = currentWeightOz * 28.3495;
 
     const gripExpansion = 0.0625 * numOvergrips;
+    const gripExpansionMm = gripExpansion * 25.4;
     const newGripSize = stockGripSize + gripExpansion;
 
     const balanceShiftMm = Math.round(totalGramsAdded * 0.45);
@@ -287,12 +361,12 @@ const faqs = [
       <div class="bg-canvas-soft border border-hairline rounded-lg p-4">
         <span class="text-caption-mono text-mute uppercase block mb-0.5">Final Static Weight</span>
         <span class="text-display-md text-ink font-semibold block">${newWeightOz.toFixed(2)} oz</span>
-        <span class="text-caption text-mute">${Math.round(newWeightGrams)} g (+${totalGramsAdded}g)</span>
+        <span class="text-caption text-mute">${Math.round(newWeightGrams)} g (+${totalGramsAdded} g / +${totalOzAdded.toFixed(2)} oz)</span>
       </div>
       <div class="bg-canvas-soft border border-hairline rounded-lg p-4">
         <span class="text-caption-mono text-mute uppercase block mb-0.5">Final Grip Size</span>
         <span class="text-display-md text-ink font-semibold block">${formatFractionStr(newGripSize)}</span>
-        <span class="text-caption text-mute">+${gripExpansion.toFixed(3)}" build-up</span>
+        <span class="text-caption text-mute">+${gripExpansion.toFixed(3)}" (+${gripExpansionMm.toFixed(1)} mm) build-up</span>
       </div>
       <div class="bg-canvas-soft border border-hairline rounded-lg p-4">
         <span class="text-caption-mono text-mute uppercase block mb-0.5">Mass Added</span>
@@ -317,13 +391,13 @@ const faqs = [
       <tbody class="text-body">
         <tr class="border-b border-hairline">
           <td class="py-2 font-medium text-ink">Total Weight</td>
-          <td class="py-2">${currentWeightOz.toFixed(1)} oz (${Math.round(oldWeightGrams)} g)</td>
+          <td class="py-2">${currentWeightOz.toFixed(2)} oz (${Math.round(oldWeightGrams)} g)</td>
           <td class="py-2 text-ink font-bold">${newWeightOz.toFixed(2)} oz (${Math.round(newWeightGrams)} g)</td>
         </tr>
         <tr class="border-b border-hairline">
           <td class="py-2 font-medium text-ink">Grip Circumference</td>
-          <td class="py-2">${formatFractionStr(stockGripSize)} (${stockGripSize.toFixed(3)}")</td>
-          <td class="py-2 text-ink font-bold">${formatFractionStr(newGripSize)} (${newGripSize.toFixed(3)}")</td>
+          <td class="py-2">${formatFractionStr(stockGripSize)}</td>
+          <td class="py-2 text-ink font-bold">${formatFractionStr(newGripSize)}</td>
         </tr>
         <tr>
           <td class="py-2 font-medium text-ink">Balance Feel</td>
@@ -336,16 +410,16 @@ const faqs = [
     balanceBox.innerHTML = `
       <p class="text-body-sm-strong text-ink">💡 Plain-Language Balance Impact</p>
       <p class="text-caption text-body">
-        Adding <strong>${totalGramsAdded}g</strong> directly to the handle pulls the balance point ~<strong>${balanceShiftMm} mm</strong> down toward your hand. While total static weight increases by ${totalOzAdded.toFixed(2)} oz, the paddle will actually feel slightly <strong>more head-light and maneuverable at the kitchen line</strong>.
+        Adding <strong>${totalGramsAdded} g (${totalOzAdded.toFixed(2)} oz)</strong> directly to the handle pulls the balance point ~<strong>${balanceShiftMm} mm</strong> down toward your hand. While total static weight increases to ${newWeightOz.toFixed(2)} oz (${Math.round(newWeightGrams)} g), the paddle will actually feel slightly <strong>more head-light and maneuverable at the kitchen line</strong>.
       </p>
     `;
 
     const notes: string[] = [];
     if (totalGramsAdded >= 14) {
-      notes.push('Adding over 14g to the handle will noticeably alter swing timing. Test during practice rallies before competitive tournament play.');
+      notes.push('Adding over 14 g to the handle will noticeably alter swing timing. Test during practice rallies before competitive tournament play.');
     }
     if (numOvergrips >= 2) {
-      notes.push(`Wrapping ${numOvergrips} overgrips expands your grip by ${gripExpansion.toFixed(3)}". Ensure your fingers do not overlap excessively, which can restrict wrist snap.`);
+      notes.push(`Wrapping ${numOvergrips} overgrips expands your grip by ${gripExpansion.toFixed(3)}" (${gripExpansionMm.toFixed(1)} mm). Ensure your fingers do not overlap excessively, which can restrict wrist snap.`);
     }
     if (priority === 'weight') {
       notes.push('Since you value weight neutrality, consider thin 0.4mm overgrips (~5g) to minimize mass additions while keeping grip tackiness.');
@@ -366,6 +440,7 @@ const faqs = [
     try {
       const data = {
         weight: weightInput.value,
+        unit: activeWeightUnit,
         gripSize: gripSizeSelect.value,
         numOvergrips: numOvergripsSelect.value,
         overgripType: overgripTypeSelect.value,
@@ -380,6 +455,9 @@ const faqs = [
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const data = JSON.parse(raw);
+      if (data.unit && (data.unit === 'oz' || data.unit === 'g')) {
+        setWeightUnit(data.unit);
+      }
       if (data.weight) weightInput.value = data.weight;
       if (data.gripSize) gripSizeSelect.value = data.gripSize;
       if (data.numOvergrips) numOvergripsSelect.value = data.numOvergrips;
