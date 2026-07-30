@@ -45,8 +45,14 @@ const faqs = [
   relatedTools={relatedTools}
 >
   <!-- Medical Disclaimer -->
-  <div class="mb-8 p-4 rounded-lg bg-canvas-soft border border-hairline text-body-sm text-body">
-    <p class="m-0"><strong>Disclaimer:</strong> Spec recommendations provided by this tool are intended for equipment comfort and playability optimization only and do not constitute medical advice. If you experience persistent arm, elbow, or wrist pain, consult a qualified medical professional or physical therapist.</p>
+  <div class="mb-8 p-5 rounded-lg bg-warning-soft/30 border border-warning/40 text-body-sm text-ink">
+    <div class="flex items-start gap-3">
+      <svg class="w-5 h-5 text-warning-deep shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <div>
+        <p class="font-semibold text-ink m-0 mb-1">Equipment Comfort Disclaimer (Not Medical Advice)</p>
+        <p class="m-0 text-body text-xs leading-relaxed">Spec recommendations provided by this calculator are intended for equipment comfort and playability optimization only and do not constitute medical advice. If you experience persistent arm, elbow, or wrist pain, stop play and consult a qualified medical professional or physical therapist.</p>
+      </div>
+    </div>
   </div>
   <!-- 1. TOP SECTION: INTERACTIVE CALCULATOR TOOL -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" id="arm-calculator">
@@ -58,95 +64,68 @@ const faqs = [
         <label for="arm-issue" class="text-body-sm-strong text-ink block mb-1">Primary area of discomfort</label>
         <select id="arm-issue" class="form-select">
           <option value="tennis-elbow" selected>Outer Elbow (Lateral forearm strain)</option>
-          <option value="golfers-elbow">Inner Elbow (Medial flexor tendon strain)</option>
-          <option value="wrist">Wrist Area (Impact vibration / flicking strain)</option>
-          <option value="shoulder">Shoulder Joint (Inertia &amp; swing mass strain)</option>
-          <option value="general">General Fatigue Prevention (Proactive comfort setup)</option>
+          <option value="golfers-elbow">Inner Elbow (Medial forearm strain)</option>
+          <option value="wrist">Wrist / Hand fatigue</option>
+          <option value="shoulder">Shoulder joint torque</option>
+          <option value="general">General arm strain prevention</option>
         </select>
       </div>
 
       <div class="mb-6">
-        <label for="severity" class="text-body-sm-strong text-ink block mb-1">Discomfort frequency &amp; feel</label>
+        <label for="severity" class="text-body-sm-strong text-ink block mb-1">Discomfort frequency</label>
         <select id="severity" class="form-select">
-          <option value="mild" selected>Mild — Occasional tightness after multi-hour play</option>
-          <option value="moderate">Moderate — Noticeable discomfort during long rallies</option>
-          <option value="severe">Significant — Discomfort that limits play intensity</option>
+          <option value="mild" selected>Mild / Occasional tightness after play</option>
+          <option value="moderate">Moderate / Noticeable discomfort during rallies</option>
+          <option value="severe">Significant / Limits play duration &amp; stroke power</option>
         </select>
       </div>
 
-      <h2 class="text-display-sm text-ink mb-4 pt-4 border-t border-hairline">2. Current paddle baseline</h2>
-
       <div class="mb-6">
-        <label for="current-paddle-weight" class="text-body-sm-strong text-ink block mb-1">Current paddle weight (oz, if known)</label>
-        <input type="number" id="current-paddle-weight" class="form-input" placeholder="e.g. 7.8" step="0.1" min="5.0" max="12.0" autocomplete="off" />
+        <label for="current-paddle-weight" class="text-body-sm-strong text-ink block mb-1">Current paddle weight (oz)</label>
+        <input type="number" id="current-paddle-weight" class="form-input" placeholder="e.g. 7.8" step="0.1" min="6.5" max="10.0" value="7.8" />
+        <p class="text-caption text-mute mt-1 m-0">Leave default if unknown.</p>
       </div>
 
       <div class="mb-6">
-        <label for="current-core" class="text-body-sm-strong text-ink block mb-1">Current core thickness (if known)</label>
+        <label for="current-core" class="text-body-sm-strong text-ink block mb-1">Current core thickness</label>
         <select id="current-core" class="form-select">
-          <option value="unknown" selected>Not sure / Standard</option>
-          <option value="14">14 mm (Thin / Firm pop core)</option>
-          <option value="16">16 mm (Standard balanced core)</option>
-          <option value="20">20 mm (Thick ultra-dampening core)</option>
+          <option value="14">14 mm (Thin core / High pop)</option>
+          <option value="16" selected>16 mm (Standard balanced core)</option>
+          <option value="20">20 mm (Thick dampening core)</option>
+          <option value="unknown">Not sure</option>
         </select>
       </div>
 
-      <button type="button" id="calc-arm-btn" class="btn-primary w-full sm:w-auto">
+      <button id="calc-arm-btn" class="btn-primary w-full justify-center">
         Generate Comfort Specs
       </button>
     </div>
 
-    <!-- ── Right Column: Results Panel ── -->
+    <!-- ── Right Column: Output Card ── -->
     <div>
-      <div id="arm-placeholder" class="flex flex-col items-center justify-center h-full min-h-80 text-center p-8 border border-dashed border-hairline rounded-lg bg-canvas-soft/50">
-        <div class="w-16 h-16 rounded-full bg-canvas-soft-2 flex items-center justify-center mb-4 text-mute">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-          </svg>
-        </div>
-        <h3 class="text-body-md-strong text-ink mb-1">Configure your comfort profile</h3>
-        <p class="text-body-sm text-mute max-w-xs">Select your area of discomfort to generate primary and backup equipment specification recommendations.</p>
+      <h2 class="text-display-sm text-ink mb-6">2. Shock-absorption recommendations</h2>
+
+      <div id="arm-placeholder" class="bg-canvas-soft rounded-lg p-6 text-center border border-hairline min-h-[300px] flex flex-col items-center justify-center">
+        <p class="text-body-sm text-mute m-0">
+          Set your comfort profile and click <strong>Generate Comfort Specs</strong> to view customized paddle specifications.
+        </p>
       </div>
 
       <div id="arm-results" class="hidden space-y-6">
-        <div class="bg-warning-soft/40 border border-warning/30 rounded-lg p-4">
-          <p class="text-caption text-body">
-            <strong>⚠ Equipment Disclaimer:</strong> This tool provides equipment vibration-reduction guidelines, not medical diagnosis or treatment advice. For persistent joint pain, always consult a licensed healthcare professional or physical therapist.
-          </p>
-        </div>
-
-        <div class="bg-ink text-on-primary rounded-lg p-6 relative overflow-hidden">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-            <span class="text-caption-mono text-hairline-strong uppercase tracking-wide">Primary Recommended Setup</span>
-            <span class="inline-block self-start sm:self-auto px-2.5 py-1 rounded-full text-caption-mono text-xs leading-normal max-w-full whitespace-normal bg-canvas/10 text-on-primary border border-white/20">
-              Max Shock Absorption
-            </span>
-          </div>
-
-          <div class="space-y-3 pt-2">
-            <div>
-              <span class="text-caption-mono text-hairline-strong uppercase block">Target Weight</span>
-              <p class="text-body-md text-on-primary font-semibold" id="primary-weight">7.8 – 8.1 oz</p>
-            </div>
-            <div>
-              <span class="text-caption-mono text-hairline-strong uppercase block">Core Thickness</span>
-              <p class="text-body-md text-on-primary font-semibold" id="primary-core">16 mm or 20 mm</p>
-            </div>
-            <div>
-              <span class="text-caption-mono text-hairline-strong uppercase block">Shape Geometry</span>
-              <p class="text-body-md text-on-primary font-semibold" id="primary-shape">Standard or Hybrid (Avoid head-heavy elongated)</p>
-            </div>
+        <div class="bg-canvas-soft rounded-lg p-5 border border-hairline space-y-3">
+          <span class="text-caption-mono text-cyan-deep uppercase font-semibold">Primary Recommended Setup</span>
+          <div class="space-y-1 text-body-sm">
+            <p>• <strong>Target Weight:</strong> <span id="primary-weight">7.8 – 8.1 oz</span></p>
+            <p>• <strong>Core Thickness:</strong> <span id="primary-core">16 mm or 20 mm</span></p>
+            <p>• <strong>Shape Geometry:</strong> <span id="primary-shape">Standard Wide Face (16" × 8")</span></p>
           </div>
         </div>
 
-        <div class="bg-canvas-soft border border-hairline rounded-lg p-5">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-caption-mono text-mute uppercase tracking-wide">Backup Alternative Setup</span>
-            <span class="text-caption-mono text-mute">Lightweight Option</span>
-          </div>
-          <div class="space-y-2 text-body-sm">
-            <p>• <strong>Weight:</strong> <span id="backup-weight">7.5 – 7.8 oz</span></p>
-            <p>• <strong>Core:</strong> <span id="backup-core">16 mm Standard</span></p>
+        <div class="bg-canvas-soft rounded-lg p-5 border border-hairline space-y-3">
+          <span class="text-caption-mono text-mute uppercase font-semibold">Backup / Alternative Setup</span>
+          <div class="space-y-1 text-body-sm text-body">
+            <p>• <strong>Target Weight:</strong> <span id="backup-weight">7.5 – 7.8 oz</span></p>
+            <p>• <strong>Core Thickness:</strong> <span id="backup-core">16 mm Standard</span></p>
             <p>• <strong>Shape:</strong> <span id="backup-shape">Standard Wide Face</span></p>
           </div>
         </div>
@@ -196,7 +175,7 @@ const faqs = [
   <section class="mt-8 pt-8 border-t border-hairline">
     <h2 class="text-display-sm text-ink mb-3">How the Result is Calculated</h2>
     <p class="text-body-sm text-body mb-4">
-      High-frequency kinetic vibration from off-center ball impacts travels up the paddle shaft into forearm tendons. We recommend equipment specs that maximize kinetic energy absorption — midweight static mass (7.7–8.1 oz), thick honeycomb cores (16–20mm), wide forgiving paddle faces, and proper grip sizing to eliminate over-gripping.
+      High-frequency kinetic vibration from off-center ball impacts travels up the paddle shaft into forearm tendons. According to clinical resources such as the <a href="https://www.mayoclinic.org/diseases-conditions/tennis-elbow/symptoms-causes/syc-20351987" target="_blank" rel="noopener" class="text-link font-medium hover:underline">Mayo Clinic Tennis Elbow Resource</a>, tendon inflammation (lateral epicondylitis) often stems from repetitive micro-trauma and mechanical load. We base our recommendations on <a href="https://usapickleball.org/about-us/equipment-standards/" target="_blank" rel="noopener" class="text-link font-medium hover:underline">USA Pickleball Official Equipment Standards</a> and manufacturer lab data from brands like <a href="https://www.selkirk.com/pages/technology" target="_blank" rel="noopener" class="text-link font-medium hover:underline">Selkirk Sport Core Technology</a> to optimize kinetic energy absorption — midweight static mass (7.7–8.1 oz), thick honeycomb cores (16–20mm), wide forgiving paddle faces, and proper grip sizing.
     </p>
 
     <div class="bg-canvas-soft p-4 rounded-md font-mono text-caption border border-hairline space-y-1">

@@ -35,6 +35,36 @@ const breadcrumbs = [
         </p>
       </div>
 
+      <div class="mt-12 pt-8 border-t border-hairline" id="author">
+        <h2 class="text-display-lg text-ink mb-4">About the author & team.</h2>
+        <div class="card-soft">
+          <h3 class="text-display-sm text-ink mb-2">Ishan Sahu — Equipment Research & Founder</h3>
+          <p class="text-body-md text-body mb-4">
+            PaddleFitHub is authored and maintained by <strong>Ishan Sahu</strong>, a recreational pickleball player and independent equipment researcher. With a focus on paddle physics, hand ergonomics, and material dynamics, Ishan built PaddleFitHub to bring objective, formula-driven clarity to pickleball equipment fitting.
+          </p>
+          <p class="text-body-sm text-body m-0">
+            Our goal is simple: provide transparent, accessible tools and guides so players can select optimal paddle specifications based on biomechanics rather than brand hype or sponsored marketing claims.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-hairline" id="methodology">
+        <h2 class="text-display-lg text-ink mb-4">How we derive our recommendations.</h2>
+        <div class="space-y-4 text-body-md text-body">
+          <p>
+            Every calculator and guide on PaddleFitHub is grounded in official sport dimensions, verified hand measurement protocols, material engineering specs, and physical testing data:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-body-sm">
+            <li><strong>Official Specifications:</strong> Dimensional constraints (max 17" length, combined 24" length + width) follow <a href="https://usapickleball.org/about-us/equipment-standards/" target="_blank" rel="noopener" class="text-link">USA Pickleball Official Equipment Standards</a>.</li>
+            <li><strong>Grip Biomechanics:</strong> Grip size formulas are built around the classic Vernier hand measurement protocol (proximal palmar crease to ring finger tip) used by certified racquet fitters.</li>
+            <li><strong>Core & Weight Physics:</strong> Core dampening and weight recommendations reference published composite material data and sports medicine literature on vibration transmission.</li>
+          </ul>
+          <p class="text-body-sm text-mute bg-canvas-soft-2 p-4 rounded-md border border-hairline mt-4 m-0">
+            <strong>Editorial Limitation & Guidance Disclaimer:</strong> Our recommendations are independent equipment-comfort and performance guidance based on general physical standards and published specs. Individual player mechanics, hand morphology, and physical condition vary, and our guidance does not constitute professional sports coaching or medical advice.
+          </p>
+        </div>
+      </div>
+
       <div class="mt-12 pt-8 border-t border-hairline">
         <h2 class="text-display-lg text-ink mb-6">What makes us different.</h2>
 
@@ -98,4 +128,31 @@ const breadcrumbs = [
       </div>
     </div>
   </div>
+
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://paddlefithub.com/#organization",
+          "name": "PaddleFitHub",
+          "url": "https://paddlefithub.com",
+          "logo": "https://paddlefithub.com/favicon-96x96.png",
+          "description": "PaddleFitHub provides free, data-driven pickleball calculators and equipment fitting guides for grip size, paddle weight, core thickness, shape, and arm comfort."
+        },
+        {
+          "@type": "Person",
+          "@id": "https://paddlefithub.com/about#author",
+          "name": "Ishan Sahu",
+          "jobTitle": "Pickleball Equipment Researcher & Founder",
+          "worksFor": {
+            "@id": "https://paddlefithub.com/#organization"
+          },
+          "url": "https://paddlefithub.com/about#author",
+          "description": "Recreational pickleball player and equipment researcher dedicated to transparent, data-driven paddle sizing and comfort analysis."
+        }
+      ]
+    }
+  </script>
 </Layout>

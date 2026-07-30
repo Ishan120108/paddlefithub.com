@@ -35,8 +35,17 @@ const breadcrumbs = [
 
       <!-- Page Header -->
       <div class="max-w-3xl mb-8 md:mb-10">
-        <h1 class="text-display-xl text-ink mb-4">{heading}</h1>
-        <p class="text-body-lg text-body m-0">{intro}</p>
+        <h1 class="text-display-xl text-ink mb-3">{heading}</h1>
+
+        <div class="flex flex-wrap items-center gap-2 md:gap-3 text-caption text-body mb-4 pb-3 border-b border-hairline">
+          <span>Published: July 29, 2026</span>
+          <span class="text-mute">•</span>
+          <span>Last updated: July 30, 2026</span>
+          <span class="text-mute">•</span>
+          <span>Based on USA Pickleball specs &amp; manufacturer data — see our <a href="/about#methodology" class="text-link font-medium hover:underline">methodology</a></span>
+        </div>
+
+        <p class="text-body-lg text-body m-0" set:html={intro}></p>
       </div>
 
       <!-- Calculator Content (slotted) -->
