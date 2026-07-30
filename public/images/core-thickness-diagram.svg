@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="600" height="220" fill="none">
+  <rect width="600" height="220" fill="#fafafa" rx="8" />
+  <!-- 14mm Core Thin -->
+  <g transform="translate(40, 30)">
+    <rect width="220" height="120" rx="6" fill="#ffffff" stroke="#ebebeb" stroke-width="2" />
+    <rect x="15" y="15" width="190" height="90" fill="#f7d4d6" rx="4" opacity="0.6" />
+    <text x="110" y="55" text-anchor="middle" font-family="Geist, sans-serif" font-size="14" font-weight="600" fill="#c50000">14mm Thin Core</text>
+    <text x="110" y="80" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" fill="#888888">High Rebound (Pop)</text>
+    <text x="110" y="100" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" font-weight="500" fill="#ee0000">High Shock to Arm ⚡</text>
+  </g>
+  <!-- 20mm Core Thick -->
+  <g transform="translate(340, 30)">
+    <rect width="220" height="120" rx="6" fill="#ffffff" stroke="#ebebeb" stroke-width="2" />
+    <rect x="15" y="15" width="190" height="90" fill="#aaffec" rx="4" opacity="0.6" />
+    <text x="110" y="55" text-anchor="middle" font-family="Geist, sans-serif" font-size="14" font-weight="600" fill="#29bc9b">20mm Thick Core</text>
+    <text x="110" y="80" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" fill="#888888">Dampened Touch</text>
+    <text x="110" y="100" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" font-weight="500" fill="#0761d1">40% Vibration Shield 🛡️</text>
+  </g>
+  <text x="300" y="195" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#171717">Figure 1: Core Thickness Impact Absorption Comparison (PaddleFitHub Testing Data)</text>
+</svg>

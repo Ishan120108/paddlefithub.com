@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="600" height="220" fill="none">
+  <rect width="600" height="220" fill="#fafafa" rx="8" />
+  <g transform="translate(40, 30)">
+    <rect width="240" height="120" rx="6" fill="#ffffff" stroke="#ebebeb" stroke-width="2" />
+    <text x="120" y="45" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="600" fill="#171717">Step 1: Proximal Palmar Crease</text>
+    <text x="120" y="70" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" fill="#888888">Middle palm line closest to fingers</text>
+    <text x="120" y="95" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" font-weight="500" fill="#0761d1">Standard Reference Line</text>
+  </g>
+  <g transform="translate(320, 30)">
+    <rect width="240" height="120" rx="6" fill="#ffffff" stroke="#ebebeb" stroke-width="2" />
+    <text x="120" y="45" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="600" fill="#171717">Step 2: Tip of Ring Finger</text>
+    <text x="120" y="70" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" fill="#888888">Measure along palmar surface</text>
+    <text x="120" y="95" text-anchor="middle" font-family="Geist, sans-serif" font-size="12" font-weight="600" fill="#29bc9b">Ruler Distance = Target Grip (in)</text>
+  </g>
+  <text x="300" y="195" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="500" fill="#171717">Figure 1: Vernier Method Measuring Protocol (PaddleFitHub Lab Guide)</text>
+</svg>

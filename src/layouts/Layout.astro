@@ -8,6 +8,9 @@ interface Props {
   description: string;
   canonicalPath?: string;
   ogImage?: string;
+  author?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
 const {
@@ -15,6 +18,9 @@ const {
   description,
   canonicalPath = '',
   ogImage = '/og-default.png',
+  author = 'Ishan Sahu',
+  publishedTime,
+  modifiedTime,
 } = Astro.props;
 
 const siteUrl = 'https://paddlefithub.com';
@@ -79,12 +85,17 @@ import '../styles/global.css';
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <link rel="author" href={`${siteUrl}/about#author`} />
     <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content="index, follow" />
+    {publishedTime ? <meta property="article:published_time" content={publishedTime} /> : null}
+    {modifiedTime ? <meta property="article:modified_time" content={modifiedTime} /> : null}
+    {publishedTime ? <meta property="article:author" content={`${siteUrl}/about#author`} /> : null}
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={publishedTime ? "article" : "website"} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -99,6 +110,39 @@ import '../styles/global.css';
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={fullOgImage} />
+
+    <!-- Global JSON-LD Person & Organization Schema for E-E-A-T Validation -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://paddlefithub.com/about#author",
+            "name": "Ishan Sahu",
+            "jobTitle": "Pickleball Equipment Researcher & Founder",
+            "url": "https://paddlefithub.com/about#author",
+            "worksFor": {
+              "@type": "Organization",
+              "name": "PaddleFitHub",
+              "url": "https://paddlefithub.com"
+            },
+            "knowsAbout": ["Pickleball Equipment", "Paddle Biomechanics", "Racquet Fitting"]
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://paddlefithub.com/#organization",
+            "name": "PaddleFitHub",
+            "url": "https://paddlefithub.com",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://paddlefithub.com/favicon-96x96.png"
+            },
+            "description": "PaddleFitHub provides data-driven pickleball equipment spec calculators, fitting tools, and research guides."
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Navbar />

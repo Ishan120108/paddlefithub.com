@@ -28,7 +28,14 @@ const breadcrumbs = [
 ];
 ---
 
-<Layout title={title} description={description} canonicalPath={canonicalPath}>
+<Layout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  author="Ishan Sahu"
+  publishedTime="2026-07-29T00:00:00Z"
+  modifiedTime="2026-07-30T00:00:00Z"
+>
   <div class="bg-canvas-soft">
     <div class="container-page py-8 md:py-16">
       <Breadcrumbs items={breadcrumbs} />
@@ -37,10 +44,14 @@ const breadcrumbs = [
       <div class="max-w-3xl mb-8 md:mb-10">
         <h1 class="text-display-xl text-ink mb-3">{heading}</h1>
 
-        <div class="flex flex-wrap items-center gap-2 md:gap-3 text-caption text-body mb-4 pb-3 border-b border-hairline">
-          <span>Published: July 29, 2026</span>
+        <div class="byline author vcard flex flex-wrap items-center gap-2 md:gap-3 text-caption text-body mb-4 pb-3 border-b border-hairline">
+          <span>By <a href="/about#author" rel="author" class="fn url text-link font-medium hover:underline" itemprop="author">Ishan Sahu</a></span>
           <span class="text-mute">•</span>
-          <span>Last updated: July 30, 2026</span>
+          <span class="font-medium text-ink">Equipment Research &amp; Fitting Specialist (1+ Year Equipment Research)</span>
+          <span class="text-mute">•</span>
+          <span>Published: <time datetime="2026-07-29" itemprop="datePublished">July 29, 2026</time></span>
+          <span class="text-mute">•</span>
+          <span>Last updated: <time datetime="2026-07-30" itemprop="dateModified">July 30, 2026</time></span>
           <span class="text-mute">•</span>
           <span>Based on USA Pickleball specs &amp; manufacturer data — see our <a href="/about#methodology" class="text-link font-medium hover:underline">methodology</a></span>
         </div>
