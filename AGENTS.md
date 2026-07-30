@@ -26,3 +26,8 @@ Consult these guides before working on related tasks:
 - The site language is strictly **English (US)** (`en-US` / `en_US`).
 - All copy, content, SEO metadata, spelling (e.g. *color*, *center*, *customize*), and unit defaults (inches, ounces) must always follow US English standards.
 
+## Git Commit Permissions
+
+- Never automatically run `git commit` or commit changes without explicit instruction and approval from the user. Git commit authority is strictly reserved for the user.
+
+
